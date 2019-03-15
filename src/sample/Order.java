@@ -3,12 +3,16 @@ package sample;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Order {
     private SimpleStringProperty name;
     private SimpleStringProperty description;
     private SimpleIntegerProperty totalprice;
     private SimpleStringProperty ordertype;
     private SimpleIntegerProperty trasactionid;
+
 
     public Order(String name, String description, Integer totalprice, String ordertype, Integer trasactionid) {
         this.name = new SimpleStringProperty(name);
