@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,19 +20,17 @@ public class Controller implements Initializable {
     @FXML TableColumn<Order,Integer> clmTransactionID;
     @FXML TableColumn<Order,String > clmDescription;
 
-    ObservableList<Order> data=FXCollections.observableArrayList(
-            new Order("Orxan","Mallar",15,"Online",123),
-            new Order("Amil","sirniyyat",23,"offline",456),
-            new Order("eltun","guller",456,"dsfjds;",132)
-    );
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        clmName.setCellValueFactory(new PropertyValueFactory<Order,String>("Name"));
-        clmDescription.setCellValueFactory(new PropertyValueFactory<Order,String >("Description"));
-        clmTotalprice.setCellValueFactory(new PropertyValueFactory<Order,Integer>("Price"));
-        clmOrdertype.setCellValueFactory(new PropertyValueFactory<Order, String>("Type"));
-        clmTransactionID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("TransactionID"));
-        tableView.setItems(data);
+        Model model=new Model();
+        clmName.setCellValueFactory(new PropertyValueFactory<Order,String>("name"));
+        clmDescription.setCellValueFactory(new PropertyValueFactory<Order,String >("description"));
+        clmTotalprice.setCellValueFactory(new PropertyValueFactory<Order,Integer>("price"));
+        clmOrdertype.setCellValueFactory(new PropertyValueFactory<Order, String>("type"));
+        clmTransactionID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("transactionid"));
+        tableView.setItems(model.getData());
     }
+
 }
