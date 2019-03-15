@@ -25,11 +25,13 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Model model=new Model();
+        model.addData(new Order("fariz","sdklas",23,"online",455));
         clmName.setCellValueFactory(new PropertyValueFactory<Order,String>("name"));
         clmDescription.setCellValueFactory(new PropertyValueFactory<Order,String >("description"));
         clmTotalprice.setCellValueFactory(new PropertyValueFactory<Order,Integer>("price"));
         clmOrdertype.setCellValueFactory(new PropertyValueFactory<Order, String>("type"));
         clmTransactionID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("transactionid"));
+        model.deleteData(455);
         tableView.setItems(model.getData());
     }
 

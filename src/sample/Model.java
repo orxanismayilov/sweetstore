@@ -16,11 +16,7 @@ public class Model {
         data.add(o);
     }
     public void deleteData(Integer id){
-        for(Order o:data){
-            if(o.getTrasactionid()==id){
-                data.remove(o);
-            }
-        }
+      data.removeIf(order -> order.getTrasactionid().equals(id));
     }
 
 }
