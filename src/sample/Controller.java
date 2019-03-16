@@ -1,14 +1,12 @@
 package sample;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-
+import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,19 +17,32 @@ public class Controller implements Initializable {
     @FXML TableColumn<Order,String> clmOrdertype;
     @FXML TableColumn<Order,Integer> clmTransactionID;
     @FXML TableColumn<Order,String > clmDescription;
-
+    @FXML Button btnDelete;
+    @FXML Button btnNewOrder;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Model model=new Model();
-        model.addData(new Order("fariz","sdklas",23,"online",455));
         clmName.setCellValueFactory(new PropertyValueFactory<Order,String>("name"));
         clmDescription.setCellValueFactory(new PropertyValueFactory<Order,String >("description"));
         clmTotalprice.setCellValueFactory(new PropertyValueFactory<Order,Integer>("price"));
         clmOrdertype.setCellValueFactory(new PropertyValueFactory<Order, String>("type"));
         clmTransactionID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("transactionid"));
-        model.deleteData(455);
+        tableView.setItems(model.getData());
+    }
+
+    public void addOrder(ActionEvent event){
+        Model model=new Model();
+        Order order=new Order("das","paxlava",1233,"online",1244845);
+        model.addData(order);
+        tableView.setItems(model.getData());
+    }
+
+    public void deleteData(ActionEvent event){
+        Model model=new Model();
+        Order order=new Order("Faiq","sfhdsl",15,"fdfh",456);
+        model.deleteData(order);
         tableView.setItems(model.getData());
     }
 

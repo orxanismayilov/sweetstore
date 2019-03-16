@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="703.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="519.0" prefWidth="1070.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <top>
       <AnchorPane prefHeight="42.0" prefWidth="750.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
          <children>
@@ -36,7 +36,7 @@
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">
                      <image>
-                        <Image url="@../HomeProject/images/left_arrow_96px.png" />
+                        <Image url="@../../images/left_arrow_96px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -68,11 +68,11 @@
    <center>
       <TableView fx:id="tableView" prefHeight="479.0" prefWidth="606.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="clmName" editable="false" prefWidth="75.0" text="name" />
-            <TableColumn fx:id="clmDescription" editable="false" prefWidth="69.0" text="description" />
-            <TableColumn fx:id="clmTotalprice" editable="false" prefWidth="265.0" text="price" />
-            <TableColumn fx:id="clmOrdertype" editable="false" prefWidth="133.0" text="type" />
-            <TableColumn fx:id="clmTransactionID" prefWidth="75.0" text="transactionid" />
+          <TableColumn fx:id="clmName" editable="false" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="clmDescription" editable="false" prefWidth="69.0" text="Description" />
+            <TableColumn fx:id="clmTotalprice" editable="false" prefWidth="265.0" text="Price" />
+            <TableColumn fx:id="clmOrdertype" editable="false" prefWidth="282.0" text="Type" />
+            <TableColumn fx:id="clmTransactionID" editable="false" prefWidth="133.0" text="TransactionID" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -80,9 +80,10 @@
       </TableView>
    </center>
    <bottom>
-      <AnchorPane prefHeight="79.0" prefWidth="1029.0" BorderPane.alignment="TOP_LEFT">
+      <AnchorPane prefHeight="79.0" prefWidth="750.0" BorderPane.alignment="TOP_LEFT">
          <children>
-            <Button layoutX="665.0" layoutY="15.0" mnemonicParsing="false" text="Add Prodcut" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="33.0" />
+            <Button fx:id="btnNewOrder" layoutX="665.0" layoutY="15.0" mnemonicParsing="false" onAction="#addOrder" text="Add Order" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="33.0" />
+            <Button fx:id="btnDelete" layoutX="845.0" layoutY="15.0" mnemonicParsing="false" onAction="#deleteData" text="Delete Order" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="140.0" />
          </children>
       </AnchorPane>
    </bottom>

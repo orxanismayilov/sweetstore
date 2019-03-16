@@ -9,14 +9,22 @@ public class Model {
             new Order("Amil","sirniyyat",23,"offline",456),
             new Order("eltun","guller",456,"dsfjds;",132)
     );
+
     public ObservableList getData(){
         return data;
     }
-    public void addData(Order o){
-        data.add(o);
+
+    public void addData(Order order){
+
+        data.add(order);
     }
-    public void deleteData(Integer id){
-      data.removeIf(order -> order.getTrasactionid().equals(id));
+
+    public void deleteData(Order order){
+      data.remove(order);
+    }
+
+    public void setData(){
+
     }
 
 }
