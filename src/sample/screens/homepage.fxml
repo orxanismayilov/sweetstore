@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="672.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.HomeController">
    <top>
       <AnchorPane prefHeight="50.0" prefWidth="599.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
          <children>
@@ -22,7 +22,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0">
                      <image>
-                        <Image url="@../../images/user_location_50px.png" />
+                        <Image url="@../images/user_location_50px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -35,11 +35,11 @@
          <children>
             <HBox alignment="CENTER" layoutX="1.0" layoutY="126.0" prefHeight="150.0" prefWidth="598.0" spacing="20.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="126.0">
                <children>
-                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" text="SALES">
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#btnSalesAction" prefHeight="150.0" prefWidth="150.0" text="SALES">
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="@../../images/bill_100px.png" />
+                              <Image url="@../images/bill_100px.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -47,11 +47,11 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" text="STOCK">
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#btnStockAction" prefHeight="150.0" prefWidth="150.0" text="STOCK">
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="@../../images/product_100px.png" />
+                              <Image url="@../images/product_100px.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -66,7 +66,7 @@
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="@../../images/statistics_100px_1.png" />
+                              <Image url="@../images/statistics_100px_1.png" />
                            </image>
                         </ImageView>
                      </graphic>
