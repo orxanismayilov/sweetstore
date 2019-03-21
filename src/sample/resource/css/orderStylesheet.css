@@ -1,0 +1,11 @@
+#tableView .table-view .table-cell {
+    -fx-text-fill: black;
+}
+
+#tableView .table-row-cell {
+    -fx-background-color: -fx-table-cell-border-color, #ffffff;
+}
+
+#tableView .table-row-cell:odd {
+    -fx-background-color: -fx-table-cell-border-color, #bababa;
+}

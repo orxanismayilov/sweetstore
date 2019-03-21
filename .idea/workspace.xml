@@ -2,61 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/HomeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/ScreenController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/StockController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/StockController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/bill_100px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/edit_property_26px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/left_arrow_96px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/product_100px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/search_filled_50px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/statistics_100px_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/trash_26px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/user_location_50px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/images/user_male_circle_filled_100px.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/model/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/model/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/OrderDummyRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/OrderDummyRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/screens/homepage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/screens/loginpage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/screens/neworder.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/screens/orderpage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/screens/stockpage.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/service/OrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/ui/AddButtonUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/utils/MathLibrary.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/utils/ScreenUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/utils/ScreenUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/controller/ScreenController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/StockController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/bill_100px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/bill_100px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/edit_property_26px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/edit_property_26px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/left_arrow_96px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/left_arrow_96px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/product_100px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/product_100px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/search_filled_50px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/search_filled_50px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/statistics_100px_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/statistics_100px_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/trash_26px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/trash_26px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/user_location_50px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/user_location_50px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/images/user_male_circle_filled_100px.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/images/user_male_circle_filled_100px.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/model/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/screens/homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/homepage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/screens/loginpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/loginpage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/screens/neworder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/neworder.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/screens/orderpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/orderpage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/screens/stockpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/stockpage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/ui/AddButtonUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/utils/MathLibrary.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/utils/ScreenUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/utils/ScreenUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/orderpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/orderpage.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -163,11 +109,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stockStyleSheet.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="stockStyleSheet.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/resource/css/stockStyleSheet.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
+              <caret line="13" lean-forward="true" selection-start-line="6" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orderStylesheet.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sample/resource/css/orderStylesheet.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
@@ -241,6 +196,8 @@
         <option value="$PROJECT_DIR$/src/sample/utils/ScreenUtils.java" />
         <option value="$PROJECT_DIR$/src/sample/resource/css/tableStyleSheet.css" />
         <option value="$PROJECT_DIR$/src/sample/resource/css/buttonStylesheet.css" />
+        <option value="$PROJECT_DIR$/src/sample/resource/css/stockStyleSheet.css" />
+        <option value="$PROJECT_DIR$/src/sample/resource/css/orderStylesheet.css" />
       </list>
     </option>
   </component>
@@ -260,7 +217,7 @@
     <packageJsonPaths />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1386" />
@@ -493,12 +450,12 @@
       <workItem from="1552932356711" duration="17454000" />
       <workItem from="1553017766092" duration="10632000" />
       <workItem from="1553077074790" duration="3712000" />
-      <workItem from="1553170153823" duration="7391000" />
+      <workItem from="1553170153823" duration="8013000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122690000" />
+    <option name="totallyTimeSpent" value="123312000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -576,7 +533,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml" />
     <entry file="file://$PROJECT_DIR$/src/sample/controller/OrderController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -774,16 +730,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/controller/OrderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/repository/ProductDummyRepo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="290">
@@ -907,6 +853,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/controller/OrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resource/css/loginStylesheet.css">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -917,7 +873,14 @@
     <entry file="file://$PROJECT_DIR$/src/sample/resource/css/stockStyleSheet.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <caret line="13" lean-forward="true" selection-start-line="6" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resource/css/orderStylesheet.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
