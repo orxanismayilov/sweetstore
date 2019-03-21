@@ -8,49 +8,50 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Order {
-    private SimpleStringProperty names;
-    private SimpleStringProperty address;
+    private SimpleStringProperty customerName;
+    private SimpleStringProperty customerAddress;
     private SimpleStringProperty description;
-    private SimpleIntegerProperty totalprice;
-    private SimpleStringProperty ordertype;
-    private SimpleIntegerProperty trasactionid;
+    private SimpleIntegerProperty totalPrice;
+    private SimpleStringProperty orderType;
+    private SimpleIntegerProperty transactionID;
     private LocalDate date;
 
-    public Order(String names, String description, Integer totalprice, String ordertype, Integer trasactionid,LocalDate date) {
-        this.names = new SimpleStringProperty(names);
+    public Order(String customerName,String customerAdderss, String description, Integer totalPrice, String orderType, Integer transactionID,LocalDate date) {
+        this.customerName = new SimpleStringProperty(customerName);
+        this.customerAddress=new SimpleStringProperty(customerAdderss);
         this.description = new SimpleStringProperty(description);
-        this.totalprice = new SimpleIntegerProperty(totalprice);
-        this.ordertype = new SimpleStringProperty(ordertype);
-        this.trasactionid = new SimpleIntegerProperty(trasactionid);
+        this.totalPrice = new SimpleIntegerProperty(totalPrice);
+        this.orderType = new SimpleStringProperty(orderType);
+        this.transactionID = new SimpleIntegerProperty(transactionID);
         this.date=date;
     }
 
-    public String getAddress() {
-        return address.get();
+    public String getCustomerName() {
+        return customerName.get();
     }
 
-    public SimpleStringProperty addressProperty() {
-        return address;
+    public SimpleStringProperty customerNameProperty() {
+        return customerName;
     }
 
-    public void setAddress(String address) {
-        this.address.set(address);
+    public void setCustomerName(String customerName) {
+        this.customerName.set(customerName);
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getCustomerAddress() {
+        return customerAddress.get();
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public SimpleStringProperty customerAddressProperty() {
+        return customerAddress;
     }
 
-    public SimpleStringProperty namesProperty() {
-        return names;
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress.set(customerAddress);
     }
 
-    public void setName(String name) {
-        this.names.set(name);
+    public String getDescription() {
+        return description.get();
     }
 
     public SimpleStringProperty descriptionProperty() {
@@ -61,53 +62,47 @@ public class Order {
         this.description.set(description);
     }
 
-    public SimpleIntegerProperty totalpriceProperty() {
-        return totalprice;
+    public int getTotalPrice() {
+        return totalPrice.get();
     }
 
-    public void setTotalprice(int totalprice) {
-        this.totalprice.set(totalprice);
+    public SimpleIntegerProperty totalPriceProperty() {
+        return totalPrice;
     }
 
-    public SimpleStringProperty ordertypeProperty() {
-        return ordertype;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice.set(totalPrice);
     }
 
-
-    public void setOrdertype(String ordertype) {
-        this.ordertype.set(ordertype);
+    public String getOrderType() {
+        return orderType.get();
     }
 
-    public SimpleIntegerProperty trasactionidProperty() {
-        return trasactionid;
+    public SimpleStringProperty orderTypeProperty() {
+        return orderType;
     }
 
-    public int getTotalPrice(){
-        return totalprice.get();
+    public void setOrderType(String orderType) {
+        this.orderType.set(orderType);
     }
 
-    /*
-    public void setTrasactionid(int trasactionid) {
-        this.trasactionid.set(trasactionid);
+    public int getTransactionID() {
+        return transactionID.get();
     }
 
-    public String getName() {
-        return name.get();
+    public SimpleIntegerProperty transactionIDProperty() {
+        return transactionID;
     }
 
-    public String getDescription() {
-        return description.get();
+    public void setTransactionID(int transactionID) {
+        this.transactionID.set(transactionID);
     }
 
-    public Integer getTotalprice() {
-        return totalprice.get();
+    public LocalDate getDate() {
+        return date;
     }
 
-    public String getOrdertype() {
-        return ordertype.get();
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
-
-    public Integer getTrasactionid() {
-        return trasactionid.get();
-    }*/
 }

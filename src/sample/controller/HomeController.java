@@ -7,12 +7,14 @@ import java.io.IOException;
 
 public class HomeController {
 
+    private final static String FXML_URL_ORDERPAGE="../resource/screens/orderpage.fxml";
+    private final static String FXML_URL_STOCKPAGE="../resource/screens/stockpage.fxml";
 
     public void btnSalesAction(ActionEvent event) throws IOException {
-        ScreenUtils.changeScreen(event,"../screens/orderpage.fxml");
+        ScreenUtils.changeScreen(event,FXML_URL_ORDERPAGE);
     }
 
     public void btnStockAction(ActionEvent event) throws IOException {
-        ScreenUtils.changeScreen(event, "../screens/stockpage.fxml");
+        ScreenUtils.changeScreen(event,FXML_URL_STOCKPAGE);
     }
 }

@@ -15,8 +15,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.StockController">
-   <top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1100.0" stylesheets="@../css/stockStyleSheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.StockController">
+    <top>
       <AnchorPane prefHeight="42.0" prefWidth="750.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
          <children>
             <MenuButton layoutX="918.0" layoutY="6.0" mnemonicParsing="false" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="6.0">
@@ -66,13 +66,14 @@
       <VBox prefHeight="479.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
-      <TableView prefHeight="479.0" prefWidth="606.0" BorderPane.alignment="CENTER">
-        <columns>
-          <TableColumn editable="false" prefWidth="75.0" text="Product Name" />
-            <TableColumn editable="false" prefWidth="69.0" text="Price" />
-            <TableColumn editable="false" prefWidth="265.0" text="Lastupdate" />
-            <TableColumn editable="false" prefWidth="282.0" text="Quantity" />
-            <TableColumn editable="false" prefWidth="133.0" text="Action" />
+      <TableView fx:id="tableProduct" prefHeight="479.0" prefWidth="606.0" stylesheets="@../css/stockStyleSheet.css" BorderPane.alignment="CENTER">
+          <columns>
+            <TableColumn fx:id="clmID" prefWidth="95.0" text="Id" />
+          <TableColumn fx:id="clmName" editable="false" prefWidth="261.0" text="Product Name" />
+            <TableColumn fx:id="clmPrice" editable="false" prefWidth="69.0" text="Price" />
+            <TableColumn fx:id="clmLastUpdate" editable="false" prefWidth="265.0" text="Last Update" />
+            <TableColumn fx:id="clmQuantity" editable="false" prefWidth="282.0" text="Quantity" />
+            <TableColumn fx:id="clmAction" editable="false" prefWidth="133.0" text="Action" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -82,7 +83,7 @@
    <bottom>
       <AnchorPane prefHeight="79.0" prefWidth="750.0" BorderPane.alignment="TOP_LEFT">
          <children>
-            <Button layoutX="665.0" layoutY="15.0" mnemonicParsing="false" text="Add Prodcut" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="33.0" />
+            <Button layoutX="665.0" layoutY="15.0" mnemonicParsing="false" onAction="#btnNewProductAction" text="Add Prodcut" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="33.0" />
          </children>
       </AnchorPane>
    </bottom>

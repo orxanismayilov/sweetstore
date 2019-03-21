@@ -16,30 +16,26 @@ import javafx.util.Callback;
 import sample.model.Order;
 import sample.repository.OrderDummyRepo;
 
+import java.util.function.Predicate;
+
 public class OrderService {
     private OrderDummyRepo orderDummyRepo;
-    private int constatIncreament;
 
     public OrderService() {
         orderDummyRepo=new OrderDummyRepo();
-        constatIncreament=30;
     }
 
     public ObservableList getData(){
         return orderDummyRepo.getOrderList();
 
     }
-    public void deleteOrderByTransactionId(int transactionId){
-    // TODO: FILL INSIDE
-
-    }
-    public void deleteDataLast(){
-        orderDummyRepo.deleteLastOrder();
-    }
 
     public void addData(Order order){
-        order.setTotalprice(order.getTotalPrice()+ ++constatIncreament);
         orderDummyRepo.addOrder(order);
     }
 
+    public void deleteOrderByTransactionId(int transactionId){
+       Predicate<Order> orderPredicate=order -> order.getTransactionID()==transactionId;
+       orderDummyRepo.deleteOrder(orderPredicate);
+    }
 }

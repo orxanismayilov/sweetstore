@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import sample.model.Order;
 
 import java.time.LocalDate;
+import java.util.function.Predicate;
 
 public class OrderDummyRepo {
     private ObservableList<Order> orderList;
@@ -22,19 +23,15 @@ public class OrderDummyRepo {
         orderList.add(order);
     }
 
-    public void deleteOrder(Order order){
-        orderList.remove(order);
-    }
-
-    public void deleteLastOrder(){
-        orderList.remove(orderList.size()-1);
+    public void deleteOrder(Predicate<Order> order){
+        orderList.removeIf(order);
     }
 
     private void populateOrderList(){
         orderList=FXCollections.observableArrayList(
-                new Order("Orxan","Mallar",15,"Online",123,LocalDate.of(2015, 02, 20)),
-                new Order("Amil","sirniyyat",23,"offline",456, LocalDate.of(1992,12,15)),
-                new Order("eltun","guller",456,"dsfjds;",132,LocalDate.of(1627,12,15))
+                new Order("Orxan","Muxax","Mallar",15,"Online",123,LocalDate.of(2015, 02, 20)),
+                new Order("Amil","Baki","sirniyyat",23,"offline",456, LocalDate.of(1992,12,15)),
+                new Order("eltun","Tala","guller",456,"dsfjds;",132,LocalDate.of(1627,12,15))
         );
     }
 }
