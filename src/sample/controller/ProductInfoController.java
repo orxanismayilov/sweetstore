@@ -20,6 +20,12 @@ public class ProductInfoController {
     @FXML private TextField price;
     @FXML private Button btnCancel;
 
+    public void cancelAction(javafx.event.ActionEvent event){
+        Stage stage=(Stage) btnCancel.getScene().getWindow();
+        stage.close();
+
+    }
+
     public void setProduct(Product product){
         this.product=product;
     }
@@ -28,6 +34,7 @@ public class ProductInfoController {
         this.stage=stage;
     }
 
+
     public void setFileds() {
         productID.setText(String.valueOf(product.getId()));
         productName.setText(product.getName());
@@ -35,8 +42,5 @@ public class ProductInfoController {
         price.setText(String.valueOf(product.getPrice()));
     }
 
-    public void cancelAction(ActionEvent event) {
-        Stage stage=(Stage) btnCancel.getScene().getWindow();
-        stage.close();
-    }
+
 }
