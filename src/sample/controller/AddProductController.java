@@ -19,6 +19,7 @@ public class AddProductController implements Initializable {
     @FXML private TextField productQuantity;
     @FXML private TextField productPrice;
     @FXML private Button buttonSave;
+    @FXML private Button buttonCancel;
 
 
 
@@ -40,6 +41,13 @@ public class AddProductController implements Initializable {
             increment++;
         }
     }
+
+    public void cancelAction(ActionEvent event){
+        Stage stage=(Stage) buttonCancel.getScene().getWindow();
+        stage.close();
+
+    }
+
     private TableView<Product> table;
     public void setTable(TableView table){
         this.table=table;

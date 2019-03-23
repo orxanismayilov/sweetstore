@@ -1,13 +1,23 @@
 package sample.utils;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import sample.controller.AddProductController;
+import sample.controller.ProductInfoController;
+import sample.model.Product;
 import sample.service.OrderService;
 import sample.service.ProductService;
+
+import java.io.IOException;
 
 public class AddButtonTableUtils {
 
@@ -15,9 +25,9 @@ public class AddButtonTableUtils {
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
     private final static String FXML_URL_UPDATEORDER = "/sample/resource/screens/neworder.fxml";
-
+    private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
+    private static Stage fxmlControllerStage;
     public static Callback<TableColumn<Object, Void>, TableCell<Object, Void>> addButtonToTable(TableColumn column, TableColumn columnID, Object service) {
-
         return   new Callback<TableColumn<Object, Void>, TableCell<Object, Void>>() {
             @Override
             public TableCell<Object, Void> call(final TableColumn<Object, Void> param) {
@@ -63,14 +73,45 @@ public class AddButtonTableUtils {
                             });
 
                             buttonUpdate.setOnAction((ActionEvent event)->{
-                                try {
-                                    ScreenUtils.newScreen(event,FXML_URL_UPDATEORDER);
-                                }catch (Exception e){
-                                    e.printStackTrace();
-                                }
-
+                               if (service instanceof ProductService) {
+                                   try {
+                                       ScreenUtils.newScreen(FXML_URL_UPDATEORDER);
+                                       columnID.getCellObservableValue(getTableRow().getIndex());
+                                   } catch (Exception e) {
+                                       e.printStackTrace();
+                                   }
+                               }
 
                             });
+
+                            buttonInfo.setOnAction((ActionEvent event)->{
+                               if(service instanceof ProductService) {
+                                   try {
+                                       FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
+                                       Parent root = loader.load();
+                                       fxmlControllerStage = new Stage();
+                                       fxmlControllerStage.setScene(new Scene(root,500,300));
+                                       ObservableList<Product> list = ((ProductService) service).getData();
+                                       Integer value= (Integer) columnID.getCellData(getTableRow().getIndex());
+                                       for (Product product : list) {
+                                           if (product.getId()==value) {
+                                               if(loader.getController() instanceof ProductInfoController){
+                                                   ProductInfoController productInfoController = loader.getController();
+                                                   productInfoController.setStage(fxmlControllerStage);
+                                                   productInfoController.setProduct(product);
+                                                   productInfoController.setFileds();
+                                               }
+                                           }
+                                       }
+                                       fxmlControllerStage.setTitle("Update");
+                                       fxmlControllerStage.setResizable(false);
+                                       fxmlControllerStage.show();
+                                   }catch (Exception e){
+                                       e.printStackTrace();
+                                   }
+                               }
+                            });
+
                         }
                     }
                 };

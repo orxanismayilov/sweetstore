@@ -16,10 +16,10 @@ public class ScreenUtils {
         ((Node) event.getSource()).getScene().setRoot(newPage);
     }
 
-    public static void newScreen(ActionEvent event,String fxmlFile) throws IOException {
+    public static void newScreen(String fxmlFile) throws IOException {
         Parent newPage=FXMLLoader.load(ScreenUtils.class.getResource(fxmlFile));
         Stage stage=new Stage();
-        stage.setScene(new Scene(newPage,500,300));
+        stage.setScene(new Scene(newPage));
         stage.setTitle("Update");
         stage.setResizable(false);
         stage.show();
