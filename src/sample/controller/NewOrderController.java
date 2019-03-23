@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import sample.model.Product;
-import sample.service.OrderService;
 import sample.service.ProductService;
 
 import java.net.URL;

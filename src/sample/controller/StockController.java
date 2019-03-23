@@ -1,6 +1,5 @@
 package sample.controller;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,10 +22,13 @@ import java.util.ResourceBundle;
 import static sample.utils.AddButtonTableUtils.addButtonToTable;
 
 public class StockController implements Initializable {
+
     private ProductService productService;
     private Stage fxmlControllerStage;
+
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
     private final static String FXML_URL_NEWPRODUCT="../resource/screens/addproduct.fxml";
+
     @FXML private TableView <Product> tableProduct;
     @FXML private TableColumn<Product,Integer> clmID;
     @FXML private TableColumn<Product,String> clmName;
@@ -43,11 +45,11 @@ public class StockController implements Initializable {
     }
 
     private void populateTable() {
-        clmID.setCellValueFactory(new PropertyValueFactory<Product,Integer>("id"));
-        clmName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        clmPrice.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
-        clmLastUpdate.setCellValueFactory(new PropertyValueFactory<Product, LocalDate>("updateDate"));
-        clmQuantity.setCellValueFactory(new PropertyValueFactory<Product, Integer>("quantity"));
+        clmID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        clmLastUpdate.setCellValueFactory(new PropertyValueFactory<>("updateDate"));
+        clmQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         clmAction.setCellFactory(addButtonToTable(clmAction, clmID, productService));
         clmID.setMaxWidth(100);
         clmID.setMinWidth(60);
@@ -57,7 +59,7 @@ public class StockController implements Initializable {
         tableProduct.setItems(productService.getData());
     }
 
-    public void btnNewProductAction(ActionEvent event) throws IOException{
+    public void btnNewProductAction() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_NEWPRODUCT));
         try{
             Parent root = loader.load();

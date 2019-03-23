@@ -25,4 +25,9 @@ public class ProductService {
         Predicate<Product> productPredicate=product -> product.getId()==id;
         productDummyRepo.deleteProduct(productPredicate);
     }
+
+    private int getProductNewId(){
+        // TODO: get last item id;++
+        return 4;
+    }
 }
