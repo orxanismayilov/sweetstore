@@ -4,12 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Order;
 import sample.service.OrderService;
@@ -27,9 +28,6 @@ public class OrderController implements Initializable {
     private OrderService orderService;
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
     private final static String FXML_URL_NEWORDER= "/sample/resource/screens/neworder.fxml";
-    private static final Image imageDelete=new Image("/sample/resource/images/trash_26px.png");
-    private static final Image imageUpdate=new Image("/sample/resource/images/edit_property_26px.png");
-    private static final Image imageInfo=new Image("/sample/resource/images/info_24px.png");
     private Stage fxmlControllerStage;
     @FXML private TableView<Order> tableView;
     @FXML private TableColumn<Order, String> clmName;
@@ -50,12 +48,12 @@ public class OrderController implements Initializable {
         tableView.setItems(orderService.getData());
     }
 
-    public void addOrder1(ActionEvent event)throws IOException {
+    public void addOrder(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_NEWORDER));
         try{
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
-            fxmlControllerStage.setScene(new Scene(root,500,300));
+            fxmlControllerStage.setScene(new Scene(root));
             if(loader.getController() instanceof NewOrderController){
                 NewOrderController newOrderController = loader.getController();
                 newOrderController.fillProductList();
@@ -65,15 +63,12 @@ public class OrderController implements Initializable {
             e.printStackTrace();
         }
         fxmlControllerStage.setTitle("Update");
+        fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
+        fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
         fxmlControllerStage.setResizable(false);
         fxmlControllerStage.show();
-        /*Order order=new Order("das","Zaqatala","paxlava",1233,"online",1244845,LocalDate.of(2019,03,17));
-        orderService.addData(order)*/;
     }
-    public void addOrder(ActionEvent event)throws IOException {
-        Order order=new Order("das","Zaqatala","paxlava",1233,"online",1244845,LocalDate.of(2019,03,17));
-        orderService.addData(order);
-    }
+
 
 
     public void backButtonAction(ActionEvent event) throws Exception{
@@ -81,13 +76,13 @@ public class OrderController implements Initializable {
     }
 
     private void tableBinding(){
-        clmName.setCellValueFactory(new PropertyValueFactory<Order,String>("customerName"));
-        clmAddress.setCellValueFactory(new PropertyValueFactory<Order,String>("customerAddress"));
-        clmDescription.setCellValueFactory(new PropertyValueFactory<Order,String >("description"));
-        clmTotalprice.setCellValueFactory(new PropertyValueFactory<Order,Integer>("totalPrice"));
-        clmOrdertype.setCellValueFactory(new PropertyValueFactory<Order, String>("orderType"));
-        clmTransactionID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("transactionID"));
-        clmDate.setCellValueFactory(new PropertyValueFactory<Order,LocalDate>("date"));
+        clmName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        clmAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        clmDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        clmTotalprice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        clmOrdertype.setCellValueFactory(new PropertyValueFactory<>("orderType"));
+        clmTransactionID.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
+        clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         clmAction.setCellFactory(addButtonToTable(clmAction,clmTransactionID,orderService));
         clmAction.setResizable(false);
         clmAction.setMinWidth(120);

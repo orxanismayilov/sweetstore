@@ -4,11 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
@@ -59,7 +61,7 @@ public class StockController implements Initializable {
         tableProduct.setItems(productService.getData());
     }
 
-    public void btnNewProductAction() {
+    public void btnNewProductAction(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_NEWPRODUCT));
         try{
             Parent root = loader.load();
@@ -68,14 +70,17 @@ public class StockController implements Initializable {
             if(loader.getController() instanceof AddProductController){
                 AddProductController addProductController = loader.getController();
                 addProductController.setStage(fxmlControllerStage);
-                addProductController.setTable(tableProduct);
+                addProductController.setProductService(productService);
             }
         }catch(IOException e){
             e.printStackTrace();
         }
+
         fxmlControllerStage.setTitle("Update");
+        fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
+        fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow() );
         fxmlControllerStage.setResizable(false);
-        fxmlControllerStage.show();
+        fxmlControllerStage.showAndWait();
     }
 
     public void btnBackAction(ActionEvent event) throws IOException {

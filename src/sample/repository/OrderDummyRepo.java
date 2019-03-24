@@ -27,12 +27,4 @@ public class OrderDummyRepo {
     public void deleteOrder(Predicate<Order> order){
         orderList.removeIf(order);
     }
-
-    private void populateOrderList(){
-        orderList=FXCollections.observableArrayList(
-                new Order("Orxan","Muxax","Mallar",15,"Online",123,LocalDate.of(2015, 02, 20)),
-                new Order("Amil","Baki","sirniyyat",23,"offline",456, LocalDate.of(1992,12,15)),
-                new Order("eltun","Tala","guller",456,"dsfjds;",132,LocalDate.of(1627,12,15))
-        );
-    }
 }

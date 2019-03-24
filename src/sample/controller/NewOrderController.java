@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class NewOrderController implements Initializable {
-    private ObservableList<String> products;
     private ProductService productService;
     @FXML private ComboBox comboBoxProducts;
 
@@ -22,7 +21,7 @@ public class NewOrderController implements Initializable {
     }
 
     public void fillProductList(){
-        products=FXCollections.observableArrayList();
+        ObservableList<String> products = FXCollections.observableArrayList();
         ObservableList<Product> list=productService.getData();
         for(Product product:list){
             products.add(product.getName());

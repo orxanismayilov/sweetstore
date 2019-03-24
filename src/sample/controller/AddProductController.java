@@ -1,11 +1,14 @@
 package sample.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import sample.model.Product;
+import sample.service.ProductService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,31 +17,30 @@ import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
     private Product product;
+    private boolean validation;
     private static int increment=4;
     @FXML private TextField productName;
     @FXML private TextField productQuantity;
     @FXML private TextField productPrice;
     @FXML private Button buttonSave;
     @FXML private Button buttonCancel;
-
+    @FXML private Label lblAlert;
 
 
     public void saveProduct(ActionEvent event) throws IOException {
 
         try {
-               product=new Product(increment, productName.getText(), Integer.parseInt(productQuantity.getText()), Double.parseDouble(productPrice.getText()), LocalDate.now());
-           } catch (NumberFormatException e) {
-               Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter numbers", ButtonType.OK);
-               alert.showAndWait();
-               return;
+            product=new Product(increment, productName.getText(), Integer.parseInt(productQuantity.getText()), Double.parseDouble(productPrice.getText()), LocalDate.now());
+        } catch (NumberFormatException e) {
+            filledAlert();
+            return;
            }
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "DO YOU WANT TO SAVE?", ButtonType.YES,ButtonType.CANCEL);
-        alert.showAndWait();
-        if (alert.getResult() == ButtonType.YES) {
-            table.getItems().add(product);
+        validation=productService.addData(product);
+        if(validation){
             Stage stage = (Stage) buttonSave.getScene().getWindow();
             stage.close();
-            increment++;
+        } else {
+            filledAlert();
         }
     }
 
@@ -48,9 +50,20 @@ public class AddProductController implements Initializable {
 
     }
 
-    private TableView<Product> table;
-    public void setTable(TableView table){
-        this.table=table;
+    private ProductService productService;
+    public void setProductService(ProductService productService){
+        this.productService=productService;
+    }
+
+    private void filledAlert(){
+        lblAlert.setText("Please enter valid input!");
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(3)
+        );
+        visiblePause.setOnFinished(
+                event2 -> lblAlert.setVisible(false)
+        );
+        visiblePause.play();
     }
 
     private Stage stage;
