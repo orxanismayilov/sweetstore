@@ -56,7 +56,7 @@ public class OrderController implements Initializable {
             fxmlControllerStage.setScene(new Scene(root));
             if(loader.getController() instanceof NewOrderController){
                 NewOrderController newOrderController = loader.getController();
-                newOrderController.fillProductList();
+                newOrderController.fillComboBox();
 
             }
         }catch(IOException e){

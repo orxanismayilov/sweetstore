@@ -19,6 +19,7 @@ public class AddProductController implements Initializable {
     private Product product;
     private boolean validation;
     private static int increment=4;
+    private static String alertText="Please enter valid input!";
     @FXML private TextField productName;
     @FXML private TextField productQuantity;
     @FXML private TextField productPrice;
@@ -56,12 +57,12 @@ public class AddProductController implements Initializable {
     }
 
     private void filledAlert(){
-        lblAlert.setText("Please enter valid input!");
+        lblAlert.setText(alertText);
         PauseTransition visiblePause = new PauseTransition(
                 Duration.seconds(3)
         );
         visiblePause.setOnFinished(
-                event2 -> lblAlert.setVisible(false)
+                event2 -> lblAlert.setText("")
         );
         visiblePause.play();
     }

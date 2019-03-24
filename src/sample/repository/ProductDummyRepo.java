@@ -17,6 +17,7 @@ public class ProductDummyRepo {
 
 
     public ObservableList getProductList(){
+        //todo: return new arraylist
         return productList;
     }
 
