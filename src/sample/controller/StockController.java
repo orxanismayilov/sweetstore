@@ -33,6 +33,7 @@ public class StockController implements Initializable {
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
     private final static String FXML_URL_NEWPRODUCT="../resource/screens/addproduct.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
+    private final static String FXML_URL_UPDATEPRODUCT="/sample/resource/screens/updateproduct.fxml";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
@@ -115,7 +116,7 @@ public class StockController implements Initializable {
                                     }
                                 }
                             }
-                            fxmlControllerStage.setTitle("Update");
+                            fxmlControllerStage.setTitle("Info");
                             fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
                             fxmlControllerStage.initOwner(((Node)eventInfo.getSource()).getScene().getWindow());
                             fxmlControllerStage.setResizable(false);
@@ -124,6 +125,35 @@ public class StockController implements Initializable {
                             e.printStackTrace();
                         }
 
+                    });
+
+                    buttonUpdate.setOnAction((ActionEvent eventUpdate)->{
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_UPDATEPRODUCT));
+                            Parent root = loader.load();
+                            fxmlControllerStage = new Stage();
+                            fxmlControllerStage.setScene(new Scene(root));
+                            ObservableList<Product> list = productService.getData();
+                            Integer value= clmID.getCellData(getTableRow().getIndex());
+                            for (Product product : list) {
+                                if (product.getId()==value) {
+                                    if(loader.getController() instanceof UpdateProductController){
+                                        UpdateProductController updateProductController = loader.getController();
+                                        updateProductController.setStage(fxmlControllerStage);
+                                        updateProductController.setProduct(product);
+                                        updateProductController.setFileds();
+                                    }
+                                }
+                            }
+                            fxmlControllerStage.setTitle("Update Product");
+                            fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
+                            fxmlControllerStage.initOwner(((Node)eventUpdate.getSource()).getScene().getWindow());
+                            fxmlControllerStage.setResizable(false);
+                            fxmlControllerStage.show();
+                            loadData();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     });
                 }
             }

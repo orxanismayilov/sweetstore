@@ -23,22 +23,22 @@
             <Label layoutX="25.0" layoutY="69.0" text="Name" AnchorPane.leftAnchor="35.0" />
             <Label layoutX="25.0" layoutY="109.0" text="Quantity" AnchorPane.leftAnchor="35.0" />
             <Label layoutX="25.0" layoutY="149.0" text="Price" AnchorPane.leftAnchor="35.0" />
-            <Label fx:id="labelId" alignment="CENTER_RIGHT" layoutX="195.0" layoutY="191.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="25.0">
+            <Label fx:id="labelId" layoutX="195.0" layoutY="191.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="labelName" alignment="CENTER_RIGHT" layoutX="126.0" layoutY="65.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="65.0">
+            <Label fx:id="labelName" layoutX="126.0" layoutY="65.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="65.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="labelQuantity" alignment="CENTER_RIGHT" layoutX="166.0" layoutY="105.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0">
+            <Label fx:id="labelQuantity" layoutX="166.0" layoutY="105.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="labelPrice" alignment="CENTER_RIGHT" layoutX="152.0" layoutY="145.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0">
+            <Label fx:id="labelPrice" layoutX="152.0" layoutY="145.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0">
                <font>
                   <Font size="18.0" />
                </font>

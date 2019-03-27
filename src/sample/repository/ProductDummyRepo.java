@@ -48,6 +48,14 @@ public class ProductDummyRepo {
             }
         }
     }
+    public void updateProductNameandPrice(Product product){
+        for (Product p:productList){
+            if (p.getId()==product.getId()){
+                p.setName(product.getName());
+                p.setPrice(product.getPrice());
+            }
+        }
+    }
 
     public int getProductNewId() {
         int index=getProductList().size()-1;

@@ -53,4 +53,14 @@ public class ProductService {
         productDummyRepo.deleteProductbyId(id);
     }
 
+    public  boolean updateProductNameandPrice(Product product){
+        reFixProduct(product);
+        boolean validation=isProductValid(product);
+        if (validation) {
+            productDummyRepo.updateProductNameandPrice(product);
+            return true;
+        }
+        return false;
+    }
+
 }
