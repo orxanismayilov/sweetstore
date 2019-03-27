@@ -27,4 +27,9 @@ public class OrderDummyRepo {
     public void deleteOrder(Predicate<Order> order){
         orderList.removeIf(order);
     }
+
+    public void deleteOrderByTransactionId(int transactionId){
+        Predicate<Order> orderPredicate=order -> order.getTransactionID()==transactionId;
+        deleteOrder(orderPredicate);
+    }
 }

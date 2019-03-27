@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Product {
@@ -12,9 +13,16 @@ public class Product {
     private SimpleIntegerProperty quantity;
     private SimpleDoubleProperty price;
     private LocalDate updateDate;
+    private BigDecimal priceBigDecimal;
 
     public Product(int id, String name, int quantity, double price, LocalDate updateDate) {
         this.id=new SimpleIntegerProperty(id);
+        this.name = new SimpleStringProperty(name);
+        this.quantity = new SimpleIntegerProperty(quantity);
+        this.price = new SimpleDoubleProperty(price);
+        this.updateDate = updateDate;
+    }
+    public Product( String name, int quantity, double price, LocalDate updateDate) {
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
         this.price = new SimpleDoubleProperty(price);
@@ -75,5 +83,13 @@ public class Product {
 
     public void setUpdateDate(LocalDate updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public BigDecimal getPriceBigDecimal() {
+        return priceBigDecimal;
+    }
+
+    public void setPriceBigDecimal(BigDecimal priceBigDecimal) {
+        this.priceBigDecimal = priceBigDecimal;
     }
 }

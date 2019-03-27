@@ -7,19 +7,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import sample.controller.AddProductController;
 import sample.controller.ProductInfoController;
 import sample.model.Product;
 import sample.service.OrderService;
 import sample.service.ProductService;
-
-import java.io.IOException;
 
 public class AddButtonTableUtils {
 
@@ -29,6 +27,8 @@ public class AddButtonTableUtils {
     private final static String FXML_URL_UPDATEORDER = "/sample/resource/screens/neworder.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
     private static Stage fxmlControllerStage;
+
+
     public static Callback<TableColumn<Object, Void>, TableCell<Object, Void>> addButtonToTable(TableColumn column, TableColumn columnID, Object service) {
         return   new Callback<TableColumn<Object, Void>, TableCell<Object, Void>>() {
             @Override
@@ -92,7 +92,7 @@ public class AddButtonTableUtils {
                                        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
                                        Parent root = loader.load();
                                        fxmlControllerStage = new Stage();
-                                       fxmlControllerStage.setScene(new Scene(root,500,300));
+                                       fxmlControllerStage.setScene(new Scene(root));
                                        ObservableList<Product> list = ((ProductService) service).getData();
                                        Integer value= (Integer) columnID.getCellData(getTableRow().getIndex());
                                        for (Product product : list) {
@@ -123,6 +123,7 @@ public class AddButtonTableUtils {
             }
         };
     }
+
 }
 
 

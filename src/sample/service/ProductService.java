@@ -4,8 +4,6 @@ import javafx.collections.ObservableList;
 import sample.model.Product;
 import sample.repository.ProductDummyRepo;
 
-import java.util.function.Predicate;
-
 public class ProductService {
 
     private ProductDummyRepo productDummyRepo;
@@ -21,68 +19,38 @@ public class ProductService {
     }
 
     public boolean addData(Product product){
-        //product.setName(reFixProduct(product));
-      if (isProductValid(product)){
-          //getProductIdByProductName(name);
-          index=isProductExist(product.getName());
-          if(index<0){
-              product.setId(getProductNewId());
-              productDummyRepo.addProduct(product);
-              return true;
-          }else {
-              updateProduct(product,index);
-              return true;
-          }
-      }else return false;
+        product.setName(reFixProduct(product));
+        if (isProductValid(product)) {
+            Product existedProduct=productDummyRepo.isProductExist(product.getName());
+            if (existedProduct == null) {
+                int newId=productDummyRepo.getProductNewId();
+                product.setId(newId);
+                productDummyRepo.addProduct(product);
+                return true;
+            } else {
+                product.setId(existedProduct.getId());
+                productDummyRepo.updateProduct(product,existedProduct.getId());
+                return true;
+            }
+        }
+        return false;
     }
-
 
     private String reFixProduct(Product product){
         String finalName=product.getName().trim();
+        finalName=finalName.substring(0, 1).toUpperCase() + finalName.substring(1);
         return finalName;
     }
-    private boolean isProductValid(Product product){
-        if(product.getQuantity() <0 ) return false;
+
+    public boolean isProductValid(Product product){
+        if(product.getQuantity() <0 ||product.getQuantity()>1000 ) return false;
         if(product.getName() ==null) return false;
-        if(product.getPrice()<0) return false;
+        if(product.getPrice()<0 || product.getPrice()>1000) return false;
         return true;
     }
 
     public void deleteProductbyID(int id){
-        //todo: migrate predicate to repo
-        Predicate<Product> productPredicate=product -> product.getId()==id;
-        productDummyRepo.deleteProduct(productPredicate);
+        productDummyRepo.deleteProductbyId(id);
     }
 
-    private int getProductNewId(){
-        //productDummyRepo.getProductNewId();
-        index=productDummyRepo.getProductList().size()-1;
-        Product product= (Product) productDummyRepo.getProductList().get(index);
-        return product.getId()+1;
-    }
-
-    private boolean numberValidation(Product product){
-        if (product.getPrice()<0 || product.getQuantity()<0)
-            return false;
-        else
-            return true;
-    }
-
-    private int isProductExist(String name){
-        //productDummyRepo.isProductExist();
-        list=productDummyRepo.getProductList();
-        index=0;
-        for (Product p:list){
-            if (p.getName().equals(name)) return index;
-            index++;
-        }
-        return -1;
-    }
-
-    private void updateProduct(Product newProduct,int index){
-        //TODO: productDummyRepo.updateProduct(index,newProduct);
-        Product product= (Product) productDummyRepo.getProductList().get(index);
-        product.setPrice(newProduct.getPrice());
-        product.setQuantity(product.getQuantity()+newProduct.getQuantity());
-    }
 }

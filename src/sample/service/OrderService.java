@@ -23,7 +23,6 @@ public class OrderService {
     }
 
     public void deleteOrderByTransactionId(int transactionId){
-       Predicate<Order> orderPredicate=order -> order.getTransactionID()==transactionId;
-       orderDummyRepo.deleteOrder(orderPredicate);
+       orderDummyRepo.deleteOrderByTransactionId(transactionId);
     }
 }
