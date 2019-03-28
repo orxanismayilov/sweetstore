@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,11 +23,11 @@ import sample.service.OrderService;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
-import static sample.utils.AddButtonTableUtils.addButtonToTable;
 
 public class OrderController implements Initializable {
 
@@ -34,6 +35,7 @@ public class OrderController implements Initializable {
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
     private final static String FXML_URL_NEWORDER= "/sample/resource/screens/neworder.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
+    private final static String FXML_URL_LOGINPAGE="/sample/resource/screens/loginpage.fxml";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
@@ -42,12 +44,13 @@ public class OrderController implements Initializable {
     @FXML private TableView<Order> tableView;
     @FXML private TableColumn<Order, String> clmName;
     @FXML private TableColumn<Order, String> clmAddress;
-    @FXML private TableColumn<Order,Integer> clmTotalprice;
+    @FXML private TableColumn<Order,BigDecimal> clmTotalprice;
     @FXML private TableColumn<Order,String> clmOrdertype;
     @FXML private TableColumn<Order,Integer> clmTransactionID;
     @FXML private TableColumn<Order,String > clmDescription;
     @FXML private TableColumn<Order,LocalDate>clmDate;
     @FXML private TableColumn<Order, Void> clmAction;
+    @FXML private BorderPane pane;
 
 
 
@@ -64,11 +67,11 @@ public class OrderController implements Initializable {
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
             fxmlControllerStage.setScene(new Scene(root));
-            if(loader.getController() instanceof NewOrderController){
+          /*  if(loader.getController() instanceof NewOrderController){
                 NewOrderController newOrderController = loader.getController();
-                newOrderController.fillComboBox();
+               // newOrderController.fillComboBox();
 
-            }
+            }*/
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -79,7 +82,12 @@ public class OrderController implements Initializable {
         fxmlControllerStage.show();
     }
 
-
+    public void buttonLogOutAction() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
+        Parent root = loader.load();
+        Stage stage = (Stage) pane.getScene().getWindow();
+        stage.setScene(new Scene(root));
+    }
 
     public void backButtonAction(ActionEvent event) throws Exception{
        ScreenUtils.changeScreen(event,FXML_URL_HOMEPAGE);
@@ -89,7 +97,7 @@ public class OrderController implements Initializable {
         clmName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
         clmDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        clmTotalprice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        clmTotalprice.setCellValueFactory(new PropertyValueFactory<>("priceBigDecimal"));
         clmOrdertype.setCellValueFactory(new PropertyValueFactory<>("orderType"));
         clmTransactionID.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -169,15 +177,14 @@ public class OrderController implements Initializable {
         clmAction.setResizable(false);
         clmAction.setMinWidth(120);
         clmAction.setMaxWidth(120);
-
-        clmTotalprice.setCellFactory(tc -> new TableCell<Order, Integer>() {
+        clmTotalprice.setCellFactory(tc -> new TableCell<Order, BigDecimal>() {
             private final Label labelSign = new Label();
             private final Label labelPrice = new Label();
             @Override
-            protected void updateItem(Integer totalPrice, boolean empty) {
-                super.updateItem(totalPrice, empty);
+            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
+                super.updateItem(priceBigDecimal, empty);
+                NumberFormat numberFormat = NumberFormat.getInstance();
                 labelSign.setText("\u20BC");
-                labelPrice.setText(String.valueOf(totalPrice));
                 AnchorPane pane = new AnchorPane(labelPrice, labelSign);
                 AnchorPane.setLeftAnchor(labelPrice, 0.0);
                 AnchorPane.setRightAnchor(labelSign, 0.0);
@@ -185,6 +192,7 @@ public class OrderController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
+                    labelPrice.setText(numberFormat.format(priceBigDecimal));
                     setGraphic(pane);
                 }
             }

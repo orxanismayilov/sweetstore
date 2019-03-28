@@ -12,6 +12,7 @@ import sample.model.Product;
 import sample.service.ProductService;
 
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,7 +34,7 @@ public class UpdateProductController implements Initializable {
 
     public void buttonSaveAction(){
         product.setName(fieldName.getText());
-        product.setPrice(Double.parseDouble(fieldPrice.getText()));
+        product.setPrice(BigDecimal.valueOf(Double.parseDouble(fieldPrice.getText())));
         boolean validation=productService.updateProductNameandPrice(product);
         if(validation) {
             Stage stage = (Stage) buttonSave.getScene().getWindow();
@@ -62,7 +63,6 @@ public class UpdateProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        productService = new ProductService();
         fieldPrice.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -76,5 +76,9 @@ public class UpdateProductController implements Initializable {
                 }
             }
         });
+    }
+
+    public void setProductService(ProductService productService) {
+        this.productService=productService;
     }
 }

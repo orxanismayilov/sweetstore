@@ -2,10 +2,9 @@ package sample.model;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Button;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Order {
     private SimpleStringProperty customerName;
@@ -14,13 +13,24 @@ public class Order {
     private SimpleIntegerProperty totalPrice;
     private SimpleStringProperty orderType;
     private SimpleIntegerProperty transactionID;
+    private BigDecimal priceBigDecimal;
     private LocalDate date;
 
-    public Order(String customerName,String customerAdderss, String description, Integer totalPrice, String orderType, Integer transactionID,LocalDate date) {
+    public Order() {
+        this.customerName = new SimpleStringProperty("");
+        this.customerAddress=new SimpleStringProperty("");
+        this.description = new SimpleStringProperty("");
+        this.priceBigDecimal = new BigDecimal(0);
+        this.orderType = new SimpleStringProperty("");
+        this.transactionID = new SimpleIntegerProperty(0);
+        this.date=LocalDate.now();
+    }
+
+    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDate date) {
         this.customerName = new SimpleStringProperty(customerName);
         this.customerAddress=new SimpleStringProperty(customerAdderss);
         this.description = new SimpleStringProperty(description);
-        this.totalPrice = new SimpleIntegerProperty(totalPrice);
+        this.priceBigDecimal = priceBigDecimal;
         this.orderType = new SimpleStringProperty(orderType);
         this.transactionID = new SimpleIntegerProperty(transactionID);
         this.date=date;
@@ -104,5 +114,13 @@ public class Order {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public BigDecimal getPriceBigDecimal() {
+        return priceBigDecimal;
+    }
+
+    public void setPriceBigDecimal(BigDecimal priceBigDecimal) {
+        this.priceBigDecimal = priceBigDecimal;
     }
 }

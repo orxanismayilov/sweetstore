@@ -45,7 +45,8 @@ public class ProductService {
     public boolean isProductValid(Product product){
         if(product.getQuantity() <0 ||product.getQuantity()>1000 ) return false;
         if(product.getName() ==null) return false;
-        if(product.getPrice()<0 || product.getPrice()>1000) return false;
+        int price=product.getPrice().intValue();
+        if(price<0 || price>1000) return false;
         return true;
     }
 
@@ -61,6 +62,10 @@ public class ProductService {
             return true;
         }
         return false;
+    }
+
+    public Product getProductByName(String name){
+        return productDummyRepo.getProductByName(name);
     }
 
 }

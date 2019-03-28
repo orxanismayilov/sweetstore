@@ -13,9 +13,9 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("resource/screens/loginpage.fxml"));
         primaryStage.setTitle("Sweet Store");
-        primaryStage.setScene(new Scene(root, 1100, 550));
-        primaryStage.setMinWidth(1100);
-        primaryStage.setMinHeight(550);
+        primaryStage.setScene(new Scene(root, 1300, 650));
+        primaryStage.setMinWidth(1300);
+        primaryStage.setMinHeight(650);
         primaryStage.show();
     }
 

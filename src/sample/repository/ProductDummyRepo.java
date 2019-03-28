@@ -4,15 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.Product;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.function.Predicate;
 
 public class ProductDummyRepo {
 
     private static ObservableList<Product>  productList=FXCollections.observableArrayList(
-            new Product(1,"Paxlava",50,1.50,LocalDate.of(2018,12,03)),
-            new Product(2,"Wekerbura",23,2,LocalDate.of(2018,01,15)),
-            new Product(3,"Tort",12,2.30,LocalDate.of(2019,03,18))
+            new Product(1,"Paxlava",50,BigDecimal.valueOf(1.50),LocalDate.of(2018,12,03)),
+            new Product(2,"Wekerbura",23,BigDecimal.valueOf(2),LocalDate.of(2018,01,15)),
+            new Product(3,"Tort",12,BigDecimal.valueOf(2.30),LocalDate.of(2019,03,18))
     );
 
     public ObservableList getProductList(){
@@ -48,6 +49,7 @@ public class ProductDummyRepo {
             }
         }
     }
+
     public void updateProductNameandPrice(Product product){
         for (Product p:productList){
             if (p.getId()==product.getId()){
@@ -61,6 +63,15 @@ public class ProductDummyRepo {
         int index=getProductList().size()-1;
         Product product= (Product) getProductList().get(index);
         return product.getId()+1;
+    }
+
+    public Product getProductByName(String name){
+        for(Product p:productList){
+            if(p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
     }
 
     private ObservableList copyList(ObservableList<Product> list){

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
 
+import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -36,7 +37,7 @@ public class AddProductController implements Initializable {
     public void saveProduct(ActionEvent event){
 
         try {
-            product=new Product(increment, productName.getText(), Integer.parseInt(productQuantity.getText()), Double.parseDouble(productPrice.getText()), LocalDate.now());
+            product=new Product(increment, productName.getText(), Integer.parseInt(productQuantity.getText()), BigDecimal.valueOf(Double.parseDouble(productPrice.getText())), LocalDate.now());
         } catch (NumberFormatException e) {
             lblAlert.setText(ALERT_TEXT);
             return;

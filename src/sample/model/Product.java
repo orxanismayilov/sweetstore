@@ -11,21 +11,21 @@ public class Product {
     private SimpleIntegerProperty id;
     private SimpleStringProperty name;
     private SimpleIntegerProperty quantity;
-    private SimpleDoubleProperty price;
     private LocalDate updateDate;
-    private BigDecimal priceBigDecimal;
+    private BigDecimal price;
 
-    public Product(int id, String name, int quantity, double price, LocalDate updateDate) {
+
+    public Product(int id, String name, int quantity, BigDecimal price, LocalDate updateDate) {
         this.id=new SimpleIntegerProperty(id);
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleDoubleProperty(price);
+        this.price = price;
         this.updateDate = updateDate;
     }
-    public Product( String name, int quantity, double price, LocalDate updateDate) {
+    public Product( String name, int quantity, BigDecimal price, LocalDate updateDate) {
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleDoubleProperty(price);
+        this.price = price;
         this.updateDate = updateDate;
     }
 
@@ -65,18 +65,6 @@ public class Product {
         this.quantity.set(quantity);
     }
 
-    public double getPrice() {
-        return price.get();
-    }
-
-    public SimpleDoubleProperty priceProperty() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price.set(price);
-    }
-
     public LocalDate getUpdateDate() {
         return updateDate;
     }
@@ -85,11 +73,11 @@ public class Product {
         this.updateDate = updateDate;
     }
 
-    public BigDecimal getPriceBigDecimal() {
-        return priceBigDecimal;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setPriceBigDecimal(BigDecimal priceBigDecimal) {
-        this.priceBigDecimal = priceBigDecimal;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

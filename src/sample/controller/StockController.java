@@ -1,7 +1,9 @@
 package sample.controller;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,15 +15,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import sample.model.Product;
 import sample.service.ProductService;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -29,8 +36,10 @@ public class StockController implements Initializable {
 
     private ProductService productService;
     private Stage fxmlControllerStage;
+    private ActionEvent event;
 
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
+    private final static String FXML_URL_LOGINPAGE="../resource/screens/loginpage.fxml";
     private final static String FXML_URL_NEWPRODUCT="../resource/screens/addproduct.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
     private final static String FXML_URL_UPDATEPRODUCT="/sample/resource/screens/updateproduct.fxml";
@@ -41,10 +50,12 @@ public class StockController implements Initializable {
     @FXML private TableView <Product> tableProduct;
     @FXML private TableColumn<Product,Integer> clmID;
     @FXML private TableColumn<Product,String> clmName;
-    @FXML private TableColumn<Product,Double> clmPrice;
+    @FXML private TableColumn<Product,BigDecimal> clmPrice;
     @FXML private TableColumn<Product,LocalDate> clmLastUpdate;
     @FXML private TableColumn<Product,Integer> clmQuantity;
     @FXML private TableColumn<Product,Void> clmAction;
+    @FXML private BorderPane pane;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -142,6 +153,7 @@ public class StockController implements Initializable {
                                         updateProductController.setStage(fxmlControllerStage);
                                         updateProductController.setProduct(product);
                                         updateProductController.setFileds();
+                                        updateProductController.setProductService(productService);
                                     }
                                 }
                             }
@@ -150,6 +162,19 @@ public class StockController implements Initializable {
                             fxmlControllerStage.initOwner(((Node)eventUpdate.getSource()).getScene().getWindow());
                             fxmlControllerStage.setResizable(false);
                             fxmlControllerStage.show();
+                            fxmlControllerStage.setOnHiding(new EventHandler<WindowEvent>() {
+
+                                @Override
+                                public void handle(WindowEvent event) {
+                                    Platform.runLater(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            tableProduct.refresh();
+                                        }
+                                    });
+                                }
+                            });
                             loadData();
                         }catch (Exception e){
                             e.printStackTrace();
@@ -163,15 +188,14 @@ public class StockController implements Initializable {
         clmAction.setResizable(false);
         clmAction.setMinWidth(120);
         clmAction.setMaxWidth(120);
-
-        clmPrice.setCellFactory(tc -> new TableCell<Product, Double>() {
+        clmPrice.setCellFactory(tc -> new TableCell<Product, BigDecimal>() {
             private final Label labelSign = new Label();
             private final Label labelPrice = new Label();
             @Override
-            protected void updateItem(Double price, boolean empty) {
-                super.updateItem(price, empty);
+            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
+                super.updateItem(priceBigDecimal, empty);
+                NumberFormat numberFormat = NumberFormat.getInstance();
                 labelSign.setText("\u20BC");
-                labelPrice.setText(String.valueOf(price));
                 AnchorPane pane = new AnchorPane(labelPrice, labelSign);
                 AnchorPane.setLeftAnchor(labelPrice, 0.0);
                 AnchorPane.setRightAnchor(labelSign, 0.0);
@@ -179,6 +203,7 @@ public class StockController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
+                    labelPrice.setText(numberFormat.format(priceBigDecimal));
                     setGraphic(pane);
                 }
             }
@@ -210,8 +235,14 @@ public class StockController implements Initializable {
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow() );
         fxmlControllerStage.setResizable(false);
         fxmlControllerStage.showAndWait();
-
         loadData();
+    }
+
+    public void buttonLogOutAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
+        Parent root = loader.load();
+        Stage stage = (Stage) pane.getScene().getWindow();
+        stage.setScene(new Scene(root));
     }
 
     public void btnBackAction(ActionEvent event) throws IOException {
