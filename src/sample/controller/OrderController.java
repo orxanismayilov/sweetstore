@@ -67,11 +67,6 @@ public class OrderController implements Initializable {
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
             fxmlControllerStage.setScene(new Scene(root));
-          /*  if(loader.getController() instanceof NewOrderController){
-                NewOrderController newOrderController = loader.getController();
-               // newOrderController.fillComboBox();
-
-            }*/
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -97,7 +92,7 @@ public class OrderController implements Initializable {
         clmName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
         clmDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        clmTotalprice.setCellValueFactory(new PropertyValueFactory<>("priceBigDecimal"));
+        clmTotalprice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         clmOrdertype.setCellValueFactory(new PropertyValueFactory<>("orderType"));
         clmTransactionID.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));

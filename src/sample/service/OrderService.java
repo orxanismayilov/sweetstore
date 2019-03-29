@@ -25,4 +25,8 @@ public class OrderService {
     public void deleteOrderByTransactionId(int transactionId){
        orderDummyRepo.deleteOrderByTransactionId(transactionId);
     }
+
+    public int getOrderNewId() {
+        return orderDummyRepo.getOrderNewId();
+    }
 }

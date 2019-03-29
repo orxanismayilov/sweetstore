@@ -10,17 +10,16 @@ public class Order {
     private SimpleStringProperty customerName;
     private SimpleStringProperty customerAddress;
     private SimpleStringProperty description;
-    private SimpleIntegerProperty totalPrice;
     private SimpleStringProperty orderType;
     private SimpleIntegerProperty transactionID;
-    private BigDecimal priceBigDecimal;
+    private BigDecimal totalPrice;
     private LocalDate date;
 
     public Order() {
         this.customerName = new SimpleStringProperty("");
         this.customerAddress=new SimpleStringProperty("");
         this.description = new SimpleStringProperty("");
-        this.priceBigDecimal = new BigDecimal(0);
+        this.totalPrice = new BigDecimal(0);
         this.orderType = new SimpleStringProperty("");
         this.transactionID = new SimpleIntegerProperty(0);
         this.date=LocalDate.now();
@@ -30,7 +29,7 @@ public class Order {
         this.customerName = new SimpleStringProperty(customerName);
         this.customerAddress=new SimpleStringProperty(customerAdderss);
         this.description = new SimpleStringProperty(description);
-        this.priceBigDecimal = priceBigDecimal;
+        this.totalPrice = priceBigDecimal;
         this.orderType = new SimpleStringProperty(orderType);
         this.transactionID = new SimpleIntegerProperty(transactionID);
         this.date=date;
@@ -72,18 +71,6 @@ public class Order {
         this.description.set(description);
     }
 
-    public int getTotalPrice() {
-        return totalPrice.get();
-    }
-
-    public SimpleIntegerProperty totalPriceProperty() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice.set(totalPrice);
-    }
-
     public String getOrderType() {
         return orderType.get();
     }
@@ -116,11 +103,11 @@ public class Order {
         this.date = date;
     }
 
-    public BigDecimal getPriceBigDecimal() {
-        return priceBigDecimal;
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setPriceBigDecimal(BigDecimal priceBigDecimal) {
-        this.priceBigDecimal = priceBigDecimal;
+    public void setTotalPrice(BigDecimal priceBigDecimal) {
+        this.totalPrice = priceBigDecimal;
     }
 }

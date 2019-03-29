@@ -21,6 +21,7 @@ import sample.model.Order;
 import sample.model.OrderProduct;
 import sample.model.Product;
 import sample.service.OrderProductService;
+import sample.service.OrderService;
 import sample.service.ProductService;
 
 import java.awt.*;
@@ -34,9 +35,16 @@ public class NewOrderController implements Initializable {
     private ProductService productService;
     private OrderProductService orderProductService;
     private Order order;
+    private OrderService orderService;
     private ObservableList<String> comboList;
 
+    private BigDecimal sum;
+    private BigDecimal totalDiscount;
+    private StringBuilder DESCRIPTION_TEXT;
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
+    private static String ALERT_TEXT="Please enter valid input!";
+    private static String TEXTFIELD_ERROR_STYLESHEET="-fx-text-box-border: red ;" + "-fx-focus-color: red ;"+ " -fx-border-radius: 3px;";
+    private static String TEXTFIELD_DEFAULT_STYLE="-fx-focus-color:rgba(3, 158, 211);";
 
     @FXML private ComboBox comboBoxProducts;
     @FXML private ComboBox comboOrderType;
@@ -53,20 +61,30 @@ public class NewOrderController implements Initializable {
     @FXML private TableColumn<OrderProduct,Integer> columnQuantity;
     @FXML private TableColumn<OrderProduct,BigDecimal> columnPrice;
     @FXML private  TableColumn<OrderProduct,BigDecimal> columnTotalPrice;
+    @FXML private TableColumn<OrderProduct,Double> columnDiscount;
     @FXML private TableColumn<OrderProduct,Void> columnAction;
     @FXML private Label labelAlert;
     @FXML private Label labelPossibleQuantity;
+    @FXML private Label labelDescription;
+    @FXML private Label labelSum;
+    @FXML private Label labelDiscount;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService=new ProductService();
         order=new Order();
+        sum=new BigDecimal(0);
+        totalDiscount=new BigDecimal(0);
+        DESCRIPTION_TEXT=new StringBuilder();
         orderProductService=new OrderProductService();
+        orderService=new OrderService();
         populateTable();
         totalPriceAutoFill();
+        fieldInputValidation();
         tableView.setItems(orderProductService.getOrderProductList());
         comboBoxProducts.setItems(fillComboList());
         manageFocus();
+        order.setTransactionID(orderService.getOrderNewId());
     }
 
     public ObservableList fillComboList(){
@@ -84,6 +102,7 @@ public class NewOrderController implements Initializable {
         columnQuantity.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
         columnTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        columnDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
         columnPrice.setCellFactory(tc -> new TableCell<OrderProduct, BigDecimal>() {
             private final Label labelSign = new Label();
             private final Label labelPrice = new Label();
@@ -153,13 +172,22 @@ public class NewOrderController implements Initializable {
            String productName= String.valueOf(comboBoxProducts.getValue());
            Product product=productService.getProductByName(productName);
            OrderProduct orderProduct=new OrderProduct();
-           orderProduct.setOrderId(12);
+           orderProduct.setOrderId(order.getTransactionID());
            orderProduct.setProductId(product.getId());
            orderProduct.setProductName(product.getName());
            orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
            orderProduct.setProductPrice(product.getPrice());
            orderProduct.setTotalPrice(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+           orderProduct.setDiscount(Double.parseDouble(fieldDiscount.getText()));
+           product.setQuantity(product.getQuantity()-Integer.parseInt(fieldQuantity.getText()));
            orderProductService.addOrderProducttoList(orderProduct);
+           DESCRIPTION_TEXT.append(fieldQuantity.getText()+" ");
+           DESCRIPTION_TEXT.append(comboBoxProducts.getValue()+",");
+           labelDescription.setText(String.valueOf(DESCRIPTION_TEXT));
+           sum=sum.add(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+           totalDiscount=totalDiscount.add(new BigDecimal(fieldDiscount.getText()));
+           labelSum.setText(String.valueOf(sum));
+           labelDiscount.setText(String.valueOf(totalDiscount));
            loadTable();
            clearFields();
        }catch (NullPointerException e){
@@ -177,6 +205,15 @@ public class NewOrderController implements Initializable {
 
     }
 
+    public void saveButtonAction() {
+        order.setCustomerName(fieldCustomerName.getText());
+        order.setCustomerAddress(fieldCustomerAddress.getText());
+        order.setDescription(String.valueOf(DESCRIPTION_TEXT));
+        order.setOrderType("online");
+        order.setTotalPrice(sum);
+        orderService.addData(order);
+    }
+
     private void loadTable(){
         ObservableList list=orderProductService.getOrderProductList();
         tableView.setItems(list);
@@ -184,10 +221,11 @@ public class NewOrderController implements Initializable {
 
     private void clearFields(){
         comboBoxProducts.setValue(null);
-        fieldPrice.setPromptText("0");
-        fieldTotalPrice.setPromptText("0");
-        fieldDiscount.setPromptText("0");
-        fieldQuantity.setPromptText("0");
+        fieldPrice.setText("0");
+        fieldTotalPrice.setText("0");
+        fieldDiscount.setText("0");
+        fieldQuantity.setText("0");
+        labelPossibleQuantity.setText("/0");
 
     }
 
@@ -254,6 +292,47 @@ public class NewOrderController implements Initializable {
             }
         };
         buttonSave.disableProperty().bind(booleanBinding);
+    }
+
+    private void fieldInputValidation(){
+        fieldQuantity.textProperty().addListener((new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
+                    fieldQuantity.setStyle(TEXTFIELD_ERROR_STYLESHEET);
+                    labelAlert.setText(ALERT_TEXT);
+                } else {
+                    fieldQuantity.setStyle(TEXTFIELD_DEFAULT_STYLE);
+                    labelAlert.setText("");
+                }
+            }
+        }));
+
+        fieldPrice.textProperty().addListener((new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
+                    fieldPrice.setStyle(TEXTFIELD_ERROR_STYLESHEET);
+                    labelAlert.setText(ALERT_TEXT);
+                } else {
+                    fieldPrice.setStyle(TEXTFIELD_DEFAULT_STYLE);
+                    labelAlert.setText("");
+                }
+            }
+        }));
+
+        fieldDiscount.textProperty().addListener((new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
+                    fieldDiscount.setStyle(TEXTFIELD_ERROR_STYLESHEET);
+                    labelAlert.setText(ALERT_TEXT);
+                } else {
+                    fieldDiscount.setStyle(TEXTFIELD_DEFAULT_STYLE);
+                    labelAlert.setText("");
+                }
+            }
+        }));
     }
 
 

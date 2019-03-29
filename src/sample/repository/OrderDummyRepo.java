@@ -33,4 +33,9 @@ public class OrderDummyRepo {
         Predicate<Order> orderPredicate=order -> order.getTransactionID()==transactionId;
         deleteOrder(orderPredicate);
     }
+
+    public int getOrderNewId(){
+        int index=orderList.size()-1;
+        return orderList.get(index).getTransactionID()+1;
+    }
 }
