@@ -23,6 +23,7 @@ public class Product {
         this.updateDate = updateDate;
     }
     public Product( String name, int quantity, BigDecimal price, LocalDate updateDate) {
+        this.id=new SimpleIntegerProperty(0);
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
         this.price = price;

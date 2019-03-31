@@ -14,6 +14,7 @@ public class OrderProduct {
     private BigDecimal productPrice;
     private BigDecimal totalPrice;
     private Double discount;
+    private String description;
 
     public OrderProduct() {
         this.orderId=new SimpleIntegerProperty(0);
@@ -95,5 +96,13 @@ public class OrderProduct {
 
     public void setDiscount(Double discount) {
         this.discount = discount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

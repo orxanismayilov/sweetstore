@@ -2,6 +2,7 @@ package sample.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -19,9 +20,7 @@ import java.util.ResourceBundle;
 public class UpdateProductController implements Initializable {
 
     private static String ALERT_TEXT="Please enter valid input!";
-    private static String TEXTFIELD_ERROR_STYLESHEET="-fx-text-box-border: red ;" + "-fx-focus-color: red ;"+ " -fx-border-radius: 3px;";
-    private static String TEXTFIELD_DEFAULT_STYLE="-fx-focus-color:rgba(3, 158, 211);";
-
+    private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
     private Stage stage;
     private Product product;
     private ProductService productService;
@@ -68,10 +67,10 @@ public class UpdateProductController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
-                    fieldPrice.setStyle(TEXTFIELD_ERROR_STYLESHEET);
+                    fieldPrice.pseudoClassStateChanged(errorClass,true);
                     labelAlert.setText(ALERT_TEXT);
                 } else {
-                    fieldPrice.setStyle(TEXTFIELD_DEFAULT_STYLE);
+                    fieldPrice.pseudoClassStateChanged(errorClass,false);
                     labelAlert.setText("");
                 }
             }

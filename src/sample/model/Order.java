@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Order {
     private SimpleStringProperty customerName;
     private SimpleStringProperty customerAddress;
-    private SimpleStringProperty description;
+    private StringBuilder description;
     private SimpleStringProperty orderType;
     private SimpleIntegerProperty transactionID;
     private BigDecimal totalPrice;
@@ -18,17 +18,17 @@ public class Order {
     public Order() {
         this.customerName = new SimpleStringProperty("");
         this.customerAddress=new SimpleStringProperty("");
-        this.description = new SimpleStringProperty("");
+        this.description = new StringBuilder();
         this.totalPrice = new BigDecimal(0);
         this.orderType = new SimpleStringProperty("");
         this.transactionID = new SimpleIntegerProperty(0);
         this.date=LocalDate.now();
     }
 
-    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDate date) {
+    public Order(String customerName, String customerAdderss, StringBuilder description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDate date) {
         this.customerName = new SimpleStringProperty(customerName);
         this.customerAddress=new SimpleStringProperty(customerAdderss);
-        this.description = new SimpleStringProperty(description);
+        this.description = description;
         this.totalPrice = priceBigDecimal;
         this.orderType = new SimpleStringProperty(orderType);
         this.transactionID = new SimpleIntegerProperty(transactionID);
@@ -59,16 +59,12 @@ public class Order {
         this.customerAddress.set(customerAddress);
     }
 
-    public String getDescription() {
-        return description.get();
-    }
-
-    public SimpleStringProperty descriptionProperty() {
+    public StringBuilder getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description.set(description);
+    public void setDescription(StringBuilder description) {
+        this.description=description;
     }
 
     public String getOrderType() {

@@ -47,7 +47,7 @@ public class OrderController implements Initializable {
     @FXML private TableColumn<Order,BigDecimal> clmTotalprice;
     @FXML private TableColumn<Order,String> clmOrdertype;
     @FXML private TableColumn<Order,Integer> clmTransactionID;
-    @FXML private TableColumn<Order,String > clmDescription;
+    @FXML private TableColumn<Order,StringBuilder > clmDescription;
     @FXML private TableColumn<Order,LocalDate>clmDate;
     @FXML private TableColumn<Order, Void> clmAction;
     @FXML private BorderPane pane;
