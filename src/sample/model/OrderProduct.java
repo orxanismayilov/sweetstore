@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 public class OrderProduct {
 
+    private SimpleIntegerProperty id;
     private SimpleIntegerProperty orderId;
     private SimpleIntegerProperty productId;
     private SimpleStringProperty productName;
@@ -17,6 +18,7 @@ public class OrderProduct {
     private String description;
 
     public OrderProduct() {
+        this.id=new SimpleIntegerProperty(0);
         this.orderId=new SimpleIntegerProperty(0);
         this.productId=new SimpleIntegerProperty(0);
         this.productName=new SimpleStringProperty("");
@@ -24,6 +26,18 @@ public class OrderProduct {
         this.productPrice=new BigDecimal(0);
         this.totalPrice=new BigDecimal(0);
         this.discount=0.0;
+    }
+
+    public int getId() {
+        return id.get();
+    }
+
+    public SimpleIntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     public int getOrderId() {

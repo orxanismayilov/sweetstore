@@ -8,8 +8,12 @@ import sample.utils.Notification;
 public class ProductService {
 
     private ProductDummyRepo productDummyRepo;
-    ObservableList<Product> list;
-    private int index;
+    private final static String NAME_ERROR="Please enter valid name.";
+    private final static String PRICE_ERROR="Price must be positive and less then 1000.";
+    private final static String QUANTITY_ERROR="Quantity must be positive and less then 1000.";
+    private final static String PRICE_REGEX="^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
+    private final static String QUANTITY_REGEX="\\d*";
+    private final static String NAME_REGEX="(?i)(^[a-z])((?![ .,'-]$)[a-z .,'-]){0,24}$";
 
     public ProductService() {
         productDummyRepo=new ProductDummyRepo();
@@ -46,12 +50,12 @@ public class ProductService {
     public Notification isProductValid(Product product){
 
         Notification errors=new Notification();
-        if(product.getName().length()<3) {
-            errors.addError("Name can't be empty or less 3 character.");
+        if(product.getName().length()<3 || !product.getName().matches(NAME_REGEX)) {
+            errors.addError(NAME_ERROR);
         } else product.setName(reFixProduct(product));
-        if(product.getQuantity() <0 || product.getQuantity()>1000) errors.addError("Quantity can't be negative and greater then 1000.");
+        if(product.getQuantity() <0 || product.getQuantity()>1000 || !String.valueOf(product.getQuantity()).matches(QUANTITY_REGEX)) errors.addError(QUANTITY_ERROR);
         int price=product.getPrice().intValue();
-        if(price<0 || price>1000) errors.addError("Price can't be negative and greater then 1000.");
+        if(price<0 || price>1000 || !String.valueOf(price).matches(PRICE_REGEX)) errors.addError(PRICE_ERROR);
         return errors;
     }
 
@@ -70,6 +74,10 @@ public class ProductService {
 
     public Product getProductByName(String name){
         return productDummyRepo.getProductByName(name);
+    }
+
+    public ObservableList getProductNames(){
+        return productDummyRepo.getProductNames();
     }
 
 }

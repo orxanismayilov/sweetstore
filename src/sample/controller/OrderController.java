@@ -33,6 +33,7 @@ public class OrderController implements Initializable {
 
     private OrderService orderService;
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
+    private final static String FXML_URL_UPDATEORDER="/sample/resource/screens/updateorder.fxml";
     private final static String FXML_URL_NEWORDER= "/sample/resource/screens/neworder.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
     private final static String FXML_URL_LOGINPAGE="/sample/resource/screens/loginpage.fxml";
@@ -165,6 +166,28 @@ public class OrderController implements Initializable {
                             e.printStackTrace();
                         }
 
+                    });
+
+                    buttonUpdate.setOnAction((ActionEvent event)->{
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_UPDATEORDER));
+                            Parent root = loader.load();
+                            fxmlControllerStage = new Stage();
+                            fxmlControllerStage.setScene(new Scene(root));
+                            int value= clmTransactionID.getCellData(getTableRow().getIndex());
+                            if(loader.getController() instanceof UpdateOrderController){
+                                UpdateOrderController updateOrderController = loader.getController();
+                                updateOrderController.setStage(fxmlControllerStage);
+                                updateOrderController.setOrderId(value);
+                            }
+                            fxmlControllerStage.setTitle("Update");
+                            fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
+                            fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
+                            fxmlControllerStage.setResizable(false);
+                            fxmlControllerStage.show();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     });
                 }
             }

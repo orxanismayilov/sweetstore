@@ -6,6 +6,7 @@ import sample.model.Product;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.function.Predicate;
 
 public class ProductDummyRepo {
@@ -73,6 +74,16 @@ public class ProductDummyRepo {
         }
         return null;
     }
+
+    public ObservableList getProductNames(){
+        ObservableList<String> productNames=FXCollections.observableArrayList();
+        for (Product product:productList){
+            productNames.add(product.getName());
+        }
+        Collections.sort(productNames);
+        return productNames;
+    }
+
 
     private ObservableList copyList(ObservableList<Product> list){
          ObservableList<Product> copiedList=FXCollections.observableArrayList();

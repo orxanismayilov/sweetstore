@@ -25,9 +25,12 @@ public class AddProductController implements Initializable {
     private Product product;
     Notification notification;
     private static String ALERT_TEXT="Please enter valid input!";
-    private final static String NAME_ERROR="Name can't be empty or less 3 character.";
-    private final static String QUANTITY_ERROR="Quantity can't be negative and greater then 1000.";
-    private final static String PRICE_ERROR="Price can't be negative and greater then 1000.";
+    private final static String NAME_ERROR="Please enter valid name.";
+    private final static String PRICE_ERROR="Price must be positive and less then 1000.";
+    private final static String QUANTITY_ERROR="Quantity must be positive and less then 1000.";
+    private final static String PRICE_REGEX="^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
+    private final static String QUANTITY_REGEX="\\d*";
+    private final static String NAME_REGEX="(?i)(^[a-z])((?![ .,'-]$)[a-z .,'-]){0,24}$";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
     @FXML private TextField productName;
     @FXML private TextField productQuantity;
@@ -81,9 +84,9 @@ public class AddProductController implements Initializable {
         productName.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(newValue.matches("[abc]")){
+                if(!newValue.matches(NAME_REGEX)){
                    productName.pseudoClassStateChanged(errorClass,true);
-                   lblAlert.setText(ALERT_TEXT);
+                   lblAlert.setText(NAME_ERROR);
                 }else {
                     productName.pseudoClassStateChanged(errorClass,false);
                     lblAlert.setText("");
@@ -96,9 +99,9 @@ public class AddProductController implements Initializable {
         productPrice.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
+                if (!newValue.matches(PRICE_REGEX)) {
                     productPrice.pseudoClassStateChanged(errorClass, true);
-                    lblAlert.setText(ALERT_TEXT);
+                    lblAlert.setText(PRICE_ERROR);
                 } else {
                     productPrice.pseudoClassStateChanged(errorClass, false);
                     lblAlert.setText("");
@@ -111,9 +114,9 @@ public class AddProductController implements Initializable {
         productQuantity.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d*")) {
+                if (!newValue.matches(QUANTITY_REGEX)) {
                     productQuantity.pseudoClassStateChanged(errorClass, true);
-                    lblAlert.setText(ALERT_TEXT);
+                    lblAlert.setText(QUANTITY_ERROR);
                 } else {
                     productQuantity.pseudoClassStateChanged(errorClass, false);
                     lblAlert.setText("");

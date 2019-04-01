@@ -13,6 +13,7 @@ public class Order {
     private SimpleStringProperty orderType;
     private SimpleIntegerProperty transactionID;
     private BigDecimal totalPrice;
+    private BigDecimal totalDiscount;
     private LocalDate date;
 
     public Order() {
@@ -22,6 +23,7 @@ public class Order {
         this.totalPrice = new BigDecimal(0);
         this.orderType = new SimpleStringProperty("");
         this.transactionID = new SimpleIntegerProperty(0);
+        this.totalDiscount=new BigDecimal(0);
         this.date=LocalDate.now();
     }
 
@@ -105,5 +107,13 @@ public class Order {
 
     public void setTotalPrice(BigDecimal priceBigDecimal) {
         this.totalPrice = priceBigDecimal;
+    }
+
+    public BigDecimal getTotalDiscount() {
+        return totalDiscount;
+    }
+
+    public void setTotalDiscount(BigDecimal totalDiscount) {
+        this.totalDiscount = totalDiscount;
     }
 }

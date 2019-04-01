@@ -26,7 +26,8 @@ import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
-public class NewOrderController implements Initializable {
+public class UpdateOrderController implements Initializable {
+
     private OrderProduct orderProduct;
     private ProductService productService;
     private OrderProductService orderProductService;
@@ -38,6 +39,7 @@ public class NewOrderController implements Initializable {
     private static String ALERT_TEXT="Please enter valid input!";
     private StringBuilder DESCRIPTION_TEXT;
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
+
 
     @FXML private ComboBox comboBoxProducts;
     @FXML private ComboBox comboOrderType;
@@ -63,21 +65,8 @@ public class NewOrderController implements Initializable {
     @FXML private Label labelDescription;
     @FXML private Label labelSum;
     @FXML private Label labelDiscount;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        productService=new ProductService();
-        order=new Order();
-        orderProductService=new OrderProductService();
-        orderService=new OrderService();
-        populateTable();
-        fieldInputValidation();
-        tableView.setItems(orderProductService.getOrderProductList());
-        comboBoxProducts.setItems(productService.getProductNames());
-        manageFocus();
-        order.setTransactionID(orderService.getOrderNewId());
-        getSelectedRow();
-    }
+    private int orderId;
+    private Stage stage;
 
     private void populateTable(){
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -319,8 +308,8 @@ public class NewOrderController implements Initializable {
         selectFieldText(fieldQuantity);
         fieldQuantity.textProperty().addListener(((observable, oldValue, newValue) -> {
             if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
-                    fieldQuantity.pseudoClassStateChanged(errorClass,true);
-                    labelAlert.setText(ALERT_TEXT);
+                fieldQuantity.pseudoClassStateChanged(errorClass,true);
+                labelAlert.setText(ALERT_TEXT);
             } else {
                 fieldTotalPrice.setText(String.valueOf(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
                 fieldQuantity.pseudoClassStateChanged(errorClass,false);
@@ -355,4 +344,28 @@ public class NewOrderController implements Initializable {
         this.product = product;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        productService=new ProductService();
+        order=new Order();
+        orderProductService=new OrderProductService();
+        orderService=new OrderService();
+        populateTable();
+        fieldInputValidation();
+        tableView.setItems(orderProductService.getOrderProductbyOrderId(orderId));
+        comboBoxProducts.setItems(productService.getProductNames());
+        manageFocus();
+        order.setTransactionID(orderService.getOrderNewId());
+        getSelectedRow();
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId=orderId;
+        loadTable();
+    }
+
+    public void setStage(Stage stage){
+        this.stage=stage;
+    }
 }
+
