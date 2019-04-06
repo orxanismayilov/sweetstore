@@ -241,7 +241,7 @@ public class UpdateOrderController implements Initializable {
 
 
     private void loadTable(){
-        ObservableList list=orderProductService.getOrderProductList();
+        ObservableList list=orderProductService.getOrderProductbyOrderId(orderId);
         tableView.setItems(list);
     }
 

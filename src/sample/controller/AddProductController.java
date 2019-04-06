@@ -1,10 +1,6 @@
 package sample.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -18,13 +14,15 @@ import sample.utils.Notification;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
 
     private Product product;
-    Notification notification;
-    private static String ALERT_TEXT="Please enter valid input!";
+    private Stage stage;
+    private ProductService productService;
+    private Notification notification;
     private final static String NAME_ERROR="Please enter valid name.";
     private final static String PRICE_ERROR="Price must be positive and less then 1000.";
     private final static String QUANTITY_ERROR="Quantity must be positive and less then 1000.";
@@ -40,11 +38,12 @@ public class AddProductController implements Initializable {
     @FXML private Label lblAlert;
 
 
-    public void saveProduct(ActionEvent event){
+    public void saveProduct(){
 
         try {
-            product=new Product(productName.getText(), Integer.parseInt(productQuantity.getText()), BigDecimal.valueOf(Double.parseDouble(productPrice.getText())), LocalDate.now());
+            product=new Product(productName.getText(), Integer.parseInt(productQuantity.getText()), new BigDecimal(productPrice.getText()), LocalDate.now());
         } catch (NumberFormatException e) {
+            String ALERT_TEXT = "Please enter valid input!";
             lblAlert.setText(ALERT_TEXT);
             return;
            }
@@ -54,21 +53,20 @@ public class AddProductController implements Initializable {
             stage.close();
         } else {
             String errors=notification.errorMessage();
-            handleErrors(errors);
+            lblAlert.setText(errors);
+            handleErrors();
         }
     }
 
-    public void cancelAction(ActionEvent event){
+    public void cancelAction(){
         Stage stage=(Stage) buttonCancel.getScene().getWindow();
         stage.close();
     }
 
-    private ProductService productService;
     public void setProductService(ProductService productService){
         this.productService=productService;
     }
 
-    private Stage stage;
     public void setStage(Stage stage){
         this.stage = stage;
     }
@@ -81,65 +79,48 @@ public class AddProductController implements Initializable {
     }
 
     private void validateName(){
-        productName.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(!newValue.matches(NAME_REGEX)){
-                   productName.pseudoClassStateChanged(errorClass,true);
-                   lblAlert.setText(NAME_ERROR);
-                }else {
-                    productName.pseudoClassStateChanged(errorClass,false);
-                    lblAlert.setText("");
-                }
+        productName.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.matches(NAME_REGEX)){
+               productName.pseudoClassStateChanged(errorClass,true);
+            }else {
+                productName.pseudoClassStateChanged(errorClass,false);
             }
         });
     }
 
     private void validatePrice () {
-        productPrice.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches(PRICE_REGEX)) {
-                    productPrice.pseudoClassStateChanged(errorClass, true);
-                    lblAlert.setText(PRICE_ERROR);
-                } else {
-                    productPrice.pseudoClassStateChanged(errorClass, false);
-                    lblAlert.setText("");
-                }
+        productPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches(PRICE_REGEX)) {
+                productPrice.pseudoClassStateChanged(errorClass, true);
+            } else {
+                productPrice.pseudoClassStateChanged(errorClass, false);
             }
         });
     }
 
     private  void validateQuantity() {
-        productQuantity.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches(QUANTITY_REGEX)) {
-                    productQuantity.pseudoClassStateChanged(errorClass, true);
-                    lblAlert.setText(QUANTITY_ERROR);
-                } else {
-                    productQuantity.pseudoClassStateChanged(errorClass, false);
-                    lblAlert.setText("");
-                }
+        productQuantity.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches(QUANTITY_REGEX)) {
+                productQuantity.pseudoClassStateChanged(errorClass, true);
+            } else {
+                productQuantity.pseudoClassStateChanged(errorClass, false);
             }
         });
     }
 
-    private void handleErrors(String errors){
-        if(errors.contains(NAME_ERROR)){
-            lblAlert.setText(errors);
+    private void handleErrors(){
+        Map<String,Boolean> map=productService.getValidation();
+        if(map.get("nameError")){
             productName.pseudoClassStateChanged(errorClass,true);
         } else {
             productName.pseudoClassStateChanged(errorClass,false);
         }
-        if(errors.contains(QUANTITY_ERROR)){
-            lblAlert.setText(errors);
+        if(map.get("quantityError")){
             productQuantity.pseudoClassStateChanged(errorClass,true);
         }else {
             productQuantity.pseudoClassStateChanged(errorClass,false);
         }
-        if(errors.contains(PRICE_ERROR)) {
-            lblAlert.setText(errors);
+        if(map.get("priceError")) {
             productPrice.pseudoClassStateChanged(errorClass,true);
         }else {
             productPrice.pseudoClassStateChanged(errorClass,false);

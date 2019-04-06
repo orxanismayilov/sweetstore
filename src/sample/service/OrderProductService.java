@@ -36,7 +36,7 @@ public class OrderProductService {
 
     private void validateOrderProduct(OrderProduct orderProduct){
         Notification errors=new Notification();
-        if(orderProduct.getProductQuantity()<0 || orderProduct.getProductQuantity()>1000 ) errors.addError("");
+        if(orderProduct.getProductQuantity()<1 || orderProduct.getProductQuantity()>1000 ) errors.addError("");
         if (orderProduct.getDiscount()<0 || orderProduct.getDiscount()>orderProduct.getTotalPrice().doubleValue()) errors.addError("");
 
     }

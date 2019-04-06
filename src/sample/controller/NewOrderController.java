@@ -72,7 +72,6 @@ public class NewOrderController implements Initializable {
         orderService=new OrderService();
         populateTable();
         fieldInputValidation();
-        tableView.setItems(orderProductService.getOrderProductList());
         comboBoxProducts.setItems(productService.getProductNames());
         manageFocus();
         order.setTransactionID(orderService.getOrderNewId());
@@ -223,6 +222,7 @@ public class NewOrderController implements Initializable {
         try {
             String productName = String.valueOf(comboBoxProducts.getValue());
             Product product = productService.getProductByName(productName);
+            product.setQuantity(product.getQuantity()+orderProduct.getProductQuantity());
             orderProduct.setOrderId(order.getTransactionID());
             orderProduct.setProductId(product.getId());
             orderProduct.setProductName(product.getName());
@@ -252,7 +252,7 @@ public class NewOrderController implements Initializable {
 
 
     private void loadTable(){
-        ObservableList list=orderProductService.getOrderProductList();
+        ObservableList list=orderProductService.getOrderProductbyOrderId(order.getTransactionID());
         tableView.setItems(list);
     }
 
@@ -286,6 +286,7 @@ public class NewOrderController implements Initializable {
         fieldDiscount.setText(String.valueOf(selectedRow.getDiscount()));
         fieldTotalPrice.setText(String.valueOf(selectedRow.getTotalPrice()));
         comboBoxProducts.setValue(selectedRow.getProductName());
+        labelPossibleQuantity.setText(String.valueOf(orderProduct.getProductQuantity()+product.getQuantity()));
         buttonAdd.setText("Update");
         setOrderProduct(selectedRow);
     }
@@ -318,7 +319,7 @@ public class NewOrderController implements Initializable {
         selectFieldText(fieldTotalPrice);
         selectFieldText(fieldQuantity);
         fieldQuantity.textProperty().addListener(((observable, oldValue, newValue) -> {
-            if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
+            if (!newValue.matches("\\d*")) {
                     fieldQuantity.pseudoClassStateChanged(errorClass,true);
                     labelAlert.setText(ALERT_TEXT);
             } else {

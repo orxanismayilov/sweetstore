@@ -19,10 +19,10 @@
       <AnchorPane layoutY="50.0" prefHeight="250.0" prefWidth="521.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
             <Button fx:id="btnCancel" layoutX="367.0" layoutY="343.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#cancelAction" text="Close" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="24.0" />
-            <Label layoutX="43.0" layoutY="29.0" text="Id" AnchorPane.leftAnchor="35.0" />
-            <Label layoutX="25.0" layoutY="69.0" text="Name" AnchorPane.leftAnchor="35.0" />
-            <Label layoutX="25.0" layoutY="109.0" text="Quantity" AnchorPane.leftAnchor="35.0" />
-            <Label layoutX="25.0" layoutY="149.0" text="Price" AnchorPane.leftAnchor="35.0" />
+            <Label layoutX="36.0" layoutY="29.0" text="Id:" AnchorPane.leftAnchor="36.0" />
+            <Label layoutX="25.0" layoutY="69.0" text="Name:" AnchorPane.leftAnchor="35.0" />
+            <Label layoutX="25.0" layoutY="109.0" text="Quantity:" AnchorPane.leftAnchor="35.0" />
+            <Label layoutX="25.0" layoutY="149.0" text="Price:" AnchorPane.leftAnchor="35.0" />
             <Label fx:id="labelId" layoutX="195.0" layoutY="191.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="18.0" />
@@ -39,11 +39,6 @@
                </font>
             </Label>
             <Label fx:id="labelPrice" layoutX="152.0" layoutY="145.0" maxHeight="25.0" prefHeight="25.0" text="0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="150.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER_RIGHT" layoutX="216.0" layoutY="144.0" text="₼" AnchorPane.rightAnchor="120.0">
                <font>
                   <Font size="18.0" />
                </font>

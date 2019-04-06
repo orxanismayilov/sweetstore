@@ -11,18 +11,22 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
+import sample.utils.Notification;
 
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class UpdateProductController implements Initializable {
 
     private static String ALERT_TEXT="Please enter valid input!";
+    private static String PRICE_REGEX="^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
     private Stage stage;
-    private Product product;
+    private Product existedProduct;
     private ProductService productService;
 
     @FXML private TextField fieldName;
@@ -32,13 +36,21 @@ public class UpdateProductController implements Initializable {
     @FXML private Label labelAlert;
 
     public void buttonSaveAction(){
+        Product product=new Product();
         product.setName(fieldName.getText());
+        product.setQuantity(existedProduct.getQuantity());
         product.setPrice(BigDecimal.valueOf(Double.parseDouble(fieldPrice.getText())));
-        boolean validation=productService.updateProductNameandPrice(product);
-        if(validation) {
+        Notification error=productService.isProductValid(product);
+        if(!error.hasError()) {
+            existedProduct.setName(product.getName());
+            existedProduct.setPrice(product.getPrice());
+            existedProduct.setUpdateDate(LocalDate.now());
             Stage stage = (Stage) buttonSave.getScene().getWindow();
             stage.close();
-        } else labelAlert.setText(ALERT_TEXT);
+        } else {
+            labelAlert.setText(error.errorMessage());
+            handleErrors();
+        }
     }
 
     public void buttonCancelAction(){
@@ -47,13 +59,13 @@ public class UpdateProductController implements Initializable {
     }
 
     public void setFileds(){
-        fieldName.setText(product.getName());
-        labelQuantity.setText(String.valueOf(product.getQuantity()));
-        fieldPrice.setText(String.valueOf(product.getPrice()));
+        fieldName.setText(existedProduct.getName());
+        labelQuantity.setText(String.valueOf(existedProduct.getQuantity()));
+        fieldPrice.setText(String.valueOf(existedProduct.getPrice()));
     }
 
     public void setProduct(Product product) {
-        this.product = product;
+        this.existedProduct = product;
     }
 
     public void setStage(Stage stage) {
@@ -62,22 +74,40 @@ public class UpdateProductController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        validatePrice();
+    }
+
+    private void validatePrice(){
         fieldPrice.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
-                if (!newValue.matches("^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$")) {
+                if (!newValue.matches(PRICE_REGEX)) {
                     fieldPrice.pseudoClassStateChanged(errorClass,true);
-                    labelAlert.setText(ALERT_TEXT);
                 } else {
                     fieldPrice.pseudoClassStateChanged(errorClass,false);
-                    labelAlert.setText("");
                 }
             }
         });
     }
 
+    private void handleErrors(){
+        Map<String,Boolean> map=productService.getValidation();
+        if (map.get("nameError")){
+            fieldName.pseudoClassStateChanged(errorClass,true);
+        } else {
+            fieldName.pseudoClassStateChanged(errorClass,false);
+        }
+
+        if (map.get("priceError")){
+            fieldPrice.pseudoClassStateChanged(errorClass,true);
+        }else {
+            fieldPrice.pseudoClassStateChanged(errorClass,false);
+        }
+    }
+
     public void setProductService(ProductService productService) {
         this.productService=productService;
     }
+
 }

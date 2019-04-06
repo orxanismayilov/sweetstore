@@ -1,8 +1,9 @@
 package sample.model;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import sun.util.resources.LocaleData;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,22 +13,33 @@ public class Product {
     private SimpleStringProperty name;
     private SimpleIntegerProperty quantity;
     private LocalDate updateDate;
-    private BigDecimal price;
+    private SimpleObjectProperty<BigDecimal> price;
+    private boolean isActive;
 
+    public Product() {
+        this.id=new SimpleIntegerProperty(0);
+        this.name = new SimpleStringProperty("");
+        this.quantity = new SimpleIntegerProperty(0);
+        this.price = new SimpleObjectProperty<BigDecimal>(new BigDecimal(0));
+        this.updateDate=LocalDate.now();
+        this.isActive=true;
+    }
 
     public Product(int id, String name, int quantity, BigDecimal price, LocalDate updateDate) {
         this.id=new SimpleIntegerProperty(id);
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = price;
+        this.price = new SimpleObjectProperty<>(price);
         this.updateDate = updateDate;
+        this.isActive=true;
     }
     public Product( String name, int quantity, BigDecimal price, LocalDate updateDate) {
         this.id=new SimpleIntegerProperty(0);
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = price;
+        this.price = new SimpleObjectProperty<>(price);
         this.updateDate = updateDate;
+        this.isActive=true;
     }
 
     public int getId() {
@@ -75,10 +87,23 @@ public class Product {
     }
 
     public BigDecimal getPrice() {
+        return price.get();
+    }
+
+    public SimpleObjectProperty<BigDecimal> priceProperty() {
         return price;
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
+        this.price.set(price);
     }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
 }

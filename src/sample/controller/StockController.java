@@ -36,13 +36,16 @@ public class StockController implements Initializable {
 
     private ProductService productService;
     private Stage fxmlControllerStage;
-    private ActionEvent event;
 
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
     private final static String FXML_URL_LOGINPAGE="../resource/screens/loginpage.fxml";
     private final static String FXML_URL_NEWPRODUCT="../resource/screens/addproduct.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
     private final static String FXML_URL_UPDATEPRODUCT="/sample/resource/screens/updateproduct.fxml";
+    private final static String INFO_TITLE="Info";
+    private final static String UPDATE_TITLE="Update product";
+    private final static String PRODUCTNOTEXIST_ALERT="Product not exist";
+    private final static String DELETE_ALERT_TEXT="Are you sure ?";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
@@ -60,16 +63,34 @@ public class StockController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService=new ProductService();
-        populateTable();
+        createTable();
         loadData();
     }
 
-    private void populateTable() {
+    private void createTable() {
         clmID.setCellValueFactory(new PropertyValueFactory<>("id"));
         clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmLastUpdate.setCellValueFactory(new PropertyValueFactory<>("updateDate"));
         clmQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        clmPrice.setCellFactory(tc -> new TableCell<Product, BigDecimal>() {
+            private final Label labelSign = new Label();
+            private final Label labelPrice = new Label();
+            @Override
+            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
+                super.updateItem(priceBigDecimal, empty);
+                NumberFormat numberFormat = NumberFormat.getInstance();
+                labelSign.setText("\u20BC");
+                HBox pane = new HBox(labelPrice, labelSign);
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    labelPrice.setText(numberFormat.format(priceBigDecimal));
+                    setGraphic(pane);
+                }
+            }
+        });
         clmAction.setCellFactory(tc->new TableCell<Product,Void>(){
             final ImageView buttonDeleteGraphic = new ImageView();
             final ImageView buttonUpdateGraphic = new ImageView();
@@ -100,85 +121,20 @@ public class StockController implements Initializable {
                     setGraphic(pane);
 
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
-                        alert.showAndWait();
-                        if (alert.getResult() == ButtonType.YES) {
-                            productService.deleteProductbyID(clmID.getCellData(getTableRow().getIndex()));
-                            loadData();
-                        }
-
+                        Product selectedProduct=(Product) getTableRow().getItem();
+                        buttonDeleteAction(selectedProduct.getId());
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo)->{
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
-                            Parent root = loader.load();
-                            fxmlControllerStage = new Stage();
-                            fxmlControllerStage.setScene(new Scene(root));
-                            ObservableList<Product> list = productService.getData();
-                            Integer value= clmID.getCellData(getTableRow().getIndex());
-                            for (Product product : list) {
-                                if (product.getId()==value) {
-                                    if(loader.getController() instanceof ProductInfoController){
-                                        ProductInfoController productInfoController = loader.getController();
-                                        productInfoController.setStage(fxmlControllerStage);
-                                        productInfoController.setProduct(product);
-                                        productInfoController.setFileds();
-                                    }
-                                }
-                            }
-                            fxmlControllerStage.setTitle("Info");
-                            fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
-                            fxmlControllerStage.initOwner(((Node)eventInfo.getSource()).getScene().getWindow());
-                            fxmlControllerStage.setResizable(false);
-                            fxmlControllerStage.show();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-
+                        Product product= (Product) getTableRow().getItem();
+                        buttonInfoAction(eventInfo,product.getId());
+                        popUpWindowSetup(eventInfo,INFO_TITLE);
                     });
 
                     buttonUpdate.setOnAction((ActionEvent eventUpdate)->{
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_UPDATEPRODUCT));
-                            Parent root = loader.load();
-                            fxmlControllerStage = new Stage();
-                            fxmlControllerStage.setScene(new Scene(root));
-                            ObservableList<Product> list = productService.getData();
-                            Integer value= clmID.getCellData(getTableRow().getIndex());
-                            for (Product product : list) {
-                                if (product.getId()==value) {
-                                    if(loader.getController() instanceof UpdateProductController){
-                                        UpdateProductController updateProductController = loader.getController();
-                                        updateProductController.setStage(fxmlControllerStage);
-                                        updateProductController.setProduct(product);
-                                        updateProductController.setFileds();
-                                        updateProductController.setProductService(productService);
-                                    }
-                                }
-                            }
-                            fxmlControllerStage.setTitle("Update Product");
-                            fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
-                            fxmlControllerStage.initOwner(((Node)eventUpdate.getSource()).getScene().getWindow());
-                            fxmlControllerStage.setResizable(false);
-                            fxmlControllerStage.show();
-                            fxmlControllerStage.setOnHiding(new EventHandler<WindowEvent>() {
-
-                                @Override
-                                public void handle(WindowEvent event) {
-                                    Platform.runLater(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            tableProduct.refresh();
-                                        }
-                                    });
-                                }
-                            });
-                            loadData();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+                       Product product=(Product) getTableRow().getItem();
+                       updateButtonAction(product);
+                       popUpWindowSetup(eventUpdate,UPDATE_TITLE);
                     });
                 }
             }
@@ -188,26 +144,6 @@ public class StockController implements Initializable {
         clmAction.setResizable(false);
         clmAction.setMinWidth(120);
         clmAction.setMaxWidth(120);
-        clmPrice.setCellFactory(tc -> new TableCell<Product, BigDecimal>() {
-            private final Label labelSign = new Label();
-            private final Label labelPrice = new Label();
-            @Override
-            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
-                super.updateItem(priceBigDecimal, empty);
-                NumberFormat numberFormat = NumberFormat.getInstance();
-                labelSign.setText("\u20BC");
-                AnchorPane pane = new AnchorPane(labelPrice, labelSign);
-                AnchorPane.setLeftAnchor(labelPrice, 0.0);
-                AnchorPane.setRightAnchor(labelSign, 0.0);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    labelPrice.setText(numberFormat.format(priceBigDecimal));
-                    setGraphic(pane);
-                }
-            }
-        });
     }
 
     private void loadData(){
@@ -215,7 +151,22 @@ public class StockController implements Initializable {
         tableProduct.setItems(data);
     }
 
+    private void buttonDeleteAction(int productId){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,DELETE_ALERT_TEXT , ButtonType.YES, ButtonType.CANCEL);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            productService.deleteProductbyID(productId);
+            loadData();
+        }
+    }
+
     public void btnNewProductAction(ActionEvent event) {
+        btnNewProductCreation(event);
+        loadData();
+    }
+
+    private void btnNewProductCreation(ActionEvent event){
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_NEWPRODUCT));
         try{
             Parent root = loader.load();
@@ -235,7 +186,30 @@ public class StockController implements Initializable {
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow() );
         fxmlControllerStage.setResizable(false);
         fxmlControllerStage.showAndWait();
-        loadData();
+    }
+
+    private void buttonInfoAction(ActionEvent event,int id){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
+            Parent root = loader.load();
+            fxmlControllerStage = new Stage();
+            fxmlControllerStage.setScene(new Scene(root));
+            Product product=productService.getProductById(id);
+            if(product!=null){
+                if(loader.getController() instanceof ProductInfoController){
+                    ProductInfoController productInfoController = loader.getController();
+                    productInfoController.setStage(fxmlControllerStage);
+                    productInfoController.setProduct(product);
+                    productInfoController.setFileds();
+                }
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, PRODUCTNOTEXIST_ALERT);
+                alert.showAndWait();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void buttonLogOutAction(ActionEvent event) throws IOException {
@@ -248,4 +222,32 @@ public class StockController implements Initializable {
     public void btnBackAction(ActionEvent event) throws IOException {
         ScreenUtils.changeScreen(event, FXML_URL_HOMEPAGE);
     }
+
+    private void popUpWindowSetup(ActionEvent event,String windowTitle){
+        fxmlControllerStage.setTitle(windowTitle);
+        fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
+        fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
+        fxmlControllerStage.setResizable(false);
+        fxmlControllerStage.show();
+        fxmlControllerStage.setOnHiding(event1 -> Platform.runLater(() -> tableProduct.refresh()));
+    }
+
+    private void updateButtonAction(Product product){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_UPDATEPRODUCT));
+            Parent root = loader.load();
+            fxmlControllerStage = new Stage();
+            fxmlControllerStage.setScene(new Scene(root));
+            if(loader.getController() instanceof UpdateProductController){
+                UpdateProductController updateProductController = loader.getController();
+                updateProductController.setStage(fxmlControllerStage);
+                updateProductController.setProduct(product);
+                updateProductController.setFileds();
+                updateProductController.setProductService(productService);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }

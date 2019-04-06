@@ -11,6 +11,7 @@ import sample.model.Product;
 public class ProductInfoController {
     private Product product;
     private Stage stage;
+    private static String manatSymbol="\u20BC";
     @FXML private Label labelId;
     @FXML private Label labelName;
     @FXML private Label labelQuantity;
@@ -36,7 +37,7 @@ public class ProductInfoController {
         labelId.setText(String.valueOf(product.getId()));
         labelName.setText(product.getName());
         labelQuantity.setText(String.valueOf(product.getQuantity()));
-        labelPrice.setText(String.valueOf(product.getPrice()));
+        labelPrice.setText(String.valueOf(product.getPrice()+manatSymbol));
     }
 
 

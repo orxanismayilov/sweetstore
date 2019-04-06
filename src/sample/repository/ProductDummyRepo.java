@@ -7,10 +7,10 @@ import sample.model.Product;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.function.Predicate;
 
 public class ProductDummyRepo {
 
+    private static int idCounter=4;
     private static ObservableList<Product>  productList=FXCollections.observableArrayList(
             new Product(1,"Paxlava",50,BigDecimal.valueOf(1.50),LocalDate.of(2018,12,03)),
             new Product(2,"Wekerbura",23,BigDecimal.valueOf(2),LocalDate.of(2018,01,15)),
@@ -18,25 +18,28 @@ public class ProductDummyRepo {
     );
 
     public ObservableList getProductList(){
-        return copyList(productList);
+        return copyList(productList,product -> product.isActive());
     }
 
     public void addProduct(Product product){
         productList.add(product);
     }
 
-    public void deleteProduct(Predicate<Product> product){
-        productList.removeIf(product);
-    }
-
     public void deleteProductbyId(int id){
-        Predicate<Product> productPredicate=product -> product.getId()==id;
-        deleteProduct(productPredicate);
+        for(Product product:productList){
+            if (product.getId()==id){
+                product.setActive(false);
+            }
+        }
     }
 
     public Product isProductExist(String name){
         for (Product p:productList){
-            if (p.getName().equals(name)) return p;
+            if (p.getName().equals(name)) {
+                if (p.isActive()) {
+                    return p;
+                }
+            }
         }
         return null;
     }
@@ -61,9 +64,19 @@ public class ProductDummyRepo {
     }
 
     public int getProductNewId() {
-        int index=getProductList().size()-1;
-        Product product= (Product) getProductList().get(index);
-        return product.getId()+1;
+        return idCounter++;
+
+    }
+
+    private int findMaxId(){
+        //TODO: find max id
+        int maxId=-1;
+        for(Product product:productList){
+            if(maxId<product.getId()){
+               maxId=product.getId();
+            }
+        }
+        return maxId;
     }
 
     public Product getProductByName(String name){
@@ -78,19 +91,35 @@ public class ProductDummyRepo {
     public ObservableList getProductNames(){
         ObservableList<String> productNames=FXCollections.observableArrayList();
         for (Product product:productList){
-            productNames.add(product.getName());
+            if (product.isActive()) {
+                productNames.add(product.getName());
+            }
         }
         Collections.sort(productNames);
         return productNames;
     }
 
 
-    private ObservableList copyList(ObservableList<Product> list){
+    private ObservableList copyList(ObservableList<Product> list,CheckProductIsActive rule){
          ObservableList<Product> copiedList=FXCollections.observableArrayList();
          for(Product product:list){
-             copiedList.add(product);
+             if(rule.check(product)) {
+                 copiedList.add(product);
+             }
          }
-
          return copiedList;
+    }
+
+    public Product getProductById(int id) throws Exception {
+        for (Product product : productList) {
+            if (product.getId() == id ) {
+                return product;
+            }
+        }
+        return null;
+    }
+    @FunctionalInterface
+    private interface CheckProductIsActive {
+        public boolean check(Product product);
     }
 }
