@@ -41,11 +41,13 @@ public class OrderProductService {
 
     }
 
-    public StringBuilder fillDescription(){
+    public StringBuilder fillDescription(int id){
         ObservableList<OrderProduct> list=getOrderProductList();
         DESCRIPTION_TEXT=new StringBuilder();
         for(OrderProduct orderProduct:list){
-            DESCRIPTION_TEXT.append(orderProduct.getDescription());
+            if(id==orderProduct.getOrderId()) {
+                DESCRIPTION_TEXT.append(orderProduct.getDescription());
+            }
         }
         return DESCRIPTION_TEXT;
     }

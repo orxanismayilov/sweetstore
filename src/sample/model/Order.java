@@ -1,10 +1,11 @@
 package sample.model;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Order {
     private SimpleStringProperty customerName;
@@ -12,29 +13,30 @@ public class Order {
     private StringBuilder description;
     private SimpleStringProperty orderType;
     private SimpleIntegerProperty transactionID;
-    private BigDecimal totalPrice;
-    private BigDecimal totalDiscount;
-    private LocalDate date;
+    private SimpleObjectProperty<BigDecimal> totalPrice;
+    private SimpleObjectProperty<BigDecimal> totalDiscount;
+    private SimpleObjectProperty<LocalDateTime> date;
 
     public Order() {
         this.customerName = new SimpleStringProperty("");
         this.customerAddress=new SimpleStringProperty("");
         this.description = new StringBuilder();
-        this.totalPrice = new BigDecimal(0);
+        this.totalPrice = new SimpleObjectProperty<>(new BigDecimal(0));
         this.orderType = new SimpleStringProperty("");
         this.transactionID = new SimpleIntegerProperty(0);
-        this.totalDiscount=new BigDecimal(0);
-        this.date=LocalDate.now();
+        this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
+        this.date=new SimpleObjectProperty<>(LocalDateTime.now());
     }
 
-    public Order(String customerName, String customerAdderss, StringBuilder description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDate date) {
+    public Order(String customerName, String customerAdderss, StringBuilder description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDateTime date) {
         this.customerName = new SimpleStringProperty(customerName);
         this.customerAddress=new SimpleStringProperty(customerAdderss);
         this.description = description;
-        this.totalPrice = priceBigDecimal;
+        this.totalPrice = new SimpleObjectProperty<>(priceBigDecimal);
         this.orderType = new SimpleStringProperty(orderType);
+        this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
         this.transactionID = new SimpleIntegerProperty(transactionID);
-        this.date=date;
+        this.date=new SimpleObjectProperty<>(date);
     }
 
     public String getCustomerName() {
@@ -93,27 +95,39 @@ public class Order {
         this.transactionID.set(transactionID);
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
+        return date.get();
+    }
+
+    public SimpleObjectProperty<LocalDateTime> dateProperty() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDate(LocalDateTime date) {
+        this.date.set(date);
     }
 
     public BigDecimal getTotalPrice() {
+        return totalPrice.get();
+    }
+
+    public SimpleObjectProperty<BigDecimal> totalPriceProperty() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal priceBigDecimal) {
-        this.totalPrice = priceBigDecimal;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice.set(totalPrice);
     }
 
     public BigDecimal getTotalDiscount() {
+        return totalDiscount.get();
+    }
+
+    public SimpleObjectProperty<BigDecimal> totalDiscountProperty() {
         return totalDiscount;
     }
 
     public void setTotalDiscount(BigDecimal totalDiscount) {
-        this.totalDiscount = totalDiscount;
+        this.totalDiscount.set(totalDiscount);
     }
 }

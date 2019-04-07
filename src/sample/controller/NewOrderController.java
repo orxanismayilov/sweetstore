@@ -33,6 +33,7 @@ public class NewOrderController implements Initializable {
     private Order order;
     private Product product;
     private OrderService orderService;
+    private int orderId;
 
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static String ALERT_TEXT="Please enter valid input!";
@@ -50,6 +51,7 @@ public class NewOrderController implements Initializable {
     @FXML private TextField fieldPrice;
     @FXML private TextField fieldTotalPrice;
     @FXML private TextField fieldDiscount;
+    @FXML private TextField fieldDescription;
     @FXML private TableView tableView;
     @FXML private TableColumn<OrderProduct,Integer> columnId;
     @FXML private TableColumn<OrderProduct,String>  columnProduct;
@@ -60,7 +62,6 @@ public class NewOrderController implements Initializable {
     @FXML private TableColumn<OrderProduct,Void> columnAction;
     @FXML private Label labelAlert;
     @FXML private Label labelPossibleQuantity;
-    @FXML private Label labelDescription;
     @FXML private Label labelSum;
     @FXML private Label labelDiscount;
 
@@ -74,7 +75,8 @@ public class NewOrderController implements Initializable {
         fieldInputValidation();
         comboBoxProducts.setItems(productService.getProductNames());
         manageFocus();
-        order.setTransactionID(orderService.getOrderNewId());
+        orderId=orderService.getOrderNewId();
+        order.setTransactionID(orderId);
         getSelectedRow();
     }
 
@@ -147,7 +149,7 @@ public class NewOrderController implements Initializable {
                             orderProductService.removeOrderProductbyProductId(columnId.getCellData(getTableRow().getIndex()));
                             loadTable();
                             clearFields();
-                            labelDescription.setText(String.valueOf(orderProductService.fillDescription()));
+                            fieldDescription.setText(String.valueOf(orderProductService.fillDescription(orderId)));
                         }
                     });
                 }
@@ -173,7 +175,7 @@ public class NewOrderController implements Initializable {
     }
 
     public void saveButtonAction() {
-        DESCRIPTION_TEXT=orderProductService.fillDescription();
+        DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setDescription(DESCRIPTION_TEXT);
@@ -206,8 +208,8 @@ public class NewOrderController implements Initializable {
             product.setQuantity(product.getQuantity() - Integer.parseInt(fieldQuantity.getText()));
             orderProductService.addOrderProducttoList(orderProduct);
             orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription();
-            labelDescription.setText(String.valueOf(DESCRIPTION_TEXT));
+            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
+            fieldDescription.setText(String.valueOf(DESCRIPTION_TEXT));
             labelSum.setText(String.valueOf(order.getTotalPrice()));
             labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
             loadTable();
@@ -235,12 +237,11 @@ public class NewOrderController implements Initializable {
             orderProduct.setDiscount(Double.parseDouble(fieldDiscount.getText()));
             order.setTotalDiscount(order.getTotalDiscount().add(BigDecimal.valueOf(orderProduct.getDiscount())));
             orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription();
-            labelDescription.setText(String.valueOf(DESCRIPTION_TEXT));
+            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
+            fieldDescription.setText(String.valueOf(DESCRIPTION_TEXT));
             labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
             labelSum.setText(String.valueOf(order.getTotalPrice()));
             product.setQuantity(product.getQuantity() - Integer.parseInt(fieldQuantity.getText()));
-            tableView.getSelectionModel().clearSelection();
             clearFields();
             loadTable();
             buttonAdd.setText("ADD");
@@ -256,7 +257,7 @@ public class NewOrderController implements Initializable {
         tableView.setItems(list);
     }
 
-    private void clearFields(){
+    public void clearFields(){
         fieldPrice.setText("0");
         fieldTotalPrice.setText("0");
         fieldDiscount.setText("0");
@@ -264,6 +265,8 @@ public class NewOrderController implements Initializable {
         labelPossibleQuantity.setText("0");
         buttonAdd.setText("ADD");
         comboBoxProducts.getSelectionModel().clearSelection();
+        comboBoxProducts.disableProperty().setValue(false);
+        tableView.getSelectionModel().clearSelection();
     }
 
     public void getSelectedRow(){
@@ -286,6 +289,7 @@ public class NewOrderController implements Initializable {
         fieldDiscount.setText(String.valueOf(selectedRow.getDiscount()));
         fieldTotalPrice.setText(String.valueOf(selectedRow.getTotalPrice()));
         comboBoxProducts.setValue(selectedRow.getProductName());
+        comboBoxProducts.disableProperty().setValue(true);
         labelPossibleQuantity.setText(String.valueOf(orderProduct.getProductQuantity()+product.getQuantity()));
         buttonAdd.setText("Update");
         setOrderProduct(selectedRow);

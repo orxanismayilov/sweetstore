@@ -14,6 +14,7 @@ import sample.utils.Notification;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -39,14 +40,17 @@ public class AddProductController implements Initializable {
 
 
     public void saveProduct(){
+        saveButtonCreation();
+    }
 
+    private void saveButtonCreation(){
         try {
-            product=new Product(productName.getText(), Integer.parseInt(productQuantity.getText()), new BigDecimal(productPrice.getText()), LocalDate.now());
+            product=new Product(productName.getText(), Integer.parseInt(productQuantity.getText()), new BigDecimal(productPrice.getText()), LocalDateTime.now());
         } catch (NumberFormatException e) {
             String ALERT_TEXT = "Please enter valid input!";
             lblAlert.setText(ALERT_TEXT);
             return;
-           }
+        }
         notification=productService.addData(product);
         if(!notification.hasError()){
             Stage stage = (Stage) buttonSave.getScene().getWindow();

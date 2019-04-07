@@ -137,7 +137,7 @@ public class UpdateOrderController implements Initializable {
                             orderProductService.removeOrderProductbyProductId(columnId.getCellData(getTableRow().getIndex()));
                             loadTable();
                             clearFields();
-                            labelDescription.setText(String.valueOf(orderProductService.fillDescription()));
+                            labelDescription.setText(String.valueOf(orderProductService.fillDescription(order.getTransactionID())));
                         }
                     });
                 }
@@ -163,7 +163,7 @@ public class UpdateOrderController implements Initializable {
     }
 
     public void saveButtonAction() {
-        DESCRIPTION_TEXT=orderProductService.fillDescription();
+        DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setDescription(DESCRIPTION_TEXT);
@@ -196,7 +196,7 @@ public class UpdateOrderController implements Initializable {
             product.setQuantity(product.getQuantity() - Integer.parseInt(fieldQuantity.getText()));
             orderProductService.addOrderProducttoList(orderProduct);
             orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription();
+            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
             labelDescription.setText(String.valueOf(DESCRIPTION_TEXT));
             labelSum.setText(String.valueOf(order.getTotalPrice()));
             labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
@@ -224,7 +224,7 @@ public class UpdateOrderController implements Initializable {
             orderProduct.setDiscount(Double.parseDouble(fieldDiscount.getText()));
             order.setTotalDiscount(order.getTotalDiscount().add(BigDecimal.valueOf(orderProduct.getDiscount())));
             orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription();
+            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
             labelDescription.setText(String.valueOf(DESCRIPTION_TEXT));
             labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
             labelSum.setText(String.valueOf(order.getTotalPrice()));

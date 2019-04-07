@@ -3,7 +3,6 @@ package sample.controller;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,13 +13,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.util.Callback;
 import sample.model.Product;
 import sample.service.ProductService;
 import sample.utils.ScreenUtils;
@@ -29,7 +25,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.NumberFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class StockController implements Initializable {
@@ -54,7 +51,7 @@ public class StockController implements Initializable {
     @FXML private TableColumn<Product,Integer> clmID;
     @FXML private TableColumn<Product,String> clmName;
     @FXML private TableColumn<Product,BigDecimal> clmPrice;
-    @FXML private TableColumn<Product,LocalDate> clmLastUpdate;
+    @FXML private TableColumn<Product,LocalDateTime> clmLastUpdate;
     @FXML private TableColumn<Product,Integer> clmQuantity;
     @FXML private TableColumn<Product,Void> clmAction;
     @FXML private BorderPane pane;
@@ -127,7 +124,7 @@ public class StockController implements Initializable {
 
                     buttonInfo.setOnAction((ActionEvent eventInfo)->{
                         Product product= (Product) getTableRow().getItem();
-                        buttonInfoAction(eventInfo,product.getId());
+                        buttonInfoAction(product.getId());
                         popUpWindowSetup(eventInfo,INFO_TITLE);
                     });
 
@@ -136,6 +133,18 @@ public class StockController implements Initializable {
                        updateButtonAction(product);
                        popUpWindowSetup(eventUpdate,UPDATE_TITLE);
                     });
+                }
+            }
+        });
+        clmLastUpdate.setCellFactory(tc->new TableCell<Product,LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime time,boolean empty){
+                super.updateItem(time,empty);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                if (empty){
+                    setText(null);
+                } else {
+                    setText(time.format(formatter));
                 }
             }
         });
@@ -188,7 +197,7 @@ public class StockController implements Initializable {
         fxmlControllerStage.showAndWait();
     }
 
-    private void buttonInfoAction(ActionEvent event,int id){
+    private void buttonInfoAction(int id){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
             Parent root = loader.load();
@@ -212,7 +221,7 @@ public class StockController implements Initializable {
 
     }
 
-    public void buttonLogOutAction(ActionEvent event) throws IOException {
+    public void buttonLogOutAction() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
         Parent root = loader.load();
         Stage stage = (Stage) pane.getScene().getWindow();
@@ -242,7 +251,7 @@ public class StockController implements Initializable {
                 UpdateProductController updateProductController = loader.getController();
                 updateProductController.setStage(fxmlControllerStage);
                 updateProductController.setProduct(product);
-                updateProductController.setFileds();
+                updateProductController.setFields();
                 updateProductController.setProductService(productService);
             }
         }catch (Exception e){

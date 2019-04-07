@@ -29,4 +29,8 @@ public class OrderService {
     public int getOrderNewId() {
         return orderDummyRepo.getOrderNewId();
     }
+
+    public void isOrderValid(Order order){
+
+    }
 }

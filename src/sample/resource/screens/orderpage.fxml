@@ -55,12 +55,12 @@
    <center>
       <TableView fx:id="tableView" prefHeight="479.0" prefWidth="606.0" stylesheets="@../css/stockStyleSheet.css" BorderPane.alignment="CENTER">
         <columns>
+            <TableColumn fx:id="clmTransactionID" editable="false" prefWidth="133.0" text="TransactionID" />
           <TableColumn fx:id="clmName" editable="false" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="clmAddress" prefWidth="75.0" text="Adress" />
             <TableColumn fx:id="clmDescription" editable="false" prefWidth="69.0" text="Description" />
             <TableColumn fx:id="clmTotalprice" editable="false" prefWidth="265.0" text="Total Price" />
             <TableColumn fx:id="clmOrdertype" editable="false" prefWidth="282.0" text="Type" />
-            <TableColumn fx:id="clmTransactionID" editable="false" prefWidth="133.0" text="TransactionID" />
             <TableColumn fx:id="clmDate" editable="false" prefWidth="75.0" text="Date" />
             <TableColumn fx:id="clmAction" prefWidth="75.0" text="Action" />
         </columns>

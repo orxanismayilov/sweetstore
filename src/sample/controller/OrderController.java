@@ -1,5 +1,6 @@
 package sample.controller;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Order;
 import sample.model.Product;
+import sample.service.OrderProductService;
 import sample.service.OrderService;
 import sample.utils.ScreenUtils;
 
@@ -27,21 +29,27 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class OrderController implements Initializable {
 
     private OrderService orderService;
+    private Stage fxmlControllerStage;
+    private OrderProductService orderProductService;
+
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
     private final static String FXML_URL_UPDATEORDER="/sample/resource/screens/updateorder.fxml";
     private final static String FXML_URL_NEWORDER= "/sample/resource/screens/neworder.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
     private final static String FXML_URL_LOGINPAGE="/sample/resource/screens/loginpage.fxml";
+    private final static String UPDATE_WINDOW_TITLE="Update order";
+    private final static String INFO_WINDOW_TITLE="Oder Info";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
 
-    private Stage fxmlControllerStage;
     @FXML private TableView<Order> tableView;
     @FXML private TableColumn<Order, String> clmName;
     @FXML private TableColumn<Order, String> clmAddress;
@@ -49,7 +57,7 @@ public class OrderController implements Initializable {
     @FXML private TableColumn<Order,String> clmOrdertype;
     @FXML private TableColumn<Order,Integer> clmTransactionID;
     @FXML private TableColumn<Order,StringBuilder > clmDescription;
-    @FXML private TableColumn<Order,LocalDate>clmDate;
+    @FXML private TableColumn<Order,LocalDateTime>clmDate;
     @FXML private TableColumn<Order, Void> clmAction;
     @FXML private BorderPane pane;
 
@@ -59,7 +67,7 @@ public class OrderController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         orderService=new OrderService();
         tableBinding();
-        tableView.setItems(orderService.getData());
+        loadTable();
     }
 
     public void addOrder(ActionEvent event) {
@@ -76,6 +84,11 @@ public class OrderController implements Initializable {
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
         fxmlControllerStage.setResizable(false);
         fxmlControllerStage.show();
+    }
+
+    private void loadTable(){
+        ObservableList data=orderService.getData();
+        tableView.setItems(data);
     }
 
     public void buttonLogOutAction() throws IOException {
@@ -130,64 +143,21 @@ public class OrderController implements Initializable {
                     setGraphic(pane);
 
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
-                        alert.showAndWait();
-                        if (alert.getResult() == ButtonType.YES) {
-                            orderService.deleteOrderByTransactionId(clmTransactionID.getCellData(getTableRow().getIndex()));
-                            tableBinding();
-                        }
-
+                        Order order=(Order) getTableRow().getItem();
+                        buttonDeleteAction(order);
+                        tableBinding();
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo)->{
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
-                            Parent root = loader.load();
-                            fxmlControllerStage = new Stage();
-                            fxmlControllerStage.setScene(new Scene(root));
-                            ObservableList<Product> list =orderService.getData();
-                            Integer value= clmTransactionID.getCellData(getTableRow().getIndex());
-                            for (Product product : list) {
-                                if (product.getId()==value) {
-                                    if(loader.getController() instanceof ProductInfoController){
-                                        ProductInfoController productInfoController = loader.getController();
-                                        productInfoController.setStage(fxmlControllerStage);
-                                        productInfoController.setProduct(product);
-                                        productInfoController.setFileds();
-                                    }
-                                }
-                            }
-                            fxmlControllerStage.setTitle("Update");
-                            fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
-                            fxmlControllerStage.initOwner(((Node)eventInfo.getSource()).getScene().getWindow());
-                            fxmlControllerStage.setResizable(false);
-                            fxmlControllerStage.show();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-
+                        Order order=(Order) getTableRow().getItem();
+                        buttonInfoAction(order);
+                        popUpWindowSetup(eventInfo,INFO_WINDOW_TITLE);
                     });
 
                     buttonUpdate.setOnAction((ActionEvent event)->{
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_UPDATEORDER));
-                            Parent root = loader.load();
-                            fxmlControllerStage = new Stage();
-                            fxmlControllerStage.setScene(new Scene(root));
-                            int value= clmTransactionID.getCellData(getTableRow().getIndex());
-                            if(loader.getController() instanceof UpdateOrderController){
-                                UpdateOrderController updateOrderController = loader.getController();
-                                updateOrderController.setStage(fxmlControllerStage);
-                                updateOrderController.setOrderId(value);
-                            }
-                            fxmlControllerStage.setTitle("Update");
-                            fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
-                            fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
-                            fxmlControllerStage.setResizable(false);
-                            fxmlControllerStage.show();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+                        Order order=(Order) getTableRow().getItem();
+                        buttonUpdateAction(order);
+                        popUpWindowSetup(event,UPDATE_WINDOW_TITLE);
                     });
                 }
             }
@@ -215,6 +185,71 @@ public class OrderController implements Initializable {
                 }
             }
         });
+        clmDate.setCellFactory(tc->new TableCell<Order,LocalDateTime>(){
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+                DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                if (empty){
+                    setText(null);
+                } else  {
+                    setText(item.format(formatter));
+                }
+            }
+        });
     }
 
+    private void buttonDeleteAction(Order order){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            int id=order.getTransactionID();
+            orderService.deleteOrderByTransactionId(id);
+            orderProductService.deletOrderProductbyOrderId(id);
+        }
+    }
+
+    private void buttonUpdateAction(Order order){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_UPDATEORDER));
+            Parent root = loader.load();
+            fxmlControllerStage = new Stage();
+            fxmlControllerStage.setScene(new Scene(root));
+            int id= order.getTransactionID();
+            if(loader.getController() instanceof UpdateOrderController){
+                UpdateOrderController updateOrderController = loader.getController();
+                updateOrderController.setStage(fxmlControllerStage);
+                updateOrderController.setOrderId(id);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void buttonInfoAction (Order order){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
+            Parent root = loader.load();
+            fxmlControllerStage = new Stage();
+            fxmlControllerStage.setScene(new Scene(root));
+            if(loader.getController() instanceof OrderInfoController){
+             /*   OrderInfoController orderInfoController = loader.getController();
+                orderInfoController.setStage(fxmlControllerStage);
+                orderInfoController.setOrder(order);
+                orderInfoController.setFileds();*/
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void popUpWindowSetup(ActionEvent event,String windowTitle){
+        fxmlControllerStage.setTitle(windowTitle);
+        fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
+        fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
+        fxmlControllerStage.setResizable(false);
+        fxmlControllerStage.show();
+        fxmlControllerStage.setOnHiding(event1 -> Platform.runLater(() ->loadTable() ));
+    }
 }

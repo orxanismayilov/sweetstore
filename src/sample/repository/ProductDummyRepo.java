@@ -6,15 +6,16 @@ import sample.model.Product;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 public class ProductDummyRepo {
 
     private static int idCounter=4;
     private static ObservableList<Product>  productList=FXCollections.observableArrayList(
-            new Product(1,"Paxlava",50,BigDecimal.valueOf(1.50),LocalDate.of(2018,12,03)),
-            new Product(2,"Wekerbura",23,BigDecimal.valueOf(2),LocalDate.of(2018,01,15)),
-            new Product(3,"Tort",12,BigDecimal.valueOf(2.30),LocalDate.of(2019,03,18))
+            new Product(1,"Paxlava",50,BigDecimal.valueOf(1.50),LocalDateTime.now()),
+            new Product(2,"Wekerbura",23,BigDecimal.valueOf(2),LocalDateTime.now()),
+            new Product(3,"Tort",12,BigDecimal.valueOf(2.30),LocalDateTime.now())
     );
 
     public ObservableList getProductList(){
@@ -49,7 +50,7 @@ public class ProductDummyRepo {
             if (p.getId()==id){
                 p.setQuantity(p.getQuantity()+newProduct.getQuantity());
                 p.setPrice(newProduct.getPrice());
-                p.setUpdateDate(LocalDate.now());
+                p.setUpdateDate(LocalDateTime.now());
             }
         }
     }

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="580.0" maxWidth="1000.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1000.0" stylesheets="@../css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.NewOrderController">
+<AnchorPane maxHeight="580.0" maxWidth="1050.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1050.0" stylesheets="@../css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.NewOrderController">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #00ABF6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -21,15 +21,15 @@
             </Label>
          </children>
       </AnchorPane>
-      <TextField fx:id="fieldCustomerName" layoutX="147.0" layoutY="80.0" maxWidth="150.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" promptText="Customer Name" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="720.0" AnchorPane.topAnchor="80.0" />
-      <TextField fx:id="fieldCustomerAddress" layoutX="443.0" layoutY="80.0" maxWidth="150.0" prefHeight="25.0" prefWidth="150.0" promptText="Address" AnchorPane.leftAnchor="405.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="80.0" />
-      <ComboBox fx:id="comboOrderType" layoutX="605.0" layoutY="80.0" maxWidth="150.0" prefWidth="150.0" promptText="Order Type" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="80.0" />
+      <TextField fx:id="fieldCustomerName" layoutX="147.0" layoutY="80.0" maxWidth="250.0" minWidth="150.0" prefHeight="25.0" prefWidth="250.0" promptText="Customer Name" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="80.0" />
+      <TextField fx:id="fieldCustomerAddress" layoutX="443.0" layoutY="80.0" maxWidth="250.0" prefHeight="25.0" prefWidth="250.0" promptText="Address" AnchorPane.leftAnchor="535.0" AnchorPane.topAnchor="80.0" />
+      <ComboBox fx:id="comboOrderType" layoutX="605.0" layoutY="80.0" maxWidth="200.0" prefWidth="200.0" promptText="Order Type" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="80.0" />
       <ComboBox fx:id="comboBoxProducts" layoutX="25.0" layoutY="198.0" onAction="#comboBoxAction" prefWidth="150.0" promptText="Product" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="210.0" />
-      <TextField fx:id="fieldQuantity" layoutX="260.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="210.0" />
-      <TextField fx:id="fieldPrice" layoutX="420.0" layoutY="198.0" maxWidth="100.0" prefWidth="75.0" text="0" AnchorPane.leftAnchor="405.0" AnchorPane.topAnchor="210.0" />
-      <TextField fx:id="fieldDiscount" layoutX="608.0" layoutY="198.0" maxWidth="100.0" prefWidth="75.0" text="0" AnchorPane.leftAnchor="590.0" AnchorPane.topAnchor="210.0" />
-      <TextField fx:id="fieldTotalPrice" layoutX="800.0" layoutY="198.0" maxWidth="100.0" prefWidth="75.0" text="0" AnchorPane.leftAnchor="785.0" AnchorPane.topAnchor="210.0" />
-      <Button fx:id="buttonAdd" layoutX="666.0" layoutY="198.0" maxWidth="50.0" mnemonicParsing="false" onAction="#addButtonAction" prefWidth="50.0" text="ADD" AnchorPane.leftAnchor="902.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="210.0" />
+      <TextField fx:id="fieldQuantity" layoutX="260.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="210.0" />
+      <TextField fx:id="fieldPrice" editable="false" layoutX="420.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="395.0" AnchorPane.topAnchor="210.0" />
+      <TextField fx:id="fieldDiscount" layoutX="608.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="580.0" AnchorPane.topAnchor="210.0" />
+      <TextField fx:id="fieldTotalPrice" editable="false" layoutX="800.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="775.0" AnchorPane.topAnchor="210.0" />
+      <Button fx:id="buttonAdd" layoutX="666.0" layoutY="198.0" maxWidth="65.0" mnemonicParsing="false" onAction="#addButtonAction" prefWidth="65.0" text="ADD" AnchorPane.leftAnchor="882.0" AnchorPane.rightAnchor="103.0" AnchorPane.topAnchor="210.0" />
       <TableView fx:id="tableView" layoutX="345.0" layoutY="201.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="250.0">
          <columns>
             <TableColumn fx:id="columnId" prefWidth="75.0" text="ID" />
@@ -47,7 +47,7 @@
       <Button fx:id="buttonSave" layoutX="554.0" layoutY="513.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="513.0" />
       <Button fx:id="buttonClose" layoutX="675.0" layoutY="513.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Close" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="513.0" />
       <Label layoutX="38.0" layoutY="84.0" maxWidth="90.0" prefWidth="90.0" text="Customer Name:" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="85.0" />
-      <Label layoutX="320.0" layoutY="84.0" maxWidth="100.0" prefWidth="100.0" text="Customer Address:" AnchorPane.leftAnchor="290.0" AnchorPane.topAnchor="85.0" />
+      <Label layoutX="320.0" layoutY="84.0" maxWidth="100.0" prefWidth="100.0" text="Customer Address:" AnchorPane.leftAnchor="415.0" AnchorPane.topAnchor="85.0" />
       <Separator layoutY="180.0" maxHeight="5.0" prefHeight="5.0" prefWidth="770.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="180.0" />
       <Label layoutX="25.0" layoutY="135.0" maxWidth="65.0" prefWidth="65.0" text="Description:" AnchorPane.leftAnchor="25.0" />
       <Separator layoutX="310.0" layoutY="475.0" maxWidth="5.0" prefHeight="5.0" prefWidth="200.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="475.0" />
@@ -75,7 +75,6 @@
       <Label layoutX="376.0" layoutY="215.0" maxWidth="29.0" prefWidth="29.0" text="Price:" AnchorPane.leftAnchor="358.0" AnchorPane.topAnchor="215.0" />
       <Label layoutX="543.0" layoutY="202.0" maxWidth="50.0" prefWidth="50.0" text="Discount:" AnchorPane.leftAnchor="522.0" AnchorPane.topAnchor="215.0" />
       <Label layoutX="725.0" layoutY="202.0" maxWidth="60.0" prefWidth="60.0" text="Total price:" AnchorPane.leftAnchor="707.0" AnchorPane.topAnchor="215.0" />
-      <Label fx:id="labelDescription" alignment="TOP_LEFT" layoutX="364.0" layoutY="136.0" maxHeight="50.0" prefHeight="50.0" style="-fx-background-color: white;" text="Description" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="119.0" />
       <Label layoutX="211.0" layoutY="512.0" text="₼" AnchorPane.leftAnchor="205.0">
          <font>
             <Font size="18.0" />
@@ -86,31 +85,28 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="500.0" layoutY="210.0" text="₼" AnchorPane.leftAnchor="490.0">
+      <Label layoutX="500.0" layoutY="210.0" text="₼" AnchorPane.leftAnchor="457.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="681.0" layoutY="209.0" text="₼" AnchorPane.leftAnchor="675.0" AnchorPane.topAnchor="210.0">
+      <Label layoutX="681.0" layoutY="209.0" text="₼" AnchorPane.leftAnchor="642.0" AnchorPane.topAnchor="210.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="868.0" layoutY="210.0" text="₼" AnchorPane.leftAnchor="870.0" AnchorPane.topAnchor="210.0">
+      <Label layoutX="868.0" layoutY="210.0" text="₼" AnchorPane.leftAnchor="837.0" AnchorPane.topAnchor="210.0">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <Label fx:id="labelAlert" layoutX="27.0" layoutY="458.0" prefHeight="17.0" prefWidth="162.0" textFill="#f50c0c" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
-      <Label layoutX="326.0" layoutY="213.0" text="/" AnchorPane.leftAnchor="325.0">
+      <Label fx:id="labelPossibleQuantity" layoutX="336.0" layoutY="214.0" text="/0" AnchorPane.leftAnchor="312.0">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="labelPossibleQuantity" layoutX="336.0" layoutY="214.0" text="0" AnchorPane.leftAnchor="330.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <TextField fx:id="fieldDescription" alignment="TOP_LEFT" editable="false" layoutX="119.0" layoutY="131.0" maxHeight="50.0" prefHeight="50.0" promptText="Description." AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="120.0" />
+      <Button layoutX="962.0" layoutY="210.0" mnemonicParsing="false" onAction="#clearFields" prefWidth="65.0" text="Clear" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="210.0" />
    </children>
 </AnchorPane>

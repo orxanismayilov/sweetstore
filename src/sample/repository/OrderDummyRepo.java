@@ -7,13 +7,15 @@ import sample.model.Order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 public class OrderDummyRepo {
+    private static int id=4;
     private static ObservableList<Order>  orderList=FXCollections.observableArrayList(
-            new Order("Orxan","Muxax",new StringBuilder("Mallar"),BigDecimal.valueOf(15),"Online",123,LocalDate.of(2015, 02, 20)),
-            new Order("Amil","Baki",new StringBuilder("sirniyyat"),BigDecimal.valueOf(23),"offline",456, LocalDate.of(1992,12,15)),
-            new Order("eltun","Tala",new StringBuilder("guller"),BigDecimal.valueOf(456),"dsfjds;",132,LocalDate.of(1627,12,15))
+            new Order("Orxan","Muxax",new StringBuilder("Mallar"),BigDecimal.valueOf(15),"Online",1,LocalDateTime.now()),
+            new Order("Amil","Baki",new StringBuilder("sirniyyat"),BigDecimal.valueOf(23),"offline",2, LocalDateTime.now()),
+            new Order("eltun","Tala",new StringBuilder("guller"),BigDecimal.valueOf(456),"dsfjds;",3,LocalDateTime.now())
     );
 
 
@@ -35,7 +37,7 @@ public class OrderDummyRepo {
     }
 
     public int getOrderNewId(){
-        int index=orderList.size()-1;
-        return orderList.get(index).getTransactionID()+1;
+
+        return id++;
     }
 }

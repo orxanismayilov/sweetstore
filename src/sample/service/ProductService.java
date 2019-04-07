@@ -58,7 +58,7 @@ public class ProductService {
     }
 
     private String reFixProduct(Product product){
-            String finalName = product.getName().trim();
+            String finalName = product.getName().toLowerCase().trim();
             finalName = finalName.substring(0, 1).toUpperCase() + finalName.substring(1);
             return finalName;
     }
