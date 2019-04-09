@@ -1,11 +1,7 @@
 package sample.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Product {
@@ -13,33 +9,34 @@ public class Product {
     private SimpleStringProperty name;
     private SimpleIntegerProperty quantity;
     private SimpleObjectProperty<LocalDateTime> updateDate;
-    private SimpleObjectProperty<BigDecimal> price;
+    private SimpleFloatProperty price;
     private boolean isActive;
 
     public Product() {
-        this.id=new SimpleIntegerProperty(0);
+        this.id = new SimpleIntegerProperty(0);
         this.name = new SimpleStringProperty("");
         this.quantity = new SimpleIntegerProperty(0);
-        this.price = new SimpleObjectProperty<>(new BigDecimal(0));
-        this.updateDate=new SimpleObjectProperty<>(LocalDateTime.now());
-        this.isActive=true;
+        this.price = new SimpleFloatProperty(0);
+        this.updateDate = new SimpleObjectProperty<>(LocalDateTime.now());
+        this.isActive = true;
     }
 
-    public Product(int id, String name, int quantity, BigDecimal price, LocalDateTime updateDate) {
-        this.id=new SimpleIntegerProperty(id);
+    public Product(int id, String name, int quantity, float price, LocalDateTime updateDate) {
+        this.id = new SimpleIntegerProperty(id);
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleObjectProperty<>(price);
+        this.price = new SimpleFloatProperty(price);
         this.updateDate = new SimpleObjectProperty<>(updateDate);
-        this.isActive=true;
+        this.isActive = true;
     }
-    public Product(String name, int quantity, BigDecimal price, LocalDateTime updateDate) {
-        this.id=new SimpleIntegerProperty(0);
+
+    public Product(String name, int quantity, float price, LocalDateTime updateDate) {
+        this.id = new SimpleIntegerProperty(0);
         this.name = new SimpleStringProperty(name);
         this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleObjectProperty<>(price);
+        this.price = new SimpleFloatProperty(price);
         this.updateDate = new SimpleObjectProperty<>(updateDate);
-        this.isActive=true;
+        this.isActive = true;
     }
 
     public int getId() {
@@ -90,15 +87,15 @@ public class Product {
         return updateDate;
     }
 
-    public BigDecimal getPrice() {
+    public float getPrice() {
         return price.get();
     }
 
-    public SimpleObjectProperty<BigDecimal> priceProperty() {
+    public SimpleFloatProperty priceProperty() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(float price) {
         this.price.set(price);
     }
 

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1100.0" stylesheets="file:/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/css/loginStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.LoginController">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #00ABF6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -21,21 +21,41 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="50.0" prefHeight="350.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <VBox alignment="CENTER" fillWidth="false" layoutX="500.0" layoutY="108.0" prefHeight="100.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
          <children>
-            <VBox alignment="CENTER" layoutX="53.0" layoutY="53.0" prefHeight="350.0" prefWidth="547.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ImageView>
-                     <image>
-                        <Image url="file:/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/images/user_male_circle_filled_100px.png" />
-                     </image>
-                  </ImageView>
-                  <TextField fx:id="txtUsername" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" promptText="Username" />
-                  <PasswordField fx:id="txtPassword" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" promptText="Password" />
-                  <Button mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="25.0" prefWidth="150.0" text="Sign In" />
-               </children>
-            </VBox>
+            <ImageView fitHeight="100.0" fitWidth="100.0" nodeOrientation="INHERIT">
+               <image>
+                  <Image url="file:/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/images/user_male_circle_filled_100px.png" />
+               </image>
+            </ImageView>
          </children>
-      </AnchorPane>
+      </VBox>
+      <VBox alignment="CENTER" fillWidth="false" layoutX="500.0" layoutY="275.0" prefHeight="25.0" prefWidth="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="210.0">
+         <children>
+            <TextField fx:id="txtUsername" maxHeight="25.0" maxWidth="150.0" minHeight="40.0" minWidth="250.0" prefHeight="25.0" prefWidth="150.0" promptText="Username">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="500.0" layoutY="232.0" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="250.0">
+         <children>
+            <PasswordField fx:id="txtPassword" maxHeight="25.0" maxWidth="150.0" minHeight="40.0" minWidth="250.0" prefHeight="25.0" prefWidth="150.0" promptText="Password">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </PasswordField>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="475.0" layoutY="289.0" prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="320.0">
+         <children>
+            <Button fx:id="btnSignin" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="40.0" prefWidth="250.0" text="Sign In">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

@@ -7,29 +7,33 @@ import javafx.stage.Stage;
 import sample.model.Product;
 
 
-
 public class ProductInfoController {
     private Product product;
     private Stage stage;
-    private static String manatSymbol="\u20BC";
-    @FXML private Label labelId;
-    @FXML private Label labelName;
-    @FXML private Label labelQuantity;
-    @FXML private Label labelPrice;
-    @FXML private Button btnCancel;
+    private static String manatSymbol = "\u20BC";
+    @FXML
+    private Label labelId;
+    @FXML
+    private Label labelName;
+    @FXML
+    private Label labelQuantity;
+    @FXML
+    private Label labelPrice;
+    @FXML
+    private Button btnCancel;
 
-    public void cancelAction(javafx.event.ActionEvent event){
-        Stage stage=(Stage) btnCancel.getScene().getWindow();
+    public void cancelAction(javafx.event.ActionEvent event) {
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
 
     }
 
-    public void setProduct(Product product){
-        this.product=product;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public void setStage(Stage stage){
-        this.stage=stage;
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
 
@@ -37,7 +41,7 @@ public class ProductInfoController {
         labelId.setText(String.valueOf(product.getId()));
         labelName.setText(product.getName());
         labelQuantity.setText(String.valueOf(product.getQuantity()));
-        labelPrice.setText(String.valueOf(product.getPrice()+manatSymbol));
+        labelPrice.setText(String.valueOf(product.getPrice() + manatSymbol));
     }
 
 

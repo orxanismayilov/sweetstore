@@ -1,7 +1,5 @@
 package sample.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,69 +9,71 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
-import sample.utils.Notification;
 
-import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class UpdateProductController implements Initializable {
 
-    private static String ALERT_TEXT="Please enter valid input!";
-    private static String PRICE_REGEX="^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
-    private static String NAME_ERROR_KEY="nameError";
-    private static String PRICE_ERROR_KEY="priceError";
+    private static String PRICE_REGEX = "^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
+    private final static String PRICE_ERROR = "Please enter valid price.";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
     private Stage stage;
     private Product existedProduct;
     private ProductService productService;
 
-    @FXML private TextField fieldName;
-    @FXML private Label labelQuantity;
-    @FXML private TextField fieldPrice;
-    @FXML private Button buttonSave,buttonCancel;
-    @FXML private Label labelAlert;
+    @FXML
+    private TextField fieldName;
+    @FXML
+    private TextField fieldQuantity;
+    @FXML
+    private TextField fieldPrice;
+    @FXML
+    private Button buttonSave, buttonCancel;
+    @FXML
+    private Label labelAlert;
 
-    public void buttonSaveAction(){
-        Product product=new Product();
-        buttonSaveCreation(product);
-
-    }
-
-    private void buttonSaveCreation(Product product){
+    public void buttonSaveAction() {
+        Product product = new Product();
         product.setName(fieldName.getText());
         product.setQuantity(existedProduct.getQuantity());
-        product.setPrice(BigDecimal.valueOf(Double.parseDouble(fieldPrice.getText())));
-        Notification error=productService.isProductValid(product);
-        if(!error.hasError()) {
-            existedProduct.setName(product.getName());
-            existedProduct.setPrice(product.getPrice());
-            existedProduct.setUpdateDate(LocalDateTime.now());
+        try {
+            product.setPrice(Float.parseFloat(fieldPrice.getText()));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            labelAlert.setText(PRICE_ERROR);
+            return;
+        }
+
+        Map<String, Map<Boolean, List<String>>> validation = productService.updateProductNameAndPrice(product, existedProduct.getId());
+
+        if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
             Stage stage = (Stage) buttonSave.getScene().getWindow();
             stage.close();
         } else {
-            labelAlert.setText(error.errorMessage());
-            handleErrors();
+
+            handleErrors(validation);
         }
+
     }
 
-    public void buttonCancelAction(){
+
+    public void buttonCancelAction() {
         Stage stage = (Stage) buttonCancel.getScene().getWindow();
         stage.close();
     }
 
-    public void setFields(){
+    void setFields() {
         fieldName.setText(existedProduct.getName());
-        labelQuantity.setText(String.valueOf(existedProduct.getQuantity()));
+        fieldQuantity.setText(String.valueOf(existedProduct.getQuantity()));
         fieldPrice.setText(String.valueOf(existedProduct.getPrice()));
     }
 
     public void setProduct(Product product) {
         this.existedProduct = product;
+
     }
 
     public void setStage(Stage stage) {
@@ -85,37 +85,45 @@ public class UpdateProductController implements Initializable {
         validatePrice();
     }
 
-    private void validatePrice(){
-        fieldPrice.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches(PRICE_REGEX)) {
-                    fieldPrice.pseudoClassStateChanged(errorClass,true);
-                } else {
-                    fieldPrice.pseudoClassStateChanged(errorClass,false);
-                }
+    private void validatePrice() {
+        fieldPrice.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches(PRICE_REGEX)) {
+                fieldPrice.pseudoClassStateChanged(errorClass, true);
+            } else {
+                fieldPrice.pseudoClassStateChanged(errorClass, false);
             }
         });
     }
 
-    private void handleErrors(){
-        Map<String,Boolean> map=productService.getValidation();
-        if (map.get(NAME_ERROR_KEY)){
-            fieldName.pseudoClassStateChanged(errorClass,true);
+    private void handleErrors(Map<String, Map<Boolean, List<String>>> validation) {
+        Map<Boolean, List<String>> nameMap = validation.get("nameError");
+        Map<Boolean, List<String>> priceMap = validation.get("priceError");
+        StringBuilder errors = new StringBuilder();
+        if (nameMap.containsKey(true)) {
+            fieldName.pseudoClassStateChanged(errorClass, true);
+            List<String> ls = nameMap.get(true);
+            for (String error : ls) {
+                errors.append(error);
+            }
         } else {
-            fieldName.pseudoClassStateChanged(errorClass,false);
+            fieldName.pseudoClassStateChanged(errorClass, false);
         }
 
-        if (map.get(PRICE_ERROR_KEY)){
-            fieldPrice.pseudoClassStateChanged(errorClass,true);
-        }else {
-            fieldPrice.pseudoClassStateChanged(errorClass,false);
+        if (priceMap.containsKey(true)) {
+            fieldPrice.pseudoClassStateChanged(errorClass, true);
+            List<String> ls = priceMap.get(true);
+            for (String error : ls) {
+                errors.append(error);
+            }
+        } else {
+            fieldPrice.pseudoClassStateChanged(errorClass, false);
         }
+        labelAlert.setText(String.valueOf(errors));
+
     }
 
-    public void setProductService(ProductService productService) {
-        this.productService=productService;
+    protected void setProductService(ProductService productService) {
+        this.productService = productService;
     }
 
 }

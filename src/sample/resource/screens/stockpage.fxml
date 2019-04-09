@@ -29,7 +29,7 @@
                   </ImageView>
                </graphic>
             </MenuButton>
-            <Button layoutX="21.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBackAction">
+            <Button fx:id="backButton" layoutX="21.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBackAction">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">
                      <image>
@@ -58,8 +58,8 @@
             <TableColumn fx:id="clmID" prefWidth="95.0" text="Id" />
           <TableColumn fx:id="clmName" editable="false" prefWidth="261.0" text="Product Name" />
             <TableColumn fx:id="clmPrice" editable="false" prefWidth="69.0" text="Price" />
-            <TableColumn fx:id="clmLastUpdate" editable="false" prefWidth="265.0" text="Last Update" />
             <TableColumn fx:id="clmQuantity" editable="false" prefWidth="282.0" text="Quantity" />
+            <TableColumn fx:id="clmLastUpdate" editable="false" prefWidth="265.0" text="Last Update" />
             <TableColumn fx:id="clmAction" editable="false" prefWidth="133.0" text="Action" />
         </columns>
          <columnResizePolicy>

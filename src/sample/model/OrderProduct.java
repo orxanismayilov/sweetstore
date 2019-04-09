@@ -1,5 +1,6 @@
 package sample.model;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -13,10 +14,11 @@ public class OrderProduct {
     private SimpleIntegerProperty productId;
     private SimpleStringProperty productName;
     private SimpleIntegerProperty productQuantity;
-    private SimpleObjectProperty<BigDecimal> productPrice;
+    private SimpleDoubleProperty productPrice;
     private SimpleObjectProperty<BigDecimal> totalPrice;
-    private Double discount;
+    private float discount;
     private String description;
+    private boolean isActive;
 
     public OrderProduct() {
         this.id=new SimpleIntegerProperty(0);
@@ -24,9 +26,11 @@ public class OrderProduct {
         this.productId=new SimpleIntegerProperty(0);
         this.productName=new SimpleStringProperty("");
         this.productQuantity=new SimpleIntegerProperty(0);
-        this.productPrice=new SimpleObjectProperty<>(new BigDecimal(0));
+        this.productPrice=new SimpleDoubleProperty(0);
         this.totalPrice=new SimpleObjectProperty<>(new BigDecimal(0));
-        this.discount=0.0;
+        this.discount=0;
+        this.isActive=true;
+
     }
 
     public int getId() {
@@ -89,15 +93,15 @@ public class OrderProduct {
         this.productQuantity.set(productQuantity);
     }
 
-    public BigDecimal getProductPrice() {
+    public double getProductPrice() {
         return productPrice.get();
     }
 
-    public SimpleObjectProperty<BigDecimal> productPriceProperty() {
+    public SimpleDoubleProperty productPriceProperty() {
         return productPrice;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice.set(productPrice);
     }
 
@@ -113,11 +117,11 @@ public class OrderProduct {
         this.totalPrice.set(totalPrice);
     }
 
-    public Double getDiscount() {
+    public float getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Double discount) {
+    public void setDiscount(float discount) {
         this.discount = discount;
     }
 
@@ -127,5 +131,13 @@ public class OrderProduct {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

@@ -12,7 +12,7 @@
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #00ABF6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="50.0" prefWidth="182.0" text="New Product" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="318.0" AnchorPane.topAnchor="0.0">
+            <Label alignment="CENTER" layoutX="159.0" prefHeight="50.0" prefWidth="182.0" text="New Product" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -31,8 +31,8 @@
                   <Label layoutX="43.0" layoutY="19.0" text="Name:" />
                   <Label layoutX="43.0" layoutY="54.0" text="Quantity:" />
                   <Label layoutX="43.0" layoutY="89.0" text="Price:" />
-                  <Label fx:id="lblAlert" layoutX="118.0" layoutY="110.0" prefHeight="60.0" prefWidth="297.0" textFill="#dd0a0a" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="85.0" />
-                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="431.0" layoutY="85.0">
+                  <Label fx:id="lblAlert" layoutX="118.0" layoutY="110.0" prefHeight="60.0" prefWidth="297.0" textFill="#dd0a0a" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="431.0" layoutY="85.0" AnchorPane.rightAnchor="60.0">
                      <image>
                         <Image url="@../images/azn.png" />
                      </image>

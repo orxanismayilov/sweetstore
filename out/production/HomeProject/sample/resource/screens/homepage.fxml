@@ -42,7 +42,7 @@
                <children>
                   <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#btnSalesAction" prefHeight="150.0" prefWidth="150.0" text="SALES">
                      <graphic>
-                        <ImageView>
+                        <ImageView fx:id="buttonSales">
                            <image>
                               <Image url="@../images/bill_100px.png" />
                            </image>

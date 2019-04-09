@@ -3,19 +3,18 @@ package sample.repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.Product;
+import sample.utils.CopyListUtil;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-public class ProductDummyRepo {
+public class ProductDummyRepo  {
 
     private static int idCounter=4;
     private static ObservableList<Product>  productList=FXCollections.observableArrayList(
-            new Product(1,"Paxlava",50,BigDecimal.valueOf(1.50),LocalDateTime.now()),
-            new Product(2,"Wekerbura",23,BigDecimal.valueOf(2),LocalDateTime.now()),
-            new Product(3,"Tort",12,BigDecimal.valueOf(2.30),LocalDateTime.now())
+            new Product(1,"Paxlava",50, (float) 1.2,LocalDateTime.now()),
+            new Product(2,"Wekerbura",23,2,LocalDateTime.now()),
+            new Product(3,"Tort",12, (float) 2.30,LocalDateTime.now())
     );
 
     public ObservableList getProductList(){
@@ -23,6 +22,7 @@ public class ProductDummyRepo {
     }
 
     public void addProduct(Product product){
+        product.setId(getProductNewId());
         productList.add(product);
     }
 
@@ -55,9 +55,9 @@ public class ProductDummyRepo {
         }
     }
 
-    public void updateProductNameandPrice(Product product){
+    public void updateProductNameAndPrice(Product product,int oldProductId){
         for (Product p:productList){
-            if (p.getId()==product.getId()){
+            if (p.getId()==oldProductId){
                 p.setName(product.getName());
                 p.setPrice(product.getPrice());
             }
@@ -101,7 +101,7 @@ public class ProductDummyRepo {
     }
 
 
-    private ObservableList copyList(ObservableList<Product> list,CheckProductIsActive rule){
+    private ObservableList copyList(ObservableList<Product> list,CopyListUtil<Product> rule){
          ObservableList<Product> copiedList=FXCollections.observableArrayList();
          for(Product product:list){
              if(rule.check(product)) {
@@ -118,9 +118,5 @@ public class ProductDummyRepo {
             }
         }
         return null;
-    }
-    @FunctionalInterface
-    private interface CheckProductIsActive {
-        public boolean check(Product product);
     }
 }

@@ -3,115 +3,158 @@ package sample.service;
 import javafx.collections.ObservableList;
 import sample.model.Product;
 import sample.repository.ProductDummyRepo;
-import sample.utils.Notification;
 
-import java.lang.ref.PhantomReference;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductService {
 
     private ProductDummyRepo productDummyRepo;
-    private Notification errors;
-    private final static String NUll_NAME_ERROR="Name can't be empty.";
-    private final static String NEGATIVE_PRICE_ERROR="Price must be positive.";
-    private final static String MAX_PRICE_ERROR="Price must be less than 1000.";
-    private final static String VALID_PRICE_ERROR="Please enter valid price.";
-    private final static String NEGATIVE_QUANTITY_ERROR="Quantity must be positive.";
-    private final static String MAX_QUANTITY_ERROR="Quantity must be less than 1000.";
-    private final static String VAlID_QUANTITY_ERROR="Quantity must be valid.";
-    private final static String PRICE_REGEX="^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
-    private final static String QUANTITY_REGEX="\\d*";
-    private final static String NAME_REGEX="(?i)(^[a-z])((?![ .,'-]$)[a-z .,'-]){0,24}$";
-    private static Map<String,Boolean> validation;
+    private final static String NUll_NAME_ERROR = "Name can't be empty.";
+    private final static String NAME_SIZE_ERROR = "Name must contain 3 characters.";
+    private final static String NEGATIVE_PRICE_ERROR = "Price must be positive.";
+    private final static String MAX_PRICE_ERROR = "Price must be less than 1000.";
+    private final static String INVALID_NUMBER_ERROR = "Please enter valid number.";
+    private final static String NEGATIVE_QUANTITY_ERROR = "Quantity must be positive.";
+    private final static String MAX_QUANTITY_ERROR = "Quantity must be less than 1000.";
+    private final static String PRICE_REGEX = "^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
+    private final static String QUANTITY_REGEX = "\\d*";
+    private static Map<String, Map<Boolean, List<String>>> validation;
+
     public ProductService() {
-        productDummyRepo=new ProductDummyRepo();
+        productDummyRepo = new ProductDummyRepo();
     }
 
-    public ObservableList getData(){
+    public ObservableList getProductList() {
         return productDummyRepo.getProductList();
     }
 
-    public Notification addData(Product product){
-        Notification error=isProductValid(product);
-        if (!error.hasError()) {
-            Product existedProduct=productDummyRepo.isProductExist(product.getName());
-            if (existedProduct == null) {
-                int newId=productDummyRepo.getProductNewId();
-                product.setId(newId);
-                productDummyRepo.addProduct(product);
-                return error;
-            } else {
-                if (existedProduct.getQuantity()+product.getQuantity()>1000){
-                    error=new Notification();
-                    error.addError(MAX_QUANTITY_ERROR);
-                    validation.put("quantityError",true);
-                    return error;
-                }else {
-                    product.setId(existedProduct.getId());
-                    productDummyRepo.updateProduct(product, existedProduct.getId());
-                    return error;
+    public Map addProduct(Product product) {
+        if (product != null) {
+            validation = isProductValid(product);
+            if (!validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true)) {
+                Product existedProduct = productDummyRepo.isProductExist(product.getName());
+                if (existedProduct == null) {
+                    productDummyRepo.addProduct(product);
+                    return validation;
+                } else {
+                    if (existedProduct.getQuantity() + product.getQuantity() > 1000) {
+                        Map<Boolean, List<String>> quantityMap = ProductService.validation.get("quantityError");
+                        List ls = quantityMap.get(false);
+                        ls.add(MAX_QUANTITY_ERROR + "--Current quantity is " + existedProduct.getQuantity());
+                        quantityMap.remove(false);
+                        quantityMap.put(true, ls);
+                        validation.put("quantityError", quantityMap);
+                        return validation;
+                    } else {
+                        productDummyRepo.updateProduct(product, existedProduct.getId());
+                        return validation;
+                    }
                 }
             }
         }
-        return error;
+        return validation;
     }
 
-    private String reFixProduct(Product product){
-            String finalName = product.getName().toLowerCase().trim();
-            finalName = finalName.substring(0, 1).toUpperCase() + finalName.substring(1);
-            return finalName;
+    public Map updateProductNameAndPrice(Product product,int oldProductId) {
+        if(product!=null) {
+            validation=isProductValid(product);
+            if (!validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true)) {
+               productDummyRepo.updateProductNameAndPrice(product,oldProductId);
+            }
+        }
+        return validation;
     }
 
-    public Notification isProductValid(Product product){
-        validation=new HashMap<>();
-        validation.put("nameError",false);
-        validation.put("priceError",false);
-        validation.put("quantityError",false);
-        errors= new Notification();
-        if(product.getName().length()<3 || !product.getName().matches(NAME_REGEX)) {
-            errors.addError(NUll_NAME_ERROR);
-        } else product.setName(reFixProduct(product));
-        if(product.getQuantity() <0 ) {
-            errors.addError(NEGATIVE_QUANTITY_ERROR); validation.put("quantityError",true);
+    private String renameProduct(String productName) {
+        String finalName = "";
+        if (productName != null) {
+            finalName = productName.toLowerCase().trim();
         }
-        if (product.getQuantity()>1000) {
-            errors.addError(MAX_QUANTITY_ERROR); validation.put("quantityError",true);
-        }
-        if (!String.valueOf(product.getQuantity()).matches(QUANTITY_REGEX)) {
-            errors.addError(VAlID_QUANTITY_ERROR); validation.put("quantityError",true);
-        }
-        int price=product.getPrice().intValue();
-        if(price<0) {
-            errors.addError(NEGATIVE_PRICE_ERROR); validation.put("priceError",true);
-        }
-        if (price>1000) {
-            errors.addError(MAX_PRICE_ERROR); validation.put("priceError",true);
-        }
-        if(!String.valueOf(price).matches(PRICE_REGEX)) {
-            errors.addError(VALID_PRICE_ERROR); validation.put("priceError",true);
-        }
-        return errors;
+        finalName = finalName.substring(0, 1).toUpperCase() + finalName.substring(1);
+        return finalName;
     }
 
-    public void deleteProductbyID(int id){
+    public Map<String, Map<Boolean, List<String>>> isProductValid(Product product) {
+        validation = new HashMap<>();
+        Map<Boolean, List<String>> nameMap = new HashMap<>();
+        Map<Boolean, List<String>> priceMap = new HashMap<>();
+        Map<Boolean, List<String>> quantityMap = new HashMap<>();
+        nameMap.put(false, new ArrayList<>());
+        priceMap.put(false, new ArrayList<>());
+        quantityMap.put(false, new ArrayList<>());
+        if (product != null) {
+            List nameErrorList = nameMap.get(false);
+            if (product.getName() != null) {
+                String name = product.getName();
+                if (name.trim().length() < 2) {
+                    nameErrorList.add(NAME_SIZE_ERROR);
+                    nameMap.put(true, nameErrorList);
+                } else {
+                    product.setName(renameProduct(product.getName()));
+                }
+            } else {
+                nameErrorList.add(NUll_NAME_ERROR);
+                nameMap.put(true, nameErrorList);
+            }
+            List quantityErrorList = quantityMap.get(false);
+            if (product.getQuantity() < 0) {
+                quantityErrorList.add(NEGATIVE_QUANTITY_ERROR);
+            }
+            if (product.getQuantity() > 1000) {
+                quantityErrorList.add(MAX_QUANTITY_ERROR);
+            }
+            if (!String.valueOf(product.getQuantity()).matches(QUANTITY_REGEX)) {
+                quantityErrorList.add(INVALID_NUMBER_ERROR);
+            }
+            if (!quantityErrorList.isEmpty()) {
+                quantityMap.remove(false);
+                quantityMap.put(true, quantityErrorList);
+            }
+
+            List priceErrorList = priceMap.get(false);
+            if (product.getPrice() < 0) {
+                priceErrorList.add(NEGATIVE_PRICE_ERROR);
+            }
+            if (product.getPrice() > 1000) {
+                priceErrorList.add(MAX_PRICE_ERROR);
+            }
+            if (!String.valueOf(product.getPrice()).matches(PRICE_REGEX)) {
+                priceErrorList.add(INVALID_NUMBER_ERROR);
+            }
+            if (!priceErrorList.isEmpty()) {
+                priceMap.remove(false);
+                priceMap.put(true, priceErrorList);
+            }
+
+            validation.put("nameError", nameMap);
+            validation.put("quantityError", quantityMap);
+            validation.put("priceError", priceMap);
+            if (nameMap.containsKey(true) || quantityMap.containsKey(true) || priceMap.containsKey(true)) {
+                return validation;
+            }
+
+        }
+        return validation;
+    }
+
+    public void deleteProductbyID(int id) {
         productDummyRepo.deleteProductbyId(id);
     }
 
-    public Product getProductByName(String name){
+    public Product getProductByName(String name) {
         return productDummyRepo.getProductByName(name);
     }
 
-    public ObservableList getProductNames(){
+    public ObservableList getProductNames() {
         return productDummyRepo.getProductNames();
     }
 
     public Product getProductById(int id) throws Exception {
-        Product product=productDummyRepo.getProductById(id);
+        Product product = productDummyRepo.getProductById(id);
         return product;
     }
 
-    public static Map<String, Boolean> getValidation() {
-        return validation;
-    }
 }

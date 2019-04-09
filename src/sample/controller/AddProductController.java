@@ -9,12 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
-import sample.utils.Notification;
 
-import java.math.BigDecimal;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -23,13 +21,11 @@ public class AddProductController implements Initializable {
     private Product product;
     private Stage stage;
     private ProductService productService;
-    private Notification notification;
-    private final static String NAME_ERROR="Please enter valid name.";
-    private final static String PRICE_ERROR="Price must be positive and less then 1000.";
-    private final static String QUANTITY_ERROR="Quantity must be positive and less then 1000.";
+    Map<String,Map<Boolean,List<String>>> validation;
     private final static String PRICE_REGEX="^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
     private final static String QUANTITY_REGEX="\\d*";
-    private final static String NAME_REGEX="(?i)(^[a-z])((?![ .,'-]$)[a-z .,'-]){0,24}$";
+    private final static String QUANTITY_ERROR="Quantity must be number";
+    private final static String PRICE_ERROR="Price must be number";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
     @FXML private TextField productName;
     @FXML private TextField productQuantity;
@@ -40,25 +36,33 @@ public class AddProductController implements Initializable {
 
 
     public void saveProduct(){
-        saveButtonCreation();
-    }
-
-    private void saveButtonCreation(){
+        product=new Product();
+        product.setName(productName.getText());
         try {
-            product=new Product(productName.getText(), Integer.parseInt(productQuantity.getText()), new BigDecimal(productPrice.getText()), LocalDateTime.now());
+           product.setQuantity(Integer.parseInt(productQuantity.getText()));
         } catch (NumberFormatException e) {
-            String ALERT_TEXT = "Please enter valid input!";
-            lblAlert.setText(ALERT_TEXT);
+            e.printStackTrace();
+            lblAlert.setText(QUANTITY_ERROR);
+            productQuantity.pseudoClassStateChanged(errorClass,true);
             return;
         }
-        notification=productService.addData(product);
-        if(!notification.hasError()){
+
+        try {
+            product.setPrice(Float.parseFloat(productPrice.getText()));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            lblAlert.setText(PRICE_ERROR);
+            productPrice.pseudoClassStateChanged(errorClass,true);
+            return;
+        }
+
+        validation=productService.addProduct(product);
+
+        if(!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)){
             Stage stage = (Stage) buttonSave.getScene().getWindow();
             stage.close();
         } else {
-            String errors=notification.errorMessage();
-            lblAlert.setText(errors);
-            handleErrors();
+            handleErrors(validation);
         }
     }
 
@@ -79,18 +83,8 @@ public class AddProductController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         validatePrice();
         validateQuantity();
-        validateName();
     }
 
-    private void validateName(){
-        productName.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.matches(NAME_REGEX)){
-               productName.pseudoClassStateChanged(errorClass,true);
-            }else {
-                productName.pseudoClassStateChanged(errorClass,false);
-            }
-        });
-    }
 
     private void validatePrice () {
         productPrice.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -112,23 +106,41 @@ public class AddProductController implements Initializable {
         });
     }
 
-    private void handleErrors(){
-        Map<String,Boolean> map=productService.getValidation();
-        if(map.get("nameError")){
+    private void handleErrors(Map<String,Map<Boolean,List<String>>> validation){
+        Map<Boolean,List<String>> nameMap=validation.get("nameError");
+        Map<Boolean,List<String>> quantityMap=validation.get("quantityError");
+        Map<Boolean,List<String>> priceMap=validation.get("priceError");
+        StringBuilder errors=new StringBuilder();
+        if(nameMap.containsKey(true)){
             productName.pseudoClassStateChanged(errorClass,true);
+            List<String> ls=nameMap.get(true);
+            for (String error:ls){
+                errors.append(error);
+            }
+
         } else {
             productName.pseudoClassStateChanged(errorClass,false);
         }
-        if(map.get("quantityError")){
+        if(quantityMap.containsKey(true)){
             productQuantity.pseudoClassStateChanged(errorClass,true);
+            List<String> ls=quantityMap.get(true);
+            for (String error:ls){
+                errors.append(error);
+            }
         }else {
             productQuantity.pseudoClassStateChanged(errorClass,false);
         }
-        if(map.get("priceError")) {
+        if(priceMap.containsKey(true)) {
             productPrice.pseudoClassStateChanged(errorClass,true);
+            List<String> ls=priceMap.get(true);
+            for (String error:ls){
+                errors.append(error);
+            }
         }else {
             productPrice.pseudoClassStateChanged(errorClass,false);
         }
+        lblAlert.setText(String.valueOf(errors));
+
     }
 }
 

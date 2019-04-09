@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.model.Order;
 import sample.model.OrderProduct;
+import sample.model.OrderProductSummary;
 import sample.model.Product;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
@@ -34,6 +35,7 @@ public class UpdateOrderController implements Initializable {
     private Order order;
     private Product product;
     private OrderService orderService;
+    private OrderProductSummary summary;
 
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static String ALERT_TEXT="Please enter valid input!";
@@ -134,10 +136,11 @@ public class UpdateOrderController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
                         alert.showAndWait();
                         if (alert.getResult() == ButtonType.YES) {
-                            orderProductService.removeOrderProductbyProductId(columnId.getCellData(getTableRow().getIndex()));
+                            orderProductService.removeOrderProductByProductId(columnId.getCellData(getTableRow().getIndex()));
                             loadTable();
                             clearFields();
-                            labelDescription.setText(String.valueOf(orderProductService.fillDescription(order.getTransactionID())));
+                            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
+                            labelDescription.setText(String.valueOf(summary.getDescription()));
                         }
                     });
                 }
@@ -163,10 +166,10 @@ public class UpdateOrderController implements Initializable {
     }
 
     public void saveButtonAction() {
-        DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
+        summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
-        order.setDescription(DESCRIPTION_TEXT);
+        order.setDescription(summary.getDescription());
         order.setOrderType("online");
         orderService.addData(order);
         Stage stage=(Stage) buttonSave.getScene().getWindow();
@@ -189,17 +192,17 @@ public class UpdateOrderController implements Initializable {
             orderProduct.setProductName(product.getName());
             orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
             orderProduct.setProductPrice(product.getPrice());
-            orderProduct.setTotalPrice(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
-            orderProduct.setDiscount(Double.parseDouble(fieldDiscount.getText()));
+            orderProduct.setTotalPrice(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+            orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
             order.setTotalPrice(order.getTotalPrice().add(orderProduct.getTotalPrice()));
             order.setTotalDiscount(order.getTotalDiscount().add(BigDecimal.valueOf(orderProduct.getDiscount())));
             product.setQuantity(product.getQuantity() - Integer.parseInt(fieldQuantity.getText()));
-            orderProductService.addOrderProducttoList(orderProduct);
+            orderProductService.addOrderProductToList(orderProduct);
             orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
-            labelDescription.setText(String.valueOf(DESCRIPTION_TEXT));
-            labelSum.setText(String.valueOf(order.getTotalPrice()));
-            labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
+            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
+            labelDescription.setText(summary.getDescription());
+            labelSum.setText(String.valueOf(summary.getSum()));
+            labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
             loadTable();
             clearFields();
         } catch (NullPointerException e) {
@@ -219,15 +222,15 @@ public class UpdateOrderController implements Initializable {
             orderProduct.setProductPrice(product.getPrice());
             order.setTotalPrice(order.getTotalPrice().subtract(orderProduct.getTotalPrice()));
             order.setTotalDiscount(order.getTotalDiscount().subtract(BigDecimal.valueOf(orderProduct.getDiscount())));
-            orderProduct.setTotalPrice(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+            orderProduct.setTotalPrice(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
             order.setTotalPrice(order.getTotalPrice().add(orderProduct.getTotalPrice()));
-            orderProduct.setDiscount(Double.parseDouble(fieldDiscount.getText()));
+            orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
             order.setTotalDiscount(order.getTotalDiscount().add(BigDecimal.valueOf(orderProduct.getDiscount())));
             orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
-            labelDescription.setText(String.valueOf(DESCRIPTION_TEXT));
-            labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
-            labelSum.setText(String.valueOf(order.getTotalPrice()));
+            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
+            labelDescription.setText(summary.getDescription());
+            labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
+            labelSum.setText(String.valueOf(summary.getSum()));
             product.setQuantity(product.getQuantity() - Integer.parseInt(fieldQuantity.getText()));
             tableView.getSelectionModel().clearSelection();
             clearFields();
@@ -241,7 +244,7 @@ public class UpdateOrderController implements Initializable {
 
 
     private void loadTable(){
-        ObservableList list=orderProductService.getOrderProductbyOrderId(orderId);
+        ObservableList list=orderProductService.getOrderProductByOrderId(orderId);
         tableView.setItems(list);
     }
 
@@ -311,7 +314,7 @@ public class UpdateOrderController implements Initializable {
                 fieldQuantity.pseudoClassStateChanged(errorClass,true);
                 labelAlert.setText(ALERT_TEXT);
             } else {
-                fieldTotalPrice.setText(String.valueOf(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
+                fieldTotalPrice.setText(String.valueOf(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
                 fieldQuantity.pseudoClassStateChanged(errorClass,false);
                 labelAlert.setText("");
             }
@@ -324,7 +327,7 @@ public class UpdateOrderController implements Initializable {
             } else {
                 fieldPrice.pseudoClassStateChanged(errorClass,false);
                 labelAlert.setText("");
-                fieldTotalPrice.setText(String.valueOf(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
+                fieldTotalPrice.setText(String.valueOf(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
             }
         }));
 
@@ -335,7 +338,7 @@ public class UpdateOrderController implements Initializable {
             } else {
                 fieldDiscount.pseudoClassStateChanged(errorClass,false);
                 labelAlert.setText("");
-                fieldTotalPrice.setText(String.valueOf(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
+                fieldTotalPrice.setText(String.valueOf(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
             }
         }));
     }
@@ -350,9 +353,10 @@ public class UpdateOrderController implements Initializable {
         order=new Order();
         orderProductService=new OrderProductService();
         orderService=new OrderService();
+        summary=new OrderProductSummary();
         populateTable();
         fieldInputValidation();
-        tableView.setItems(orderProductService.getOrderProductbyOrderId(orderId));
+        tableView.setItems(orderProductService.getOrderProductByOrderId(orderId));
         comboBoxProducts.setItems(productService.getProductNames());
         manageFocus();
         order.setTransactionID(orderService.getOrderNewId());

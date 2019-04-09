@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.model.Order;
 import sample.model.OrderProduct;
+import sample.model.OrderProductSummary;
 import sample.model.Product;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
@@ -34,10 +35,11 @@ public class NewOrderController implements Initializable {
     private Product product;
     private OrderService orderService;
     private int orderId;
+    OrderProductSummary summary;
+
 
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static String ALERT_TEXT="Please enter valid input!";
-    private StringBuilder DESCRIPTION_TEXT;
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
 
     @FXML private ComboBox comboBoxProducts;
@@ -56,8 +58,8 @@ public class NewOrderController implements Initializable {
     @FXML private TableColumn<OrderProduct,Integer> columnId;
     @FXML private TableColumn<OrderProduct,String>  columnProduct;
     @FXML private TableColumn<OrderProduct,Integer> columnQuantity;
-    @FXML private TableColumn<OrderProduct,BigDecimal> columnPrice;
-    @FXML private  TableColumn<OrderProduct,BigDecimal> columnTotalPrice;
+    @FXML private TableColumn<OrderProduct,Double> columnPrice;
+    @FXML private TableColumn<OrderProduct,BigDecimal> columnTotalPrice;
     @FXML private TableColumn<OrderProduct,Double> columnDiscount;
     @FXML private TableColumn<OrderProduct,Void> columnAction;
     @FXML private Label labelAlert;
@@ -68,13 +70,16 @@ public class NewOrderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService=new ProductService();
-        order=new Order();
         orderProductService=new OrderProductService();
         orderService=new OrderService();
         populateTable();
         fieldInputValidation();
         comboBoxProducts.setItems(productService.getProductNames());
         manageFocus();
+
+        summary=new OrderProductSummary();
+
+        order=new Order();
         orderId=orderService.getOrderNewId();
         order.setTransactionID(orderId);
         getSelectedRow();
@@ -87,12 +92,12 @@ public class NewOrderController implements Initializable {
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
         columnTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         columnDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
-        columnPrice.setCellFactory(tc -> new TableCell<OrderProduct, BigDecimal>() {
+        columnPrice.setCellFactory(tc -> new TableCell<OrderProduct, Double>() {
             private final Label labelSign = new Label();
             private final Label labelPrice = new Label();
             @Override
-            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
-                super.updateItem(priceBigDecimal, empty);
+            protected void updateItem(Double price, boolean empty) {
+                super.updateItem(price, empty);
                 NumberFormat numberFormat = NumberFormat.getInstance();
                 labelSign.setText("\u20BC");
                 AnchorPane pane = new AnchorPane(labelPrice, labelSign);
@@ -102,7 +107,7 @@ public class NewOrderController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    labelPrice.setText(numberFormat.format(priceBigDecimal));
+                    labelPrice.setText(numberFormat.format(price));
                     setGraphic(pane);
                 }
             }
@@ -146,10 +151,11 @@ public class NewOrderController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
                         alert.showAndWait();
                         if (alert.getResult() == ButtonType.YES) {
-                            orderProductService.removeOrderProductbyProductId(columnId.getCellData(getTableRow().getIndex()));
+                            orderProductService.removeOrderProductByProductId(columnId.getCellData(getTableRow().getIndex()));
                             loadTable();
                             clearFields();
-                            fieldDescription.setText(String.valueOf(orderProductService.fillDescription(orderId)));
+                            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
+                            fieldDescription.setText(String.valueOf(summary.getDescription()));
                         }
                     });
                 }
@@ -171,14 +177,14 @@ public class NewOrderController implements Initializable {
             setProduct(product);
             fieldPrice.setText(String.valueOf(product.getPrice()));
             labelPossibleQuantity.setText(String.valueOf(product.getQuantity()));
+            fieldTotalPrice.setText("0");
         }
     }
 
     public void saveButtonAction() {
-        DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
-        order.setDescription(DESCRIPTION_TEXT);
+        order.setDescription(summary.getDescription());
         order.setOrderType("online");
         orderService.addData(order);
         Stage stage=(Stage) buttonSave.getScene().getWindow();
@@ -201,17 +207,19 @@ public class NewOrderController implements Initializable {
             orderProduct.setProductName(product.getName());
             orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
             orderProduct.setProductPrice(product.getPrice());
-            orderProduct.setTotalPrice(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
-            orderProduct.setDiscount(Double.parseDouble(fieldDiscount.getText()));
+            orderProduct.setTotalPrice(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+            orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
+
             order.setTotalPrice(order.getTotalPrice().add(orderProduct.getTotalPrice()));
             order.setTotalDiscount(order.getTotalDiscount().add(BigDecimal.valueOf(orderProduct.getDiscount())));
+
             product.setQuantity(product.getQuantity() - Integer.parseInt(fieldQuantity.getText()));
-            orderProductService.addOrderProducttoList(orderProduct);
-            orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
-            fieldDescription.setText(String.valueOf(DESCRIPTION_TEXT));
-            labelSum.setText(String.valueOf(order.getTotalPrice()));
-            labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
+            orderProductService.addOrderProductToList(orderProduct);
+            orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + " ");
+            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
+            fieldDescription.setText(summary.getDescription());
+            labelSum.setText(String.valueOf(summary.getSum()));
+            labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
             loadTable();
             clearFields();
         } catch (NullPointerException e) {
@@ -222,6 +230,7 @@ public class NewOrderController implements Initializable {
 
     private void updateOrderProduct(){
         try {
+
             String productName = String.valueOf(comboBoxProducts.getValue());
             Product product = productService.getProductByName(productName);
             product.setQuantity(product.getQuantity()+orderProduct.getProductQuantity());
@@ -232,15 +241,15 @@ public class NewOrderController implements Initializable {
             orderProduct.setProductPrice(product.getPrice());
             order.setTotalPrice(order.getTotalPrice().subtract(orderProduct.getTotalPrice()));
             order.setTotalDiscount(order.getTotalDiscount().subtract(BigDecimal.valueOf(orderProduct.getDiscount())));
-            orderProduct.setTotalPrice(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+            orderProduct.setTotalPrice(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
             order.setTotalPrice(order.getTotalPrice().add(orderProduct.getTotalPrice()));
-            orderProduct.setDiscount(Double.parseDouble(fieldDiscount.getText()));
+            orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
             order.setTotalDiscount(order.getTotalDiscount().add(BigDecimal.valueOf(orderProduct.getDiscount())));
             orderProduct.setDescription(fieldQuantity.getText() + " "+product.getName() + ",");
-            DESCRIPTION_TEXT=orderProductService.fillDescription(orderId);
-            fieldDescription.setText(String.valueOf(DESCRIPTION_TEXT));
-            labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
-            labelSum.setText(String.valueOf(order.getTotalPrice()));
+            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
+            fieldDescription.setText(String.valueOf(summary.getDescription()));
+            labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
+            labelSum.setText(String.valueOf(summary.getSum()));
             product.setQuantity(product.getQuantity() - Integer.parseInt(fieldQuantity.getText()));
             clearFields();
             loadTable();
@@ -253,7 +262,7 @@ public class NewOrderController implements Initializable {
 
 
     private void loadTable(){
-        ObservableList list=orderProductService.getOrderProductbyOrderId(order.getTransactionID());
+        ObservableList list=orderProductService.getOrderProductByOrderId(order.getTransactionID());
         tableView.setItems(list);
     }
 
@@ -327,7 +336,16 @@ public class NewOrderController implements Initializable {
                     fieldQuantity.pseudoClassStateChanged(errorClass,true);
                     labelAlert.setText(ALERT_TEXT);
             } else {
-                fieldTotalPrice.setText(String.valueOf(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
+                try {
+                    if(comboBoxProducts.getValue()!=null) {
+                        BigDecimal sum = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
+                        sum = sum.setScale(2, BigDecimal.ROUND_HALF_UP);
+                        fieldTotalPrice.setText(String.valueOf(sum));
+                    }
+                } catch (NumberFormatException e){
+                    fieldTotalPrice.setText("0");
+                }
+
                 fieldQuantity.pseudoClassStateChanged(errorClass,false);
                 labelAlert.setText("");
             }
@@ -340,7 +358,6 @@ public class NewOrderController implements Initializable {
             } else {
                 fieldPrice.pseudoClassStateChanged(errorClass,false);
                 labelAlert.setText("");
-                fieldTotalPrice.setText(String.valueOf(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
             }
         }));
 
@@ -349,9 +366,17 @@ public class NewOrderController implements Initializable {
                 fieldDiscount.pseudoClassStateChanged(errorClass,true);
                 labelAlert.setText(ALERT_TEXT);
             } else {
+                try {
+                    if (comboBoxProducts.getValue()!=null) {
+                        BigDecimal sum = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
+                        sum = sum.setScale(2, BigDecimal.ROUND_HALF_UP);
+                        fieldTotalPrice.setText(String.valueOf(sum));
+                    }
+                } catch (NumberFormatException e){
+                    fieldTotalPrice.setText("0");
+                }
                 fieldDiscount.pseudoClassStateChanged(errorClass,false);
                 labelAlert.setText("");
-                fieldTotalPrice.setText(String.valueOf(product.getPrice().multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()))));
             }
         }));
     }

@@ -10,25 +10,27 @@ import java.time.LocalDateTime;
 public class Order {
     private SimpleStringProperty customerName;
     private SimpleStringProperty customerAddress;
-    private StringBuilder description;
+    private String description;
     private SimpleStringProperty orderType;
     private SimpleIntegerProperty transactionID;
     private SimpleObjectProperty<BigDecimal> totalPrice;
     private SimpleObjectProperty<BigDecimal> totalDiscount;
     private SimpleObjectProperty<LocalDateTime> date;
+    private boolean isActive;
 
     public Order() {
         this.customerName = new SimpleStringProperty("");
         this.customerAddress=new SimpleStringProperty("");
-        this.description = new StringBuilder();
+        this.description = "";
         this.totalPrice = new SimpleObjectProperty<>(new BigDecimal(0));
         this.orderType = new SimpleStringProperty("");
         this.transactionID = new SimpleIntegerProperty(0);
         this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
         this.date=new SimpleObjectProperty<>(LocalDateTime.now());
+        this.isActive=true;
     }
 
-    public Order(String customerName, String customerAdderss, StringBuilder description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDateTime date) {
+    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDateTime date) {
         this.customerName = new SimpleStringProperty(customerName);
         this.customerAddress=new SimpleStringProperty(customerAdderss);
         this.description = description;
@@ -37,6 +39,7 @@ public class Order {
         this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
         this.transactionID = new SimpleIntegerProperty(transactionID);
         this.date=new SimpleObjectProperty<>(date);
+        this.isActive=true;
     }
 
     public String getCustomerName() {
@@ -63,11 +66,11 @@ public class Order {
         this.customerAddress.set(customerAddress);
     }
 
-    public StringBuilder getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(StringBuilder description) {
+    public void setDescription(String description) {
         this.description=description;
     }
 
@@ -129,5 +132,13 @@ public class Order {
 
     public void setTotalDiscount(BigDecimal totalDiscount) {
         this.totalDiscount.set(totalDiscount);
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

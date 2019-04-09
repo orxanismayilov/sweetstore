@@ -19,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Order;
-import sample.model.Product;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
 import sample.utils.ScreenUtils;
@@ -28,7 +27,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.NumberFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -59,7 +57,8 @@ public class OrderController implements Initializable {
     @FXML private TableColumn<Order,StringBuilder > clmDescription;
     @FXML private TableColumn<Order,LocalDateTime>clmDate;
     @FXML private TableColumn<Order, Void> clmAction;
-    @FXML private BorderPane pane;
+    @FXML BorderPane pane;
+    @FXML Button btnNewOrder;
 
 
 
@@ -84,6 +83,7 @@ public class OrderController implements Initializable {
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
         fxmlControllerStage.setResizable(false);
         fxmlControllerStage.show();
+        loadTable();
     }
 
     private void loadTable(){
@@ -94,7 +94,7 @@ public class OrderController implements Initializable {
     public void buttonLogOutAction() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
         Parent root = loader.load();
-        Stage stage = (Stage) pane.getScene().getWindow();
+        Stage stage = (Stage) btnNewOrder.getScene().getWindow();
         stage.setScene(new Scene(root));
     }
 
@@ -145,7 +145,7 @@ public class OrderController implements Initializable {
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
                         Order order=(Order) getTableRow().getItem();
                         buttonDeleteAction(order);
-                        tableBinding();
+                        loadTable();
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo)->{
@@ -205,7 +205,6 @@ public class OrderController implements Initializable {
         if (alert.getResult() == ButtonType.YES) {
             int id=order.getTransactionID();
             orderService.deleteOrderByTransactionId(id);
-            orderProductService.deletOrderProductbyOrderId(id);
         }
     }
 

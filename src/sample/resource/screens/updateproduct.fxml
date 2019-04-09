@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -9,18 +8,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="500.0" stylesheets="@../css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.UpdateProductController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" stylesheets="@../css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.UpdateProductController">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #00ABF6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="50.0" prefWidth="182.0" text="Update Product" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="318.0" AnchorPane.topAnchor="0.0">
+            <Label alignment="CENTER" layoutX="159.0" prefHeight="50.0" prefWidth="182.0" text="Update Product" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="159.0" AnchorPane.rightAnchor="159.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="1.0" layoutY="51.0" prefHeight="464.0" prefWidth="491.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+      <AnchorPane layoutX="1.0" layoutY="51.0" prefHeight="464.0" prefWidth="550.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
          <children>
             <Button fx:id="buttonSave" layoutX="256.0" layoutY="343.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#buttonSaveAction" text="Save" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="135.0" />
             <Button fx:id="buttonCancel" layoutX="367.0" layoutY="343.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#buttonCancelAction" text="Close" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="24.0" />
@@ -32,19 +31,13 @@
                   <Label layoutX="43.0" layoutY="54.0" text="Quantity:" />
                   <Label layoutX="43.0" layoutY="89.0" text="Price:" />
                   <Label fx:id="lblAlert" layoutX="118.0" layoutY="118.0" prefHeight="17.0" prefWidth="300.0" textFill="#dd0a0a" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="85.0" />
-                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="431.0" layoutY="85.0">
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="431.0" layoutY="85.0" AnchorPane.rightAnchor="60.0">
                      <image>
                         <Image url="@../images/azn.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="labelQuantity" layoutX="158.0" layoutY="110.0" prefHeight="25.0" prefWidth="300.0" style="-fx-background-color: white; -fx-border-radius: 3px; -fx-border-color: #BABABA;" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="50.0">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <padding>
-                        <Insets left="7.0" />
-                     </padding></Label>
-                  <Label fx:id="labelAlert" layoutX="154.0" layoutY="118.0" prefWidth="300.0" textFill="#e80c0c" AnchorPane.rightAnchor="85.0" />
+                  <Label fx:id="labelAlert" layoutX="154.0" layoutY="118.0" prefHeight="50.0" prefWidth="300.0" textFill="#e80c0c" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
+                  <TextField fx:id="fieldQuantity" disable="true" layoutX="176.0" layoutY="131.0" prefWidth="300.0" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="50.0" />
                </children>
             </AnchorPane>
          </children>

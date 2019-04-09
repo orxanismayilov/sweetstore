@@ -19,7 +19,7 @@
          <children>
             <MenuButton layoutX="918.0" layoutY="6.0" mnemonicParsing="false" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="6.0">
               <items>
-                <MenuItem fx:id="buttonLogOut" mnemonicParsing="false" onAction="#buttonLogOutAction" text="Log Out" />
+                <MenuItem mnemonicParsing="false" onAction="#buttonLogOutAction" text="Log Out" />
               </items>
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">

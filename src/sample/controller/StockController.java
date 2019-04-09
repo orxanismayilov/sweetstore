@@ -22,7 +22,6 @@ import sample.service.ProductService;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
@@ -41,6 +40,7 @@ public class StockController implements Initializable {
     private final static String FXML_URL_UPDATEPRODUCT="/sample/resource/screens/updateproduct.fxml";
     private final static String INFO_TITLE="Info";
     private final static String UPDATE_TITLE="Update product";
+    private final static String NEW_PRODUCT_TITLE="New product";
     private final static String PRODUCTNOTEXIST_ALERT="Product not exist";
     private final static String DELETE_ALERT_TEXT="Are you sure ?";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
@@ -50,11 +50,11 @@ public class StockController implements Initializable {
     @FXML private TableView <Product> tableProduct;
     @FXML private TableColumn<Product,Integer> clmID;
     @FXML private TableColumn<Product,String> clmName;
-    @FXML private TableColumn<Product,BigDecimal> clmPrice;
+    @FXML private TableColumn<Product,Float> clmPrice;
     @FXML private TableColumn<Product,LocalDateTime> clmLastUpdate;
     @FXML private TableColumn<Product,Integer> clmQuantity;
     @FXML private TableColumn<Product,Void> clmAction;
-    @FXML private BorderPane pane;
+    @FXML BorderPane pane;
 
 
     @Override
@@ -70,12 +70,12 @@ public class StockController implements Initializable {
         clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmLastUpdate.setCellValueFactory(new PropertyValueFactory<>("updateDate"));
         clmQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        clmPrice.setCellFactory(tc -> new TableCell<Product, BigDecimal>() {
+        clmPrice.setCellFactory(tc -> new TableCell<Product, Float>() {
             private final Label labelSign = new Label();
             private final Label labelPrice = new Label();
             @Override
-            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
-                super.updateItem(priceBigDecimal, empty);
+            protected void updateItem(Float price, boolean empty) {
+                super.updateItem(price, empty);
                 NumberFormat numberFormat = NumberFormat.getInstance();
                 labelSign.setText("\u20BC");
                 HBox pane = new HBox(labelPrice, labelSign);
@@ -83,7 +83,7 @@ public class StockController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    labelPrice.setText(numberFormat.format(priceBigDecimal));
+                    labelPrice.setText(numberFormat.format(price));
                     setGraphic(pane);
                 }
             }
@@ -156,7 +156,7 @@ public class StockController implements Initializable {
     }
 
     private void loadData(){
-        ObservableList data=productService.getData();
+        ObservableList data=productService.getProductList();
         tableProduct.setItems(data);
     }
 
@@ -190,7 +190,7 @@ public class StockController implements Initializable {
             e.printStackTrace();
         }
 
-        fxmlControllerStage.setTitle("Update");
+        fxmlControllerStage.setTitle(NEW_PRODUCT_TITLE);
         fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow() );
         fxmlControllerStage.setResizable(false);
