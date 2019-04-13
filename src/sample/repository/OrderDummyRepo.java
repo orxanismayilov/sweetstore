@@ -3,6 +3,7 @@ package sample.repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.Order;
+import sample.model.OrderType;
 import sample.utils.CopyListUtil;
 
 import java.math.BigDecimal;
@@ -12,9 +13,9 @@ import java.util.function.Predicate;
 public class OrderDummyRepo {
     private static int id = 4;
     private static ObservableList<Order> orderList = FXCollections.observableArrayList(
-            new Order("Orxan", "Muxax", "Mallar", BigDecimal.valueOf(15), "Online", 1, LocalDateTime.now()),
-            new Order("Amil", "Baki", "sirniyyat", BigDecimal.valueOf(23), "offline", 2, LocalDateTime.now()),
-            new Order("Eltun", "Tala", "guller", BigDecimal.valueOf(456), "dsfjds;", 3, LocalDateTime.now())
+            new Order("Orxan", "Muxax", "Mallar", BigDecimal.valueOf(15), OrderType.ONLINE, 1, LocalDateTime.now()),
+            new Order("Amil", "Baki", "sirniyyat", BigDecimal.valueOf(23), OrderType.OFFLINE, 2, LocalDateTime.now()),
+            new Order("Eltun", "Tala", "guller", BigDecimal.valueOf(456), OrderType.OFFLINE, 3, LocalDateTime.now())
     );
 
 

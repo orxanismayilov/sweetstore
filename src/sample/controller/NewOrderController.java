@@ -12,17 +12,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sample.model.*;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
 import sample.service.ProductService;
+import sample.utils.TableCellStyleUtil;
 import sample.utils.NumberUtils;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.ResourceBundle;
 
 public class NewOrderController implements Initializable {
@@ -39,6 +38,7 @@ public class NewOrderController implements Initializable {
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static String ALERT_TEXT = "Please enter valid input!";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
+    private static String MANAT_SYMBOL="\u20BC";
 
     @FXML
     private ComboBox comboBoxProducts;
@@ -71,11 +71,11 @@ public class NewOrderController implements Initializable {
     @FXML
     private TableColumn<OrderProduct, Integer> columnQuantity;
     @FXML
-    private TableColumn<OrderProduct, Double> columnPrice;
+    private TableColumn<OrderProduct, Float> columnPrice;
     @FXML
     private TableColumn<OrderProduct, BigDecimal> columnTotalPrice;
     @FXML
-    private TableColumn<OrderProduct, Double> columnDiscount;
+    private TableColumn<OrderProduct, Float> columnDiscount;
     @FXML
     private TableColumn<OrderProduct, Void> columnAction;
     @FXML
@@ -115,48 +115,13 @@ public class NewOrderController implements Initializable {
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
         columnTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         columnDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
-        columnPrice.setCellFactory(tc -> new TableCell<OrderProduct, Double>() {
-            private final Label labelSign = new Label();
-            private final Label labelPrice = new Label();
 
-            @Override
-            protected void updateItem(Double price, boolean empty) {
-                super.updateItem(price, empty);
-                NumberFormat numberFormat = NumberFormat.getInstance();
-                labelSign.setText("\u20BC");
-                AnchorPane pane = new AnchorPane(labelPrice, labelSign);
-                AnchorPane.setLeftAnchor(labelPrice, 0.0);
-                AnchorPane.setRightAnchor(labelSign, 0.0);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    labelPrice.setText(numberFormat.format(price));
-                    setGraphic(pane);
-                }
-            }
-        });
-        columnTotalPrice.setCellFactory(tc -> new TableCell<OrderProduct, BigDecimal>() {
-            private final Label labelSign = new Label();
-            private final Label labelPrice = new Label();
+        columnDiscount.setCellFactory(param ->TableCellStyleUtil.setMonetaryColumnStyle());
 
-            @Override
-            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
-                super.updateItem(priceBigDecimal, empty);
-                NumberFormat numberFormat = NumberFormat.getInstance();
-                labelSign.setText("\u20BC");
-                AnchorPane pane = new AnchorPane(labelPrice, labelSign);
-                AnchorPane.setLeftAnchor(labelPrice, 0.0);
-                AnchorPane.setRightAnchor(labelSign, 0.0);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    labelPrice.setText(numberFormat.format(priceBigDecimal));
-                    setGraphic(pane);
-                }
-            }
-        });
+        columnPrice.setCellFactory(tc ->TableCellStyleUtil.setMonetaryColumnStyle());
+
+        columnTotalPrice.setCellFactory(tc ->TableCellStyleUtil.setMonetaryColumnStyle());
+
         columnAction.setCellFactory(tc -> new TableCell<OrderProduct, Void>() {
             final ImageView buttonDeleteGraphic = new ImageView();
             private final Button buttonDelete = new Button();
@@ -211,7 +176,7 @@ public class NewOrderController implements Initializable {
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setDescription(summary.getDescription());
-        order.setOrderType(String.valueOf(comboOrderType.getValue()));
+        order.setOrderType(comboOrderType.getValue());
         orderService.addNewOrderToList(order);
         Stage stage = (Stage) buttonSave.getScene().getWindow();
         stage.close();
@@ -401,5 +366,4 @@ public class NewOrderController implements Initializable {
     private void setProduct(Product product) {
         this.product = product;
     }
-
 }

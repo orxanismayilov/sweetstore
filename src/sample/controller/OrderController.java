@@ -1,6 +1,5 @@
 package sample.controller;
 
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,20 +12,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Order;
-import sample.service.OrderProductService;
+import sample.model.OrderType;
 import sample.service.OrderService;
+import sample.utils.TableCellStyleUtil;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -35,7 +33,6 @@ public class OrderController implements Initializable {
 
     private OrderService orderService;
     private Stage fxmlControllerStage;
-    private OrderProductService orderProductService;
 
     private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
     private final static String FXML_URL_UPDATEORDER="/sample/resource/screens/updateorder.fxml";
@@ -53,7 +50,7 @@ public class OrderController implements Initializable {
     @FXML private TableColumn<Order, String> clmName;
     @FXML private TableColumn<Order, String> clmAddress;
     @FXML private TableColumn<Order,BigDecimal> clmTotalprice;
-    @FXML private TableColumn<Order,String> clmOrdertype;
+    @FXML private TableColumn<Order,OrderType> clmOrdertype;
     @FXML private TableColumn<Order,Integer> clmTransactionID;
     @FXML private TableColumn<Order,StringBuilder > clmDescription;
     @FXML private TableColumn<Order,LocalDateTime>clmDate;
@@ -158,6 +155,7 @@ public class OrderController implements Initializable {
                         Order order=(Order) getTableRow().getItem();
                         buttonUpdateAction(order);
                         popUpWindowSetup(event,UPDATE_WINDOW_TITLE);
+                        loadTable();
                     });
                 }
             }
@@ -165,38 +163,23 @@ public class OrderController implements Initializable {
         clmAction.setResizable(false);
         clmAction.setMinWidth(120);
         clmAction.setMaxWidth(120);
-        clmTotalprice.setCellFactory(tc -> new TableCell<Order, BigDecimal>() {
-            private final Label labelSign = new Label();
-            private final Label labelPrice = new Label();
-            @Override
-            protected void updateItem(BigDecimal priceBigDecimal, boolean empty) {
-                super.updateItem(priceBigDecimal, empty);
-                NumberFormat numberFormat = NumberFormat.getInstance();
-                labelSign.setText("\u20BC");
-                AnchorPane pane = new AnchorPane(labelPrice, labelSign);
-                AnchorPane.setLeftAnchor(labelPrice, 0.0);
-                AnchorPane.setRightAnchor(labelSign, 0.0);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    labelPrice.setText(numberFormat.format(priceBigDecimal));
-                    setGraphic(pane);
+        clmTotalprice.setCellFactory(tc->TableCellStyleUtil.setMonetaryColumnStyle());
+
+        clmDate.setCellFactory(tc-> {
+            return new TableCell<Order, LocalDateTime>() {
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        setText(item.format(formatter));
+                    }
                 }
-            }
+            };
         });
-        clmDate.setCellFactory(tc->new TableCell<Order,LocalDateTime>(){
-            @Override
-            protected void updateItem(LocalDateTime item, boolean empty) {
-                super.updateItem(item, empty);
-                DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                if (empty){
-                    setText(null);
-                } else  {
-                    setText(item.format(formatter));
-                }
-            }
-        });
+
     }
 
     private void buttonDeleteAction(Order order){
@@ -249,6 +232,5 @@ public class OrderController implements Initializable {
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
         fxmlControllerStage.setResizable(false);
         fxmlControllerStage.showAndWait();
-        fxmlControllerStage.setOnHiding(event1 -> Platform.runLater(() ->loadTable() ));
     }
 }

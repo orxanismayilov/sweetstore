@@ -11,7 +11,7 @@ public class Order {
     private SimpleStringProperty customerName;
     private SimpleStringProperty customerAddress;
     private String description;
-    private SimpleStringProperty orderType;
+    private SimpleObjectProperty<OrderType> orderType;
     private SimpleIntegerProperty transactionID;
     private SimpleObjectProperty<BigDecimal> totalPrice;
     private SimpleObjectProperty<BigDecimal> totalDiscount;
@@ -23,19 +23,19 @@ public class Order {
         this.customerAddress=new SimpleStringProperty("");
         this.description = "";
         this.totalPrice = new SimpleObjectProperty<>(new BigDecimal(0));
-        this.orderType = new SimpleStringProperty("");
+        this.orderType = new SimpleObjectProperty("");
         this.transactionID = new SimpleIntegerProperty(0);
         this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
         this.date=new SimpleObjectProperty<>(LocalDateTime.now());
         this.isActive=true;
     }
 
-    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, String orderType, Integer transactionID, LocalDateTime date) {
+    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, OrderType orderType, Integer transactionID, LocalDateTime date) {
         this.customerName = new SimpleStringProperty(customerName);
         this.customerAddress=new SimpleStringProperty(customerAdderss);
         this.description = description;
         this.totalPrice = new SimpleObjectProperty<>(priceBigDecimal);
-        this.orderType = new SimpleStringProperty(orderType);
+        this.orderType = new SimpleObjectProperty<>(orderType);
         this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
         this.transactionID = new SimpleIntegerProperty(transactionID);
         this.date=new SimpleObjectProperty<>(date);
@@ -74,15 +74,15 @@ public class Order {
         this.description=description;
     }
 
-    public String getOrderType() {
+    public OrderType getOrderType() {
         return orderType.get();
     }
 
-    public SimpleStringProperty orderTypeProperty() {
+    public SimpleObjectProperty<OrderType> orderTypeProperty() {
         return orderType;
     }
 
-    public void setOrderType(String orderType) {
+    public void setOrderType(OrderType orderType) {
         this.orderType.set(orderType);
     }
 

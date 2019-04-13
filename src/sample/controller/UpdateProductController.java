@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
 
 public class UpdateProductController implements Initializable {
 
-    private static String PRICE_REGEX = "^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
     private final static String PRICE_ERROR = "Please enter valid price.";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
     private Stage stage;

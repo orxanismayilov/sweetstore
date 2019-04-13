@@ -11,7 +11,7 @@ public class OrderProduct {
     private SimpleIntegerProperty productId;
     private SimpleStringProperty productName;
     private SimpleIntegerProperty productQuantity;
-    private SimpleDoubleProperty productPrice;
+    private SimpleFloatProperty productPrice;
     private SimpleObjectProperty<BigDecimal> totalPrice;
     private SimpleFloatProperty discount;
     private String description;
@@ -23,7 +23,7 @@ public class OrderProduct {
         this.productId=new SimpleIntegerProperty(0);
         this.productName=new SimpleStringProperty("");
         this.productQuantity=new SimpleIntegerProperty(0);
-        this.productPrice=new SimpleDoubleProperty(0);
+        this.productPrice=new SimpleFloatProperty(0);
         this.totalPrice=new SimpleObjectProperty<>(new BigDecimal(0));
         this.discount=new SimpleFloatProperty(0);
         this.isActive=true;
@@ -94,11 +94,11 @@ public class OrderProduct {
         return productPrice.get();
     }
 
-    public SimpleDoubleProperty productPriceProperty() {
+    public SimpleFloatProperty productPriceProperty() {
         return productPrice;
     }
 
-    public void setProductPrice(double productPrice) {
+    public void setProductPrice(float productPrice) {
         this.productPrice.set(productPrice);
     }
 
