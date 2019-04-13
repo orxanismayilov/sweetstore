@@ -3,6 +3,7 @@ package sample.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -28,9 +29,8 @@ public class HomeController {
     }
 
     public void buttonLogOutAction() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
+        FXMLLoader loader =new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
         Parent root = loader.load();
-        Stage stage = (Stage) pane.getScene().getWindow();
-        stage.setScene(new Scene(root));
+        pane.getScene().setRoot(root);
     }
 }

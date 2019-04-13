@@ -14,12 +14,12 @@ public class OrderService {
         orderDummyRepo = new OrderDummyRepo();
     }
 
-    public ObservableList getData() {
+    public ObservableList getOrderList() {
         return orderDummyRepo.getOrderList();
 
     }
 
-    public void addData(Order order) {
+    public void addNewOrderToList(Order order) {
         orderDummyRepo.addOrder(order);
     }
 

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="580.0" maxWidth="1050.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1050.0" stylesheets="@../css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.NewOrderController">
+<AnchorPane maxHeight="580.0" maxWidth="1050.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1050.0" stylesheets="file:/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.NewOrderController">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #00ABF6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
@@ -26,7 +26,7 @@
       <ComboBox fx:id="comboOrderType" layoutX="605.0" layoutY="80.0" maxWidth="200.0" prefWidth="200.0" promptText="Order Type" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="80.0" />
       <ComboBox fx:id="comboBoxProducts" layoutX="25.0" layoutY="198.0" onAction="#comboBoxAction" prefWidth="150.0" promptText="Product" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="210.0" />
       <TextField fx:id="fieldQuantity" layoutX="260.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="210.0" />
-      <TextField fx:id="fieldPrice" editable="false" layoutX="420.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="395.0" AnchorPane.topAnchor="210.0" />
+      <TextField fx:id="fieldPrice" disable="true" editable="false" layoutX="420.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="395.0" AnchorPane.topAnchor="210.0" />
       <TextField fx:id="fieldDiscount" layoutX="608.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="580.0" AnchorPane.topAnchor="210.0" />
       <TextField fx:id="fieldTotalPrice" disable="true" layoutX="800.0" layoutY="198.0" maxWidth="100.0" prefWidth="60.0" text="0" AnchorPane.leftAnchor="775.0" AnchorPane.topAnchor="210.0" />
       <Button fx:id="buttonAdd" layoutX="666.0" layoutY="198.0" maxWidth="65.0" mnemonicParsing="false" onAction="#addButtonAction" prefWidth="65.0" text="ADD" AnchorPane.leftAnchor="882.0" AnchorPane.rightAnchor="103.0" AnchorPane.topAnchor="210.0" />

@@ -71,7 +71,7 @@
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="@../images/statistics_100px_1.png" />
+                              <Image url="file:/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/images/statistics_100px_1.png" />
                            </image>
                         </ImageView>
                      </graphic>

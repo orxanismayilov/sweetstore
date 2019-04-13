@@ -5,74 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/cssdialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/cssdialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/AddProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/AddProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/NewOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/OrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/ProductInfoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/ProductInfoController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/StockController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/StockController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/HomeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/HomeController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/StockController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/StockController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateProductController$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/controller/UpdateProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/model/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/model/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/model/OrderProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/model/OrderProduct.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/model/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/model/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/OrderDummyRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/OrderDummyRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/OrderProductDummyRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/OrderProductDummyRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/ProductDummyRepo$CheckProductIsActive.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/ProductDummyRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/repository/ProductDummyRepo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/css/loginStylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/css/loginStylesheet.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/addproduct.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/addproduct.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/css/loginStylesheet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/css/orderStylesheet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/css/stockStyleSheet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/css/textFieldError.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/images/statistics_100px_1.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/homepage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/loginpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/loginpage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/neworder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/neworder.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/productinfopage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/productinfopage.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/orderpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/orderpage.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/stockpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/stockpage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/updateproduct.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/resource/screens/updateproduct.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/service/OrderProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/service/OrderProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/service/OrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/service/ProductService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/utils/Notification.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/HomeProject/sample/utils/ScreenUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HomeProject/sample/utils/ScreenUtils.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/controller/AddProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/AddProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/HomeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/controller/NewOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/NewOrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/controller/ProductInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/ProductInfoController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/StockController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/controller/UpdateOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/UpdateOrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/controller/UpdateProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/controller/UpdateProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/model/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/model/OrderProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/model/OrderProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/model/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/repository/OrderProductDummyRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/repository/OrderProductDummyRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/repository/ProductDummyRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/repository/ProductDummyRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/resource/css/loginStylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/css/loginStylesheet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/resource/css/orderStylesheet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/resource/css/stockStyleSheet.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/addproduct.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/addproduct.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/homepage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/homepage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/loginpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/loginpage.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/neworder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/neworder.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/orderpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/orderpage.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/productinfopage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/productinfopage.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/stockpage.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/stockpage.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/updateorder.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/updateorder.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/resource/screens/updateproduct.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/resource/screens/updateproduct.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/service/OrderProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/service/OrderProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/utils/Notification.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/utils/NumberUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/utils/NumberUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/utils/ScreenUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/utils/ScreenUtils.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -130,20 +96,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/controller/LoginController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="25" column="36" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OrderController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/controller/OrderController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="96" column="64" selection-start-line="96" selection-start-column="64" selection-end-line="96" selection-end-column="64" />
+            <state relative-caret-position="125">
+              <caret line="85" selection-start-line="85" selection-end-line="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -151,11 +108,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScreenUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/utils/ScreenUtils.java">
+      <file leaf-file-name="NewOrderController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sample/controller/NewOrderController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
+            <state relative-caret-position="142">
+              <caret line="213" column="40" selection-start-line="213" selection-start-column="40" selection-end-line="213" selection-end-column="40" />
+              <folding>
+                <element signature="e#3243#7245#0" />
+                <element signature="e#10202#12181#0" />
+                <element signature="e#12188#12353#0" />
+                <element signature="e#12359#12791#0" />
+                <element signature="e#12797#13233#0" />
+                <element signature="e#13498#13499#0" expanded="true" />
+                <element signature="e#13546#13547#0" expanded="true" />
+                <element signature="e#13347#14026#0" />
+                <element signature="e#14032#14305#0" />
+                <element signature="e#14330#14833#0" />
+                <element signature="e#14794#17424#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrderType.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/model/OrderType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="23" lean-forward="true" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -163,20 +142,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StockController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/controller/StockController.java">
+      <file leaf-file-name="NumberUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sample/utils/NumberUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="56" column="26" selection-start-line="56" selection-start-column="26" selection-end-line="56" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddProductController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/sample/controller/AddProductController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+            <state relative-caret-position="34">
+              <caret line="2" column="24" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -189,6 +159,7 @@
         <option value="CSS File" />
         <option value="Class" />
         <option value="Interface" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -214,7 +185,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/sample/screens/stockpage.fxml" />
         <option value="$PROJECT_DIR$/src/sample/controller/AddBtnTable.java" />
         <option value="$PROJECT_DIR$/src/sample/controller/ScreenController.java" />
         <option value="$PROJECT_DIR$/src/sample/ui/AddButtonUI.java" />
@@ -230,7 +200,6 @@
         <option value="$PROJECT_DIR$/src/sample/resource/css/orderStylesheet.css" />
         <option value="$PROJECT_DIR$/src/sample/resource/css/stockStyleSheet.css" />
         <option value="$PROJECT_DIR$/src/sample/resource/screens/productinfopage.fxml" />
-        <option value="$PROJECT_DIR$/src/sample/utils/NumberUtils.java" />
         <option value="$PROJECT_DIR$/src/sample/resource/css/textFieldAlert.css" />
         <option value="$PROJECT_DIR$/src/sample/resource/css/textFieldStyle.css" />
         <option value="$PROJECT_DIR$/src/sample/resource/screens/neworder.fxml" />
@@ -244,27 +213,29 @@
         <option value="$PROJECT_DIR$/src/sample/controller/ProductInfoController.java" />
         <option value="$PROJECT_DIR$/src/sample/service/ProductService.java" />
         <option value="$PROJECT_DIR$/src/sample/model/Product.java" />
-        <option value="$PROJECT_DIR$/src/sample/controller/UpdateProductController.java" />
         <option value="$PROJECT_DIR$/src/sample/service/CopyListUtil.java" />
         <option value="$PROJECT_DIR$/src/sample/repository/ProductDummyRepo.java" />
         <option value="$PROJECT_DIR$/src/sample/service/OrderProductService.java" />
         <option value="$PROJECT_DIR$/src/sample/model/Order.java" />
-        <option value="$PROJECT_DIR$/src/sample/model/OrderProduct.java" />
         <option value="$PROJECT_DIR$/src/sample/repository/OrderProductDummyRepo.java" />
         <option value="$PROJECT_DIR$/src/sample/controller/UpdateOrderController.java" />
-        <option value="$PROJECT_DIR$/src/sample/service/OrderService.java" />
         <option value="$PROJECT_DIR$/src/sample/model/OrderProductSummary.java" />
-        <option value="$PROJECT_DIR$/src/sample/controller/NewOrderController.java" />
         <option value="$PROJECT_DIR$/src/sample/utils/CopyListUtil.java" />
-        <option value="$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java" />
         <option value="$PROJECT_DIR$/src/sample/resource/screens/loginpage.fxml" />
         <option value="$PROJECT_DIR$/src/sample/resource/css/loginStylesheet.css" />
-        <option value="$PROJECT_DIR$/src/sample/utils/ScreenUtils.java" />
-        <option value="$PROJECT_DIR$/src/sample/controller/AddProductController.java" />
-        <option value="$PROJECT_DIR$/src/sample/controller/StockController.java" />
         <option value="$PROJECT_DIR$/src/sample/controller/LoginController.java" />
         <option value="$PROJECT_DIR$/src/sample/controller/HomeController.java" />
+        <option value="$PROJECT_DIR$/src/sample/utils/ScreenUtils.java" />
+        <option value="$PROJECT_DIR$/src/sample/controller/StockController.java" />
+        <option value="$PROJECT_DIR$/src/sample/utils/NumberUtils.java" />
+        <option value="$PROJECT_DIR$/src/sample/controller/AddProductController.java" />
+        <option value="$PROJECT_DIR$/src/sample/controller/UpdateProductController.java" />
+        <option value="$PROJECT_DIR$/src/sample/service/OrderService.java" />
+        <option value="$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java" />
+        <option value="$PROJECT_DIR$/src/sample/model/OrderProduct.java" />
         <option value="$PROJECT_DIR$/src/sample/controller/OrderController.java" />
+        <option value="$PROJECT_DIR$/src/sample/model/OrderType.java" />
+        <option value="$PROJECT_DIR$/src/sample/controller/NewOrderController.java" />
       </list>
     </option>
   </component>
@@ -284,7 +255,7 @@
     <packageJsonPaths />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1386" />
@@ -301,9 +272,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -328,6 +299,20 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="sample" type="462c0819:PsiDirectoryNode" />
               <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HomeProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HomeProject" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sample" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HomeProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HomeProject" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="sample" type="462c0819:PsiDirectoryNode" />
+              <item name="repository" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HomeProject" type="b2602c69:ProjectViewProjectNode" />
@@ -540,11 +525,13 @@
       <workItem from="1554738036782" duration="10116000" />
       <workItem from="1554793256533" duration="2682000" />
       <workItem from="1554813911922" duration="31708000" />
+      <workItem from="1554904385441" duration="3586000" />
+      <workItem from="1555143395340" duration="9762000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="429689000" />
+    <option name="totallyTimeSpent" value="443037000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -556,7 +543,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1386" height="788" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32952693" />
@@ -572,7 +560,7 @@
       <window_info anchor="bottom" id="Terminal" order="14" weight="0.32952693" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.23604827" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.24432677" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32952693" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -580,7 +568,7 @@
       <window_info id="UI Designer" order="3" />
       <window_info anchor="right" id="Theme Preview" order="8" />
       <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" weight="0.304414" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49924356" visible="true" weight="0.3034258" />
       <window_info anchor="right" id="JetGradle" order="6" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -609,7 +597,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="143" />
+      <option name="time" value="144" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -622,23 +610,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/stockpage.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="68" column="17" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/utils/PriceTableCell.java" />
-    <entry file="file://$PROJECT_DIR$/src/sample/utils/AddButtonTableUtils.java" />
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/javafx/scene/control/TableCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="470" selection-start-line="470" selection-end-line="470" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/javafx/scene/control/IndexedCell.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -675,12 +646,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/updateorder.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="12" column="301" selection-start-line="12" selection-start-column="301" selection-end-line="12" selection-end-column="301" />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/javafx/event/Event.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -731,13 +702,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/utils/Notification.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/utils/Notification.java" />
     <entry file="file://$PROJECT_DIR$/src/sample/controller/OrderInfoController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -759,38 +724,17 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/updateproduct.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="24" column="156" selection-start-line="24" selection-start-column="156" selection-end-line="24" selection-end-column="156" />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/controller/ProductInfoController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="18" column="31" lean-forward="true" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-          <folding>
-            <element signature="e#725#726#0" expanded="true" />
-            <element signature="e#763#764#0" expanded="true" />
-            <element signature="e#804#805#0" expanded="true" />
-            <element signature="e#838#839#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/service/ProductService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1760">
-          <caret line="42" column="54" selection-start-line="42" selection-start-column="54" selection-end-line="42" selection-end-column="54" />
-          <folding>
-            <element signature="e#6120#6121#0" expanded="true" />
-            <element signature="e#6174#6175#0" expanded="true" />
-            <element signature="e#6226#6227#0" expanded="true" />
-            <element signature="e#6288#6289#0" expanded="true" />
-            <element signature="e#6335#6336#0" expanded="true" />
-            <element signature="e#6392#6393#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -801,31 +745,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/controller/UpdateProductController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1904">
-          <caret line="127" lean-forward="true" selection-start-line="127" selection-end-line="127" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/repository/ProductDummyRepo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1807">
-          <caret line="123" column="5" selection-start-line="123" selection-start-column="5" selection-end-line="123" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/service/OrderProductService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="23" column="40" lean-forward="true" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
-          <folding>
-            <element signature="e#754#755#0" expanded="true" />
-            <element signature="e#828#829#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -836,44 +759,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/model/Order.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="136" column="31" selection-start-line="136" selection-start-column="31" selection-end-line="136" selection-end-column="31" />
-          <folding>
-            <element signature="e#4126#4127#0" expanded="true" />
-            <element signature="e#4171#4172#0" expanded="true" />
-            <element signature="e#4204#4205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/model/OrderProduct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="135" column="31" selection-start-line="135" selection-start-column="31" selection-end-line="135" selection-end-column="31" />
-          <folding>
-            <element signature="e#2417#2418#0" expanded="true" />
-            <element signature="e#2458#2459#0" expanded="true" />
-            <element signature="e#3394#3395#0" expanded="true" />
-            <element signature="e#3439#3440#0" expanded="true" />
-            <element signature="e#3472#3473#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/repository/OrderProductDummyRepo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="38" column="42" selection-start-line="38" selection-start-column="42" selection-end-line="38" selection-end-column="42" />
-          <folding>
-            <element signature="e#539#540#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#651#652#0" expanded="true" />
-            <element signature="e#691#692#0" expanded="true" />
-            <element signature="e#1534#1535#0" expanded="true" />
-            <element signature="e#1564#1565#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -884,117 +773,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/service/OrderService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-          <folding>
-            <element signature="e#491#492#0" expanded="true" />
-            <element signature="e#537#538#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/model/OrderProductSummary.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="37" column="8" lean-forward="true" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#421#422#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/controller/NewOrderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="304" column="5" lean-forward="true" selection-start-line="304" selection-start-column="5" selection-end-line="304" selection-end-column="5" />
-          <folding>
-            <element signature="e#14264#14748#0" />
-            <element signature="e#17438#17439#0" expanded="true" />
-            <element signature="e#17476#17477#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="20" column="42" selection-start-line="20" selection-start-column="42" selection-end-line="20" selection-end-column="42" />
-          <folding>
-            <element signature="e#858#859#0" expanded="true" />
-            <element signature="e#903#904#0" expanded="true" />
-            <element signature="e#939#940#0" expanded="true" />
-            <element signature="e#994#995#0" expanded="true" />
-            <element signature="e#1035#1036#0" expanded="true" />
-            <element signature="e#1271#1272#0" expanded="true" />
-            <element signature="e#1298#1299#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/loginpage.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="451">
           <caret line="48" column="20" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/neworder.fxml">
       <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/homepage.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/addproduct.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/controller/AddProductController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/controller/StockController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="56" column="26" selection-start-line="56" selection-start-column="26" selection-end-line="56" selection-end-column="26" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/resource/css/loginStylesheet.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/controller/HomeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
@@ -1005,29 +802,212 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/utils/ScreenUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/controller/LoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="25" column="36" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/homepage.fxml">
+      <provider selected="true" editor-type-id="text-editor" />
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/stockpage.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_201/javafx-src.zip!/javafx/scene/control/Button.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="184" selection-start-line="184" selection-end-line="184" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
+          <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/utils/ScreenUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/controller/LoginController.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/addproduct.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="25" column="36" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
+        <state relative-caret-position="336">
+          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/controller/HomeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/utils/NumberUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/resource/screens/neworder.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/controller/UpdateProductController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="90" column="54" lean-forward="true" selection-start-line="90" selection-start-column="54" selection-end-line="90" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/model/Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="59">
+          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+          <folding>
+            <element signature="e#4095#4096#0" expanded="true" />
+            <element signature="e#4126#4127#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/controller/StockController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-79">
+          <caret line="176" column="17" selection-start-line="176" selection-start-column="17" selection-end-line="176" selection-end-column="17" />
+          <folding>
+            <element signature="method#createTable#0;class#StockController#0" />
+            <element signature="method#buttonDeleteAction#0;class#StockController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/service/ProductService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/controller/AddProductController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="816">
+          <caret line="63" column="40" lean-forward="true" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
+          <folding>
+            <element signature="e#2524#2525#0" expanded="true" />
+            <element signature="e#2576#2577#0" expanded="true" />
+            <element signature="e#2617#2618#0" expanded="true" />
+            <element signature="e#2651#2652#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/repository/ProductDummyRepo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/service/OrderService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+          <folding>
+            <element signature="e#491#492#0" expanded="true" />
+            <element signature="e#537#538#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/model/OrderProduct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="116" column="32" selection-start-line="116" selection-start-column="32" selection-end-line="116" selection-end-column="32" />
+          <folding>
+            <element signature="e#2935#2936#0" expanded="true" />
+            <element signature="e#2988#2989#0" expanded="true" />
+            <element signature="e#3019#3020#0" expanded="true" />
+            <element signature="e#3066#3067#0" expanded="true" />
+            <element signature="e#3109#3110#0" expanded="true" />
+            <element signature="e#3355#3356#0" expanded="true" />
+            <element signature="e#3386#3387#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/repository/OrderDummyRepo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-168">
+          <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+          <folding>
+            <element signature="e#800#801#0" expanded="true" />
+            <element signature="e#858#859#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/controller/OrderController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="96" column="64" selection-start-line="96" selection-start-column="64" selection-end-line="96" selection-end-column="64" />
+        <state relative-caret-position="125">
+          <caret line="85" selection-start-line="85" selection-end-line="85" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/model/OrderType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="23" lean-forward="true" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/controller/NewOrderController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="213" column="40" selection-start-line="213" selection-start-column="40" selection-end-line="213" selection-end-column="40" />
+          <folding>
+            <element signature="e#3243#7245#0" />
+            <element signature="e#10202#12181#0" />
+            <element signature="e#12188#12353#0" />
+            <element signature="e#12359#12791#0" />
+            <element signature="e#12797#13233#0" />
+            <element signature="e#13498#13499#0" expanded="true" />
+            <element signature="e#13546#13547#0" expanded="true" />
+            <element signature="e#13347#14026#0" />
+            <element signature="e#14032#14305#0" />
+            <element signature="e#14330#14833#0" />
+            <element signature="e#14794#17424#0" />
           </folding>
         </state>
       </provider>

@@ -42,8 +42,9 @@ public class OrderController implements Initializable {
     private final static String FXML_URL_NEWORDER= "/sample/resource/screens/neworder.fxml";
     private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
     private final static String FXML_URL_LOGINPAGE="/sample/resource/screens/loginpage.fxml";
-    private final static String UPDATE_WINDOW_TITLE="Update order";
+    private final static String UPDATE_WINDOW_TITLE="Update Order";
     private final static String INFO_WINDOW_TITLE="Oder Info";
+    private final static String NEWORDER_WINDOW_TITLE="New Order";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
@@ -78,24 +79,23 @@ public class OrderController implements Initializable {
         }catch(IOException e){
             e.printStackTrace();
         }
-        fxmlControllerStage.setTitle("Update");
+        fxmlControllerStage.setTitle(NEWORDER_WINDOW_TITLE);
         fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
         fxmlControllerStage.setResizable(false);
-        fxmlControllerStage.show();
+        fxmlControllerStage.showAndWait();
         loadTable();
     }
 
     private void loadTable(){
-        ObservableList data=orderService.getData();
-        tableView.setItems(data);
+        ObservableList list=orderService.getOrderList();
+        tableView.setItems(list);
     }
 
     public void buttonLogOutAction() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
+        FXMLLoader loader =new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
         Parent root = loader.load();
-        Stage stage = (Stage) btnNewOrder.getScene().getWindow();
-        stage.setScene(new Scene(root));
+        pane.getScene().setRoot(root);
     }
 
     public void backButtonAction(ActionEvent event) throws Exception{
@@ -248,7 +248,7 @@ public class OrderController implements Initializable {
         fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
         fxmlControllerStage.setResizable(false);
-        fxmlControllerStage.show();
+        fxmlControllerStage.showAndWait();
         fxmlControllerStage.setOnHiding(event1 -> Platform.runLater(() ->loadTable() ));
     }
 }

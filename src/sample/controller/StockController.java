@@ -54,7 +54,7 @@ public class StockController implements Initializable {
     @FXML private TableColumn<Product,LocalDateTime> clmLastUpdate;
     @FXML private TableColumn<Product,Integer> clmQuantity;
     @FXML private TableColumn<Product,Void> clmAction;
-    @FXML BorderPane pane;
+    @FXML private BorderPane pane;
 
 
     @Override
@@ -222,10 +222,9 @@ public class StockController implements Initializable {
     }
 
     public void buttonLogOutAction() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
+        FXMLLoader loader =new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
         Parent root = loader.load();
-        Stage stage = (Stage) pane.getScene().getWindow();
-        stage.setScene(new Scene(root));
+        pane.getScene().setRoot(root);
     }
 
     public void btnBackAction(ActionEvent event) throws IOException {

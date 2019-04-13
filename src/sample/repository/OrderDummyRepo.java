@@ -23,6 +23,7 @@ public class OrderDummyRepo {
     }
 
     public void addOrder(Order order) {
+        order.setDate(LocalDateTime.now());
         orderList.add(order);
     }
 

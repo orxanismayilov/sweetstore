@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
+import sample.utils.NumberUtils;
 
 import java.net.URL;
 import java.util.List;
@@ -87,10 +88,10 @@ public class UpdateProductController implements Initializable {
 
     private void validatePrice() {
         fieldPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches(PRICE_REGEX)) {
-                fieldPrice.pseudoClassStateChanged(errorClass, true);
-            } else {
+            if (NumberUtils.isNumberFloat(newValue)) {
                 fieldPrice.pseudoClassStateChanged(errorClass, false);
+            } else {
+                fieldPrice.pseudoClassStateChanged(errorClass, true);
             }
         });
     }

@@ -1,9 +1,6 @@
 package sample.model;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 import java.math.BigDecimal;
 
@@ -16,7 +13,7 @@ public class OrderProduct {
     private SimpleIntegerProperty productQuantity;
     private SimpleDoubleProperty productPrice;
     private SimpleObjectProperty<BigDecimal> totalPrice;
-    private float discount;
+    private SimpleFloatProperty discount;
     private String description;
     private boolean isActive;
 
@@ -28,7 +25,7 @@ public class OrderProduct {
         this.productQuantity=new SimpleIntegerProperty(0);
         this.productPrice=new SimpleDoubleProperty(0);
         this.totalPrice=new SimpleObjectProperty<>(new BigDecimal(0));
-        this.discount=0;
+        this.discount=new SimpleFloatProperty(0);
         this.isActive=true;
 
     }
@@ -118,11 +115,15 @@ public class OrderProduct {
     }
 
     public float getDiscount() {
+        return discount.get();
+    }
+
+    public SimpleFloatProperty discountProperty() {
         return discount;
     }
 
     public void setDiscount(float discount) {
-        this.discount = discount;
+        this.discount.set(discount);
     }
 
     public String getDescription() {

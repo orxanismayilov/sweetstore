@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
+import sample.utils.NumberUtils;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -21,29 +22,33 @@ public class AddProductController implements Initializable {
     private Product product;
     private Stage stage;
     private ProductService productService;
-    Map<String,Map<Boolean,List<String>>> validation;
-    private final static String PRICE_REGEX="^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
-    private final static String QUANTITY_REGEX="\\d*";
-    private final static String QUANTITY_ERROR="Quantity must be number";
-    private final static String PRICE_ERROR="Price must be number";
+    Map<String, Map<Boolean, List<String>>> validation;
+    private final static String QUANTITY_ERROR = "Quantity must be number";
+    private final static String PRICE_ERROR = "Price must be number";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
-    @FXML private TextField productName;
-    @FXML private TextField productQuantity;
-    @FXML private TextField productPrice;
-    @FXML private Button buttonSave;
-    @FXML private Button buttonCancel;
-    @FXML private Label lblAlert;
+    @FXML
+    private TextField productName;
+    @FXML
+    private TextField productQuantity;
+    @FXML
+    private TextField productPrice;
+    @FXML
+    private Button buttonSave;
+    @FXML
+    private Button buttonCancel;
+    @FXML
+    private Label lblAlert;
 
 
-    public void saveProduct(){
-        product=new Product();
+    public void saveProduct() {
+        product = new Product();
         product.setName(productName.getText());
         try {
-           product.setQuantity(Integer.parseInt(productQuantity.getText()));
+            product.setQuantity(Integer.parseInt(productQuantity.getText()));
         } catch (NumberFormatException e) {
             e.printStackTrace();
             lblAlert.setText(QUANTITY_ERROR);
-            productQuantity.pseudoClassStateChanged(errorClass,true);
+            productQuantity.pseudoClassStateChanged(errorClass, true);
             return;
         }
 
@@ -52,13 +57,13 @@ public class AddProductController implements Initializable {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             lblAlert.setText(PRICE_ERROR);
-            productPrice.pseudoClassStateChanged(errorClass,true);
+            productPrice.pseudoClassStateChanged(errorClass, true);
             return;
         }
 
-        validation=productService.addProduct(product);
+        validation = productService.addProduct(product);
 
-        if(!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)){
+        if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
             Stage stage = (Stage) buttonSave.getScene().getWindow();
             stage.close();
         } else {
@@ -66,16 +71,16 @@ public class AddProductController implements Initializable {
         }
     }
 
-    public void cancelAction(){
-        Stage stage=(Stage) buttonCancel.getScene().getWindow();
+    public void cancelAction() {
+        Stage stage = (Stage) buttonCancel.getScene().getWindow();
         stage.close();
     }
 
-    public void setProductService(ProductService productService){
-        this.productService=productService;
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
     }
 
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
         this.stage = stage;
     }
 
@@ -86,58 +91,58 @@ public class AddProductController implements Initializable {
     }
 
 
-    private void validatePrice () {
+    private void validatePrice() {
         productPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches(PRICE_REGEX)) {
-                productPrice.pseudoClassStateChanged(errorClass, true);
-            } else {
+            if (!NumberUtils.isNumberFloat(newValue)) {
                 productPrice.pseudoClassStateChanged(errorClass, false);
-            }
-        });
-    }
-
-    private  void validateQuantity() {
-        productQuantity.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches(QUANTITY_REGEX)) {
-                productQuantity.pseudoClassStateChanged(errorClass, true);
             } else {
-                productQuantity.pseudoClassStateChanged(errorClass, false);
+                productPrice.pseudoClassStateChanged(errorClass, true);
             }
         });
     }
 
-    private void handleErrors(Map<String,Map<Boolean,List<String>>> validation){
-        Map<Boolean,List<String>> nameMap=validation.get("nameError");
-        Map<Boolean,List<String>> quantityMap=validation.get("quantityError");
-        Map<Boolean,List<String>> priceMap=validation.get("priceError");
-        StringBuilder errors=new StringBuilder();
-        if(nameMap.containsKey(true)){
-            productName.pseudoClassStateChanged(errorClass,true);
-            List<String> ls=nameMap.get(true);
-            for (String error:ls){
+    private void validateQuantity() {
+        productQuantity.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (NumberUtils.isNumberInteger(newValue)) {
+                productQuantity.pseudoClassStateChanged(errorClass, false);
+            } else {
+                productQuantity.pseudoClassStateChanged(errorClass, true);
+            }
+        });
+    }
+
+    private void handleErrors(Map<String, Map<Boolean, List<String>>> validation) {
+        Map<Boolean, List<String>> nameMap = validation.get("nameError");
+        Map<Boolean, List<String>> quantityMap = validation.get("quantityError");
+        Map<Boolean, List<String>> priceMap = validation.get("priceError");
+        StringBuilder errors = new StringBuilder();
+        if (nameMap.containsKey(true)) {
+            productName.pseudoClassStateChanged(errorClass, true);
+            List<String> ls = nameMap.get(true);
+            for (String error : ls) {
                 errors.append(error);
             }
 
         } else {
-            productName.pseudoClassStateChanged(errorClass,false);
+            productName.pseudoClassStateChanged(errorClass, false);
         }
-        if(quantityMap.containsKey(true)){
-            productQuantity.pseudoClassStateChanged(errorClass,true);
-            List<String> ls=quantityMap.get(true);
-            for (String error:ls){
+        if (quantityMap.containsKey(true)) {
+            productQuantity.pseudoClassStateChanged(errorClass, true);
+            List<String> ls = quantityMap.get(true);
+            for (String error : ls) {
                 errors.append(error);
             }
-        }else {
-            productQuantity.pseudoClassStateChanged(errorClass,false);
+        } else {
+            productQuantity.pseudoClassStateChanged(errorClass, false);
         }
-        if(priceMap.containsKey(true)) {
-            productPrice.pseudoClassStateChanged(errorClass,true);
-            List<String> ls=priceMap.get(true);
-            for (String error:ls){
+        if (priceMap.containsKey(true)) {
+            productPrice.pseudoClassStateChanged(errorClass, true);
+            List<String> ls = priceMap.get(true);
+            for (String error : ls) {
                 errors.append(error);
             }
-        }else {
-            productPrice.pseudoClassStateChanged(errorClass,false);
+        } else {
+            productPrice.pseudoClassStateChanged(errorClass, false);
         }
         lblAlert.setText(String.valueOf(errors));
 

@@ -171,7 +171,7 @@ public class UpdateOrderController implements Initializable {
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setDescription(summary.getDescription());
         order.setOrderType("online");
-        orderService.addData(order);
+        orderService.addNewOrderToList(order);
         Stage stage=(Stage) buttonSave.getScene().getWindow();
         stage.close();
     }
