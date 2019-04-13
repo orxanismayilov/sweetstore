@@ -16,6 +16,7 @@ public class OrderProductDummyRepo {
     }
 
     public void addOrderProductToList(OrderProduct orderProduct) {
+        orderProduct.setId(getOrderProductNewId());
         list.add(orderProduct);
     }
 
@@ -34,6 +35,27 @@ public class OrderProductDummyRepo {
     public void removeOrderProductById(int id) {
         Predicate<OrderProduct> orderProductPredicate = orderProduct -> orderProduct.getId() == id;
         removeOrderProduct(orderProductPredicate);
+    }
+
+    public OrderProduct doesOrderProductExist(OrderProduct newOrderProduct){
+        for (OrderProduct orderProduct:list){
+            if (orderProduct.getId()==newOrderProduct.getId()){
+                if (orderProduct.isActive()){
+                    return orderProduct;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void updateOrderProduct(OrderProduct newOrderProduct, int id){
+        for (OrderProduct oldOrderProduct:list){
+            if(oldOrderProduct.getId()==id){
+                newOrderProduct.setId(id);
+                list.remove(oldOrderProduct);
+                list.add(newOrderProduct);
+            }
+        }
     }
 
     public ObservableList getOrderProductByOrderId(int orderId) {

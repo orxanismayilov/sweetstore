@@ -49,7 +49,7 @@ public class ProductService {
                         validation.put("quantityError", quantityMap);
                         return validation;
                     } else {
-                        productDummyRepo.updateProduct(product, existedProduct.getId());
+                        productDummyRepo.updateProductIncreaseQuantity(product, existedProduct.getId());
                         return validation;
                     }
                 }
@@ -58,11 +58,11 @@ public class ProductService {
         return validation;
     }
 
-    public Map updateProductNameAndPrice(Product product,int oldProductId) {
+    public Map updateProduct(Product product, int oldProductId) {
         if(product!=null) {
             validation=isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true)) {
-               productDummyRepo.updateProductNameAndPrice(product,oldProductId);
+               productDummyRepo.updateProduct(product,oldProductId);
             }
         }
         return validation;

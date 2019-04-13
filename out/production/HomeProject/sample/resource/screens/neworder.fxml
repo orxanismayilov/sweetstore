@@ -50,7 +50,7 @@
       <Label layoutX="320.0" layoutY="84.0" maxWidth="100.0" prefWidth="100.0" text="Customer Address:" AnchorPane.leftAnchor="415.0" AnchorPane.topAnchor="85.0" />
       <Separator layoutY="180.0" maxHeight="5.0" prefHeight="5.0" prefWidth="770.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="180.0" />
       <Label layoutX="25.0" layoutY="135.0" maxWidth="65.0" prefWidth="65.0" text="Description:" AnchorPane.leftAnchor="25.0" />
-      <Separator layoutX="310.0" layoutY="475.0" maxWidth="5.0" prefHeight="5.0" prefWidth="200.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="475.0" />
+      <Separator layoutX="310.0" layoutY="475.0" maxWidth="5.0" prefHeight="5.0" prefWidth="200.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="505.0" />
       <Label layoutX="25.0" layoutY="508.0" maxWidth="55.0" prefWidth="55.0" text="Sum:" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="506.0">
          <font>
             <Font size="24.0" />
@@ -100,7 +100,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="labelAlert" layoutX="27.0" layoutY="458.0" prefHeight="17.0" prefWidth="162.0" textFill="#f50c0c" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
+      <Label fx:id="labelAlert" layoutX="27.0" layoutY="458.0" prefHeight="50.0" prefWidth="162.0" textFill="#f50c0c" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
       <Label fx:id="labelPossibleQuantity" layoutX="336.0" layoutY="214.0" text="/0" AnchorPane.leftAnchor="312.0">
          <font>
             <Font size="14.0" />

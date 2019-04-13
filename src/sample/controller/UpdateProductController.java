@@ -47,7 +47,7 @@ public class UpdateProductController implements Initializable {
             return;
         }
 
-        Map<String, Map<Boolean, List<String>>> validation = productService.updateProductNameAndPrice(product, existedProduct.getId());
+        Map<String, Map<Boolean, List<String>>> validation = productService.updateProduct(product, existedProduct.getId());
 
         if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
             Stage stage = (Stage) buttonSave.getScene().getWindow();

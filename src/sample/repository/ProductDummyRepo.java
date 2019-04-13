@@ -45,7 +45,7 @@ public class ProductDummyRepo  {
         return null;
     }
 
-    public void updateProduct(Product newProduct,int id){
+    public void updateProductIncreaseQuantity(Product newProduct, int id){
         for (Product p:productList){
             if (p.getId()==id){
                 p.setQuantity(p.getQuantity()+newProduct.getQuantity());
@@ -55,7 +55,7 @@ public class ProductDummyRepo  {
         }
     }
 
-    public void updateProductNameAndPrice(Product product,int oldProductId){
+    public void updateProduct(Product product, int oldProductId){
         for (Product p:productList){
             if (p.getId()==oldProductId){
                 p.setName(product.getName());

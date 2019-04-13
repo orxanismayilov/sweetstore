@@ -2,10 +2,7 @@ package sample.service;
 
 import javafx.collections.ObservableList;
 import sample.model.Order;
-import sample.model.OrderProduct;
 import sample.repository.OrderDummyRepo;
-
-import java.util.function.Predicate;
 
 public class OrderService {
     private OrderDummyRepo orderDummyRepo;
@@ -25,7 +22,7 @@ public class OrderService {
 
     public void deleteOrderByTransactionId(int transactionId) {
         OrderProductService orderProductService = new OrderProductService();
-        orderProductService.deletOrderProductByOrderId(transactionId);
+        orderProductService.deleteOrderProductByOrderId(transactionId);
         orderDummyRepo.deleteOrderByTransactionId(transactionId);
     }
 
