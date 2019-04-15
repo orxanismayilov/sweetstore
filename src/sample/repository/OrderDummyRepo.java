@@ -3,7 +3,7 @@ package sample.repository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.Order;
-import sample.model.OrderType;
+import sample.enums.OrderType;
 import sample.utils.CopyListUtil;
 
 import java.math.BigDecimal;
@@ -28,8 +28,14 @@ public class OrderDummyRepo {
         orderList.add(order);
     }
 
-    public void deleteOrder(Predicate<Order> order) {
-        orderList.removeIf(order);
+    public void updateOrder(Order newOrder,int oldOrderId){
+        for (Order oldOrder:orderList) {
+            if (oldOrder.getTransactionID()==oldOrderId) {
+                orderList.remove(oldOrder);
+                newOrder.setTransactionID(oldOrderId);
+                orderList.add(newOrder);
+            }
+        }
     }
 
     public void deleteOrderByTransactionId(int transactionId) {
@@ -42,6 +48,15 @@ public class OrderDummyRepo {
 
     public int getOrderNewId() {
         return id++;
+    }
+
+    public Order getOrderById(int orderId){
+        for (Order order:orderList) {
+            if (order.getTransactionID()==orderId){
+                return order;
+            }
+        }
+        return null;
     }
 
     private ObservableList copyList(CopyListUtil<Order> rule){

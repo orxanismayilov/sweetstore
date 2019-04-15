@@ -17,7 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Order;
-import sample.model.OrderType;
+import sample.enums.OrderType;
 import sample.service.OrderService;
 import sample.utils.TableCellStyleUtil;
 import sample.utils.ScreenUtils;
@@ -200,7 +200,6 @@ public class OrderController implements Initializable {
             int id= order.getTransactionID();
             if(loader.getController() instanceof UpdateOrderController){
                 UpdateOrderController updateOrderController = loader.getController();
-                updateOrderController.setStage(fxmlControllerStage);
                 updateOrderController.setOrderId(id);
             }
 

@@ -52,6 +52,7 @@ public class OrderProductDummyRepo {
         for (OrderProduct oldOrderProduct:list){
             if(oldOrderProduct.getId()==id){
                 newOrderProduct.setId(id);
+                //oldOrderProduct.set
                 list.remove(oldOrderProduct);
                 list.add(newOrderProduct);
             }

@@ -22,7 +22,7 @@ public class AddProductController implements Initializable {
     private Product product;
     private Stage stage;
     private ProductService productService;
-    Map<String, Map<Boolean, List<String>>> validation;
+    private Map<String, Map<Boolean, List<String>>> validation;
     private final static String QUANTITY_ERROR = "Quantity must be number";
     private final static String PRICE_ERROR = "Price must be number";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");

@@ -3,6 +3,7 @@ package sample.model;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import sample.enums.OrderType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -140,5 +141,19 @@ public class Order {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "customerName=" + customerName +
+                ", description='" + description + '\'' +
+                ", orderType=" + orderType +
+                ", transactionID=" + transactionID +
+                ", totalPrice=" + totalPrice +
+                ", totalDiscount=" + totalDiscount +
+                ", date=" + date +
+                ", isActive=" + isActive +
+                '}';
     }
 }

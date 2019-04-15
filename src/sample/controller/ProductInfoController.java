@@ -10,7 +10,7 @@ import sample.model.Product;
 public class ProductInfoController {
     private Product product;
     private Stage stage;
-    private static String manatSymbol = "\u20BC";
+    private String manatSymbol = "\u20BC";
     @FXML
     private Label labelId;
     @FXML
@@ -38,6 +38,14 @@ public class ProductInfoController {
 
 
     public void setFileds() {
+        labelId.setText(String.valueOf(product.getId()));
+        labelName.setText(product.getName());
+        labelQuantity.setText(String.valueOf(product.getQuantity()));
+        labelPrice.setText(String.valueOf(product.getPrice() + manatSymbol));
+    }
+
+
+    public void setFields(Product product) {
         labelId.setText(String.valueOf(product.getId()));
         labelName.setText(product.getName());
         labelQuantity.setText(String.valueOf(product.getQuantity()));

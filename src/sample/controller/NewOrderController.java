@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import sample.enums.OrderType;
 import sample.model.*;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
@@ -35,7 +36,8 @@ public class NewOrderController implements Initializable {
     private Product product;
     private OrderService orderService;
     private int orderId;
-    OrderProductSummary summary;
+    private OrderProductSummary summary;
+    private BigDecimal totalPrice;
 
 
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
@@ -101,7 +103,6 @@ public class NewOrderController implements Initializable {
         populateTable();
         fieldInputValidation();
         loadComboBoxProducts();
-        addQuantityToComboBox();
         disableSaveButtonIfFieldsEmpty();
         summary = new OrderProductSummary();
         comboOrderType.setItems(OrderType.getOrderTypeList());
@@ -120,9 +121,8 @@ public class NewOrderController implements Initializable {
     }
 
     public void comboBoxAction() {
-        Product product = comboBoxProducts.getValue();
+        product = comboBoxProducts.getValue();
         if (product != null) {
-            setProduct(product);
             fieldPrice.setText(String.valueOf(product.getPrice()));
             labelPossibleQuantity.setText("/"+String.valueOf(product.getQuantity()));
             fieldTotalPrice.setText("0");
@@ -142,12 +142,6 @@ public class NewOrderController implements Initializable {
         stage.close();
     }
 
-    private void loadComboBoxProducts(){
-        ObservableList<Product> list=productService.getProductList();
-        comboBoxProducts.getItems().clear();
-        comboBoxProducts.setItems(list);
-    }
-
     public void closeButtonAction() {
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
@@ -161,7 +155,7 @@ public class NewOrderController implements Initializable {
         columnTotalPrice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         columnDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
-        columnDiscount.setCellFactory(param -> TableCellStyleUtil.setMonetaryColumnStyle());
+        columnDiscount.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
 
         columnPrice.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
 
@@ -199,11 +193,18 @@ public class NewOrderController implements Initializable {
         });
     }
 
+    private void loadComboBoxProducts(){
+        ObservableList<Product> list=productService.getProductList();
+        comboBoxProducts.getItems().clear();
+        comboBoxProducts.setItems(list);
+        addQuantityToComboBox();
+    }
+
     private void addOrderProduct() throws Exception {
         try {
             createOrderProduct();
             if (validateOrderProduct(orderProduct)) {
-                calculateTotalPriceAndSum();
+                fillSummaryFields();
                 loadTable();
                 loadComboBoxProducts();
                 clearFields();
@@ -219,11 +220,11 @@ public class NewOrderController implements Initializable {
     private void updateOrderProduct() {
         try {
             orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
-            orderProduct.setTotalPrice(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+            orderProduct.setTotalPrice(totalPrice);
             orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
             orderProduct.setDescription(fieldQuantity.getText() + " " + product.getName() + ",");
             if (validateOrderProduct(orderProduct)) {
-                calculateTotalPriceAndSum();
+                fillSummaryFields();
                 clearFields();
                 loadTable();
                 loadComboBoxProducts();
@@ -242,12 +243,12 @@ public class NewOrderController implements Initializable {
         orderProduct.setProductName(product.getName());
         orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
         orderProduct.setProductPrice(product.getPrice());
-        orderProduct.setTotalPrice(new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText())));
+        orderProduct.setTotalPrice(totalPrice);
         orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
         orderProduct.setDescription(fieldQuantity.getText() + " " + product.getName() + " ");
     }
 
-    private void calculateTotalPriceAndSum(){
+    private void fillSummaryFields(){
         summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
         fieldDescription.setText(String.valueOf(summary.getDescription()));
         labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
@@ -320,20 +321,20 @@ public class NewOrderController implements Initializable {
         tableView.getSelectionModel().clearSelection();
     }
 
-    public void getSelectedRow() {
+    private void getSelectedRow() {
         tableView.getSelectionModel().selectedItemProperty().addListener((ChangeListener<OrderProduct>) (observableValue, oldValue, newValue) -> {
             if (tableView.getSelectionModel().getSelectedItem() != null) {
                 OrderProduct selectedRow = (OrderProduct) tableView.getSelectionModel().getSelectedItem();
                 this.orderProduct=selectedRow;
-                updateTableRow();
+                try {
+                    updateTableRow();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
-
-   /* private void setOrderProduct(OrderProduct orderProduct) {
-        this.orderProduct = orderProduct;
-    }*/
 
     private void addQuantityToComboBox(){
         Callback<ListView<Product>, ListCell<Product>> factory = lv -> new ListCell<Product>() {
@@ -352,7 +353,8 @@ public class NewOrderController implements Initializable {
         comboBoxProducts.setButtonCell(factory.call(null));
     }
 
-    private void updateTableRow() {
+    private void updateTableRow() throws Exception {
+        product=productService.getProductById(orderProduct.getProductId());
         fieldQuantity.setText(String.valueOf(orderProduct.getProductQuantity()));
         fieldPrice.setText(String.valueOf(orderProduct.getProductPrice()));
         fieldDiscount.setText(String.valueOf(orderProduct.getDiscount()));
@@ -396,9 +398,9 @@ public class NewOrderController implements Initializable {
             if (NumberUtils.isNumberInteger(newValue)) {
                 try {
                     if (comboBoxProducts.getValue() != null) {
-                        BigDecimal sum = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
-                        sum = sum.setScale(2, BigDecimal.ROUND_HALF_UP);
-                        fieldTotalPrice.setText(String.valueOf(sum));
+                        totalPrice = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
+                        totalPrice = totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+                        fieldTotalPrice.setText(String.valueOf(totalPrice));
                     }
                 } catch (NumberFormatException e) {
                     fieldTotalPrice.setText("0");
@@ -417,9 +419,9 @@ public class NewOrderController implements Initializable {
             if (NumberUtils.isNumberFloat(newValue)) {
                 try {
                     if (comboBoxProducts.getValue() != null) {
-                        BigDecimal sum = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
-                        sum = sum.setScale(2, BigDecimal.ROUND_HALF_UP);
-                        fieldTotalPrice.setText(String.valueOf(sum));
+                        totalPrice = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
+                        totalPrice = totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+                        fieldTotalPrice.setText(String.valueOf(totalPrice));
                     }
                 } catch (NumberFormatException e) {
                     fieldTotalPrice.setText("0");
@@ -431,9 +433,5 @@ public class NewOrderController implements Initializable {
                 labelAlert.setText(ALERT_TEXT);
             }
         }));
-    }
-
-    private void setProduct(Product product) {
-        this.product = product;
     }
 }
