@@ -11,10 +11,13 @@ import sample.model.Product;
 import sample.service.ProductService;
 import sample.utils.NumberUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class AddProductController implements Initializable {
@@ -22,9 +25,9 @@ public class AddProductController implements Initializable {
     private Product product;
     private ProductService productService;
     private Map<String, Map<Boolean, List<String>>> validation;
-    private final static String QUANTITY_ERROR = "Quantity must be number";
-    private final static String PRICE_ERROR = "Price must be number";
+    private Properties properties;
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
+    private static String PROPERTIES_URL="sample/resource/properties/errors.properties";
     @FXML
     private TextField productName;
     @FXML
@@ -38,6 +41,12 @@ public class AddProductController implements Initializable {
     @FXML
     private Label lblAlert;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        validatePrice();
+        validateQuantity();
+        loadProperties();
+    }
 
     public void saveProduct() {
         product = new Product();
@@ -46,7 +55,7 @@ public class AddProductController implements Initializable {
             product.setQuantity(Integer.parseInt(productQuantity.getText()));
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            lblAlert.setText(QUANTITY_ERROR);
+            lblAlert.setText(properties.getProperty("invalidNumber"));
             productQuantity.pseudoClassStateChanged(errorClass, true);
             return;
         }
@@ -55,7 +64,7 @@ public class AddProductController implements Initializable {
             product.setPrice(Float.parseFloat(productPrice.getText()));
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            lblAlert.setText(PRICE_ERROR);
+            lblAlert.setText(properties.getProperty("invalidNumber"));
             productPrice.pseudoClassStateChanged(errorClass, true);
             return;
         }
@@ -78,13 +87,6 @@ public class AddProductController implements Initializable {
     public void setProductService(ProductService productService) {
         this.productService = productService;
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        validatePrice();
-        validateQuantity();
-    }
-
 
     private void validatePrice() {
         productPrice.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -115,7 +117,7 @@ public class AddProductController implements Initializable {
             productName.pseudoClassStateChanged(errorClass, true);
             List<String> ls = nameMap.get(true);
             for (String error : ls) {
-                errors.append(error);
+                errors.append(error+"\n");
             }
 
         } else {
@@ -125,7 +127,7 @@ public class AddProductController implements Initializable {
             productQuantity.pseudoClassStateChanged(errorClass, true);
             List<String> ls = quantityMap.get(true);
             for (String error : ls) {
-                errors.append(error);
+                errors.append(error+"\n");
             }
         } else {
             productQuantity.pseudoClassStateChanged(errorClass, false);
@@ -134,13 +136,21 @@ public class AddProductController implements Initializable {
             productPrice.pseudoClassStateChanged(errorClass, true);
             List<String> ls = priceMap.get(true);
             for (String error : ls) {
-                errors.append(error);
+                errors.append(error+"\n");
             }
         } else {
             productPrice.pseudoClassStateChanged(errorClass, false);
         }
         lblAlert.setText(String.valueOf(errors));
+    }
 
+    private void loadProperties() {
+        try {
+            InputStream inputStream = StockController.class.getClassLoader().getResourceAsStream(PROPERTIES_URL);
+            properties=new Properties();
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
-

@@ -3,28 +3,31 @@ package sample.service;
 import javafx.collections.ObservableList;
 import sample.model.Product;
 import sample.repository.ProductDummyRepo;
+import sample.utils.NumberUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class ProductService {
 
     private ProductDummyRepo productDummyRepo;
-    private final static String NUll_NAME_ERROR = "Name can't be empty.";
-    private final static String NAME_SIZE_ERROR = "Name must contain 3 characters.";
-    private final static String NEGATIVE_PRICE_ERROR = "Price must be positive.";
-    private final static String MAX_PRICE_ERROR = "Price must be less than 1000.";
-    private final static String INVALID_NUMBER_ERROR = "Please enter valid number.";
-    private final static String NEGATIVE_QUANTITY_ERROR = "Quantity must be positive.";
-    private final static String MAX_QUANTITY_ERROR = "Quantity must be less than 1000.";
-    private final static String PRICE_REGEX = "^([0-9]+\\.?[0-9]*|[0-9]*\\.[0-9]+)$";
-    private final static String QUANTITY_REGEX = "\\d*";
     private static Map<String, Map<Boolean, List<String>>> validation;
+    private Properties errorProperties;
+
+    private static String ERROR_PROPERTIES="C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/properties/errors.properties";
 
     public ProductService() {
         productDummyRepo = new ProductDummyRepo();
+        try {
+            InputStream inputStream= new FileInputStream(ERROR_PROPERTIES);
+            errorProperties=new Properties();
+            errorProperties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public ObservableList getProductList() {
@@ -43,7 +46,7 @@ public class ProductService {
                     if (existedProduct.getQuantity() + product.getQuantity() > 1000) {
                         Map<Boolean, List<String>> quantityMap = ProductService.validation.get("quantityError");
                         List ls = quantityMap.get(false);
-                        ls.add(MAX_QUANTITY_ERROR + "--Current quantity is " + existedProduct.getQuantity());
+                        ls.add(errorProperties.getProperty("maxQuantity") + "--Current quantity is " + existedProduct.getQuantity());
                         quantityMap.remove(false);
                         quantityMap.put(true, ls);
                         validation.put("quantityError", quantityMap);
@@ -90,24 +93,24 @@ public class ProductService {
             if (product.getName() != null) {
                 String name = product.getName();
                 if (name.trim().length() < 2) {
-                    nameErrorList.add(NAME_SIZE_ERROR);
+                    nameErrorList.add(errorProperties.getProperty("nameSize"));
                     nameMap.put(true, nameErrorList);
                 } else {
                     product.setName(renameProduct(product.getName()));
                 }
             } else {
-                nameErrorList.add(NUll_NAME_ERROR);
+                nameErrorList.add(errorProperties.getProperty("nullName"));
                 nameMap.put(true, nameErrorList);
             }
             List quantityErrorList = quantityMap.get(false);
             if (product.getQuantity() < 0) {
-                quantityErrorList.add(NEGATIVE_QUANTITY_ERROR);
+                quantityErrorList.add(errorProperties.getProperty("negativeQuantity"));
             }
             if (product.getQuantity() > 1000) {
-                quantityErrorList.add(MAX_QUANTITY_ERROR);
+                quantityErrorList.add(errorProperties.getProperty("maxQuantity"));
             }
-            if (!String.valueOf(product.getQuantity()).matches(QUANTITY_REGEX)) {
-                quantityErrorList.add(INVALID_NUMBER_ERROR);
+            if (!NumberUtils.isNumberInteger(String.valueOf(product.getQuantity()))) {
+                quantityErrorList.add(errorProperties.getProperty("invalidNumber"));
             }
             if (!quantityErrorList.isEmpty()) {
                 quantityMap.remove(false);
@@ -116,13 +119,13 @@ public class ProductService {
 
             List priceErrorList = priceMap.get(false);
             if (product.getPrice() < 0) {
-                priceErrorList.add(NEGATIVE_PRICE_ERROR);
+                priceErrorList.add(errorProperties.getProperty("negativePrice"));
             }
             if (product.getPrice() > 1000) {
-                priceErrorList.add(MAX_PRICE_ERROR);
+                priceErrorList.add(errorProperties.getProperty("maxPrice"));
             }
-            if (!String.valueOf(product.getPrice()).matches(PRICE_REGEX)) {
-                priceErrorList.add(INVALID_NUMBER_ERROR);
+            if (!NumberUtils.isNumberFloat(String.valueOf(product.getPrice()))) {
+                priceErrorList.add(errorProperties.getProperty("invalidNumber"));
             }
             if (!priceErrorList.isEmpty()) {
                 priceMap.remove(false);

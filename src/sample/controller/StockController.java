@@ -191,7 +191,7 @@ public class StockController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("infoproduct")));
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
-            fxmlControllerStage.setScene(new Scene(root));
+            fxmlControllerStage.setScene(new Scene(root,Double.valueOf(appProperties.getProperty("popupwidth")),Double.valueOf(appProperties.getProperty("popupheight"))));
             Product product=productService.getProductById(id);
             if(product!=null){
                 if(loader.getController() instanceof ProductInfoController){
@@ -231,7 +231,7 @@ public class StockController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("updateproduct")));
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
-            fxmlControllerStage.setScene(new Scene(root));
+            fxmlControllerStage.setScene(new Scene(root,Double.valueOf(appProperties.getProperty("popupwidth")),Double.valueOf(appProperties.getProperty("popupheight"))));
             if(loader.getController() instanceof UpdateProductController){
                 UpdateProductController updateProductController = loader.getController();
                 updateProductController.setFields(product);

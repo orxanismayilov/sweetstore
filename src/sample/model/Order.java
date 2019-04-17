@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class Order {
     private SimpleStringProperty customerName;
     private SimpleStringProperty customerAddress;
-    private String description;
+    private SimpleStringProperty description;
     private SimpleObjectProperty<OrderType> orderType;
     private SimpleIntegerProperty transactionID;
     private SimpleObjectProperty<BigDecimal> totalPrice;
@@ -22,7 +22,7 @@ public class Order {
     public Order() {
         this.customerName = new SimpleStringProperty("");
         this.customerAddress=new SimpleStringProperty("");
-        this.description = "";
+        this.description = new SimpleStringProperty("");
         this.totalPrice = new SimpleObjectProperty<>(new BigDecimal(0));
         this.orderType = new SimpleObjectProperty("");
         this.transactionID = new SimpleIntegerProperty(0);
@@ -34,7 +34,7 @@ public class Order {
     public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, OrderType orderType, Integer transactionID, LocalDateTime date) {
         this.customerName = new SimpleStringProperty(customerName);
         this.customerAddress=new SimpleStringProperty(customerAdderss);
-        this.description = description;
+        this.description = new SimpleStringProperty(description);
         this.totalPrice = new SimpleObjectProperty<>(priceBigDecimal);
         this.orderType = new SimpleObjectProperty<>(orderType);
         this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
@@ -68,11 +68,15 @@ public class Order {
     }
 
     public String getDescription() {
+        return description.get();
+    }
+
+    public SimpleStringProperty descriptionProperty() {
         return description;
     }
 
     public void setDescription(String description) {
-        this.description=description;
+        this.description.set(description);
     }
 
     public OrderType getOrderType() {

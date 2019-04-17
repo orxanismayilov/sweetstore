@@ -195,10 +195,9 @@ public class OrderController implements Initializable {
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
             fxmlControllerStage.setScene(new Scene(root));
-            int id= order.getTransactionID();
             if(loader.getController() instanceof UpdateOrderController){
                 UpdateOrderController updateOrderController = loader.getController();
-                updateOrderController.setOrderId(id);
+                updateOrderController.setFields(order);
             }
 
         }catch (Exception e){

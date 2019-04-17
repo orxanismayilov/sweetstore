@@ -1,5 +1,6 @@
 package sample.model;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import sample.service.OrderProductService;
 
@@ -27,11 +28,14 @@ public class OrderProductSummary {
             descriptionBuilder.append(orderProduct.getDescription()+",");
         }
         int index = descriptionBuilder.lastIndexOf(",");
-        description= String.valueOf(descriptionBuilder.substring(0,index-1));
+       if (index>0) {
+           description = String.valueOf(descriptionBuilder.substring(0, index - 1));
+       } else {
+           description=String.valueOf(descriptionBuilder);
+       }
     }
 
     public String getDescription() {
-
         return description;
     }
 

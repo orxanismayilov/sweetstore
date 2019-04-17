@@ -107,6 +107,6 @@
          </font>
       </Label>
       <TextField fx:id="fieldDescription" alignment="TOP_LEFT" editable="false" layoutX="119.0" layoutY="131.0" maxHeight="50.0" prefHeight="50.0" promptText="Description." AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="120.0" />
-      <Button layoutX="962.0" layoutY="210.0" mnemonicParsing="false" onAction="#clearFields" prefWidth="65.0" text="Clear" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="210.0" />
+      <Button layoutX="962.0" layoutY="210.0" mnemonicParsing="false" onAction="#clearFields" prefWidth="65.0" text="CLEAR" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="210.0" />
    </children>
 </AnchorPane>

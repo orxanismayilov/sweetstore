@@ -37,7 +37,6 @@ public class UpdateOrderController implements Initializable {
     private Product product;
     private OrderService orderService;
     private OrderProductSummary summary;
-    private int orderId;
     private BigDecimal totalPrice;
 
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
@@ -88,7 +87,7 @@ public class UpdateOrderController implements Initializable {
     @FXML
     private Label labelPossibleQuantity;
     @FXML
-    private Label labelDescription;
+    private TextField fieldDescription;
     @FXML
     private Label labelSum;
     @FXML
@@ -109,6 +108,7 @@ public class UpdateOrderController implements Initializable {
     public void addButtonAction() throws Exception {
         if (buttonAdd.getText().equals("ADD")) {
             addOrderProduct();
+            loadTable();
         } else {
             updateButtonOrderProduct();
         }
@@ -124,7 +124,7 @@ public class UpdateOrderController implements Initializable {
     }
 
     public void saveButtonAction() {
-        summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
+        summary.fillDescriptionCalculateTotalPriceAndDiscount(order.getTransactionID());
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setDescription(summary.getDescription());
@@ -132,19 +132,13 @@ public class UpdateOrderController implements Initializable {
         order.setTotalDiscount(summary.getTotalDiscount());
         order.setTotalPrice(summary.getSum());
         order.setDescription(summary.getDescription());
-        orderService.updateOrderById(order, orderId);
+        orderService.updateOrderById(order, order.getTransactionID());
         closeButtonAction();
     }
 
     public void closeButtonAction() {
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
-    }
-
-    void setOrderId(int orderId) {
-        this.orderId = orderId;
-        loadTable();
-        setFields();
     }
 
     private void populateTable() {
@@ -184,8 +178,8 @@ public class UpdateOrderController implements Initializable {
                             orderProductService.removeOrderProductByProductId(columnId.getCellData(getTableRow().getIndex()));
                             loadTable();
                             clearFields();
-                            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
-                            labelDescription.setText(String.valueOf(summary.getDescription()));
+                            summary.fillDescriptionCalculateTotalPriceAndDiscount(order.getTransactionID());
+                            fieldDescription.setText(String.valueOf(summary.getDescription()));
                         }
                     });
                 }
@@ -225,18 +219,18 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void fillSummaryFields() {
-        summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
-        labelDescription.setText(String.valueOf(summary.getDescription()));
+        summary.fillDescriptionCalculateTotalPriceAndDiscount(order.getTransactionID());
+        fieldDescription.setText(String.valueOf(summary.getDescription()));
         labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
         labelSum.setText(String.valueOf(summary.getSum()));
     }
 
     private void loadTable() {
-        ObservableList list = orderProductService.getOrderProductByOrderId(orderId);
+        ObservableList list = orderProductService.getOrderProductByOrderId(order.getTransactionID());
         tableView.setItems(list);
     }
 
-    private void clearFields() {
+    public void clearFields() {
         fieldPrice.setText("0");
         fieldTotalPrice.setText("0");
         fieldDiscount.setText("0");
@@ -411,16 +405,17 @@ public class UpdateOrderController implements Initializable {
         labelAlert.setText(String.valueOf(errors));
     }
 
-    private void setFields() {
-        Order order = orderService.getOrderById(orderId);
+    void setFields(Order order) {
+        this.order=order;
         if (order != null) {
             fieldCustomerName.setText(order.getCustomerName());
             fieldCustomerAddress.setText(order.getCustomerAddress());
             comboOrderType.setValue(order.getOrderType());
-            labelDescription.setText(order.getDescription());
+            fieldDescription.setText(order.getDescription());
             labelSum.setText(String.valueOf(order.getTotalPrice()));
             labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
         }
+        loadTable();
     }
 
     private void loadComboBoxProducts() {

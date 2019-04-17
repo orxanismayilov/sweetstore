@@ -5,16 +5,27 @@ import sample.model.OrderProduct;
 import sample.model.Product;
 import sample.repository.OrderProductDummyRepo;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 public class OrderProductService {
     private OrderProductDummyRepo orderProductDummyRepo;
     private Map<String,Map<Boolean,List<String>>> validation;
     private ProductService productService;
+    private Properties properties;
+    private static String ERROR_PROPERTIES="sample/resource/properties/errors.properties";
 
     public OrderProductService() {
         this.orderProductDummyRepo = new OrderProductDummyRepo();
         this.productService=new ProductService();
+        try {
+            InputStream inputStream=OrderProductService.class.getClassLoader().getResourceAsStream(ERROR_PROPERTIES);
+            properties=new Properties();
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ObservableList getOrderProductList(){
@@ -67,16 +78,16 @@ public class OrderProductService {
             List totalPriceList=totalPriceMap.get(false);
             if (product != null) {
                 if (orderProduct.getProductQuantity() < 0) {
-                    quantityList.add("Quantity can't be negative.");
+                    quantityList.add(properties.getProperty("negativeQuantity"));
                 }
                 if (orderProduct.getProductQuantity()>product.getQuantity()){
-                    quantityList.add("You exceed max quantity.--Current quantity is :"+product.getQuantity());
+                    quantityList.add(properties.getProperty("possibleQuantity")+"--Current quantity is :"+product.getQuantity());
                 }
                 if (orderProduct.getDiscount()<0){
-                    discountList.add("Discount can't be negative.");
+                    discountList.add(properties.getProperty("negativeDiscount"));
                 }
                 if(0 > orderProduct.getTotalPrice().floatValue()){
-                    totalPriceList.add("Total price can't be  negative.");
+                    totalPriceList.add(properties.getProperty("negativeTotalPrice"));
                 }
             }
             if (!discountList.isEmpty()){
