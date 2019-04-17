@@ -3,34 +3,50 @@ package sample.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
-public class HomeController {
+public class HomeController implements Initializable {
 
-    private final static String FXML_URL_ORDERPAGE="../resource/screens/orderpage.fxml";
-    private final static String FXML_URL_STOCKPAGE="../resource/screens/stockpage.fxml";
-    private final static String FXML_URL_LOGINPAGE="/sample/resource/screens/loginpage.fxml";
+    private Properties properties;
+    private final static String PROPERTIES_URL= "sample/resource/properties/fxmlurls.properties";
 
     @FXML private BorderPane pane;
 
     public void btnSalesAction(ActionEvent event) throws IOException {
-        ScreenUtils.changeScreen(event,FXML_URL_ORDERPAGE);
+        ScreenUtils.changeScreen(event,properties.getProperty("orderpage"));
     }
 
     public void btnStockAction(ActionEvent event) throws IOException {
-        ScreenUtils.changeScreen(event,FXML_URL_STOCKPAGE);
+        ScreenUtils.changeScreen(event,properties.getProperty("stockpage"));
     }
 
     public void buttonLogOutAction() throws IOException {
-        FXMLLoader loader =new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
+        FXMLLoader loader =new FXMLLoader(getClass().getResource(properties.getProperty("loginpage")));
         Parent root = loader.load();
         pane.getScene().setRoot(root);
+    }
+
+    private void loadPropertiesFile() {
+        try {
+            InputStream input = HomeController.class.getClassLoader().getResourceAsStream(PROPERTIES_URL);
+            properties = new Properties();
+            properties.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        loadPropertiesFile();
     }
 }

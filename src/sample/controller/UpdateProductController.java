@@ -14,13 +14,13 @@ import sample.utils.NumberUtils;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class UpdateProductController implements Initializable {
 
     private final static String PRICE_ERROR = "Please enter valid price.";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
-    private Stage stage;
     private Product existedProduct;
     private ProductService productService;
 
@@ -65,19 +65,11 @@ public class UpdateProductController implements Initializable {
         stage.close();
     }
 
-    void setFields() {
+    void setFields(Product product) {
+        this.existedProduct = product;
         fieldName.setText(existedProduct.getName());
         fieldQuantity.setText(String.valueOf(existedProduct.getQuantity()));
         fieldPrice.setText(String.valueOf(existedProduct.getPrice()));
-    }
-
-    public void setProduct(Product product) {
-        this.existedProduct = product;
-
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 
     @Override

@@ -24,13 +24,14 @@ public class OrderProductSummary {
         for(OrderProduct orderProduct:list){
             sum=sum.add(orderProduct.getTotalPrice());
             totalDiscount=totalDiscount.add(BigDecimal.valueOf(orderProduct.getDiscount()));
-            descriptionBuilder.append(orderProduct.getDescription()+" ");
+            descriptionBuilder.append(orderProduct.getDescription()+",");
         }
-        description= String.valueOf(descriptionBuilder);
+        int index = descriptionBuilder.lastIndexOf(",");
+        description= String.valueOf(descriptionBuilder.substring(0,index-1));
     }
 
     public String getDescription() {
-        totalDiscount = totalDiscount.setScale(2, BigDecimal.ROUND_HALF_UP);
+
         return description;
     }
 
@@ -40,6 +41,7 @@ public class OrderProductSummary {
     }
 
     public BigDecimal getTotalDiscount() {
+        totalDiscount = totalDiscount.setScale(2, BigDecimal.ROUND_HALF_UP);
         return totalDiscount;
     }
 }

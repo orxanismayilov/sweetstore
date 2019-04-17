@@ -28,23 +28,6 @@ public class ProductInfoController {
 
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-
-    public void setFileds() {
-        labelId.setText(String.valueOf(product.getId()));
-        labelName.setText(product.getName());
-        labelQuantity.setText(String.valueOf(product.getQuantity()));
-        labelPrice.setText(String.valueOf(product.getPrice() + manatSymbol));
-    }
-
-
     public void setFields(Product product) {
         labelId.setText(String.valueOf(product.getId()));
         labelName.setText(product.getName());

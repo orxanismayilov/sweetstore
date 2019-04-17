@@ -1,6 +1,5 @@
 package sample.controller;
 
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,30 +21,31 @@ import sample.service.ProductService;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class StockController implements Initializable {
 
     private ProductService productService;
     private Stage fxmlControllerStage;
+    private Properties fxlmProperties;
+    private Properties appProperties;
 
-    private final static String FXML_URL_HOMEPAGE="../resource/screens/homepage.fxml";
-    private final static String FXML_URL_LOGINPAGE="../resource/screens/loginpage.fxml";
-    private final static String FXML_URL_NEWPRODUCT="../resource/screens/addproduct.fxml";
-    private final static String FXML_URL_PRODUCTINFO="/sample/resource/screens/productinfopage.fxml";
-    private final static String FXML_URL_UPDATEPRODUCT="/sample/resource/screens/updateproduct.fxml";
-    private final static String INFO_TITLE="Info";
-    private final static String UPDATE_TITLE="Update product";
-    private final static String NEW_PRODUCT_TITLE="New product";
+    private final static String FXML_PROPERTIES_URL = "sample/resource/properties/fxmlurls.properties";
+    private final static String APP_PROPERTIES_URL="sample/resource/properties/application.properties";
     private final static String PRODUCTNOTEXIST_ALERT="Product not exist";
     private final static String DELETE_ALERT_TEXT="Are you sure ?";
+    private final static String DATE_PATTERN="yyyy-MM-dd HH:mm:ss";
+    private static String NUM_FORMAT_PATTERN="#,###,###,##0.00";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
+    private static String MANAT_SYMBOL = "\u20BC";
 
     @FXML private TableView <Product> tableProduct;
     @FXML private TableColumn<Product,Integer> clmID;
@@ -62,6 +62,7 @@ public class StockController implements Initializable {
         productService=new ProductService();
         createTable();
         loadData();
+        loadPropertiesFile();
     }
 
     private void createTable() {
@@ -71,20 +72,14 @@ public class StockController implements Initializable {
         clmLastUpdate.setCellValueFactory(new PropertyValueFactory<>("updateDate"));
         clmQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         clmPrice.setCellFactory(tc -> new TableCell<Product, Float>() {
-            private final Label labelSign = new Label();
-            private final Label labelPrice = new Label();
             @Override
             protected void updateItem(Float price, boolean empty) {
                 super.updateItem(price, empty);
-                NumberFormat numberFormat = NumberFormat.getInstance();
-                labelSign.setText("\u20BC");
-                HBox pane = new HBox(labelPrice, labelSign);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                DecimalFormat numberFormat = new DecimalFormat(NUM_FORMAT_PATTERN);
                 if (empty) {
-                    setGraphic(null);
+                    setText(null);
                 } else {
-                    labelPrice.setText(numberFormat.format(price));
-                    setGraphic(pane);
+                    setText(String.valueOf(numberFormat.format(price))+MANAT_SYMBOL);
                 }
             }
         });
@@ -125,13 +120,14 @@ public class StockController implements Initializable {
                     buttonInfo.setOnAction((ActionEvent eventInfo)->{
                         Product product= (Product) getTableRow().getItem();
                         buttonInfoAction(product.getId());
-                        popUpWindowSetup(eventInfo,INFO_TITLE);
+                        popUpWindowSetup(eventInfo,appProperties.getProperty("infoproducttitle"));
                     });
 
                     buttonUpdate.setOnAction((ActionEvent eventUpdate)->{
                        Product product=(Product) getTableRow().getItem();
                        updateButtonAction(product);
-                       popUpWindowSetup(eventUpdate,UPDATE_TITLE);
+                       popUpWindowSetup(eventUpdate,appProperties.getProperty("updateproducttitle"));
+                       loadData();
                     });
                 }
             }
@@ -140,7 +136,7 @@ public class StockController implements Initializable {
             @Override
             protected void updateItem(LocalDateTime time,boolean empty){
                 super.updateItem(time,empty);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
                 if (empty){
                     setText(null);
                 } else {
@@ -171,35 +167,28 @@ public class StockController implements Initializable {
 
     public void btnNewProductAction(ActionEvent event) {
         btnNewProductCreation(event);
+        popUpWindowSetup(event,appProperties.getProperty("newproducttitle"));
         loadData();
     }
 
     private void btnNewProductCreation(ActionEvent event){
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_NEWPRODUCT));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("addproduct")));
         try{
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
-            fxmlControllerStage.setScene(new Scene(root,500,300));
+            fxmlControllerStage.setScene(new Scene(root,Double.valueOf(appProperties.getProperty("popupwidth")),Double.valueOf(appProperties.getProperty("popupheight"))));
             if(loader.getController() instanceof AddProductController){
                 AddProductController addProductController = loader.getController();
-                addProductController.setStage(fxmlControllerStage);
                 addProductController.setProductService(productService);
             }
         }catch(IOException e){
             e.printStackTrace();
         }
-
-        fxmlControllerStage.setTitle(NEW_PRODUCT_TITLE);
-        fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
-        fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow() );
-        fxmlControllerStage.setResizable(false);
-        fxmlControllerStage.showAndWait();
     }
 
     private void buttonInfoAction(int id){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_PRODUCTINFO));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("infoproduct")));
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
             fxmlControllerStage.setScene(new Scene(root));
@@ -207,9 +196,7 @@ public class StockController implements Initializable {
             if(product!=null){
                 if(loader.getController() instanceof ProductInfoController){
                     ProductInfoController productInfoController = loader.getController();
-                    productInfoController.setStage(fxmlControllerStage);
-                    productInfoController.setProduct(product);
-                    productInfoController.setFileds();
+                    productInfoController.setFields(product);
                 }
             }else {
                 Alert alert = new Alert(Alert.AlertType.ERROR, PRODUCTNOTEXIST_ALERT);
@@ -222,13 +209,13 @@ public class StockController implements Initializable {
     }
 
     public void buttonLogOutAction() throws IOException {
-        FXMLLoader loader =new FXMLLoader(getClass().getResource(FXML_URL_LOGINPAGE));
+        FXMLLoader loader =new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("loginpage")));
         Parent root = loader.load();
         pane.getScene().setRoot(root);
     }
 
     public void btnBackAction(ActionEvent event) throws IOException {
-        ScreenUtils.changeScreen(event, FXML_URL_HOMEPAGE);
+        ScreenUtils.changeScreen(event, fxlmProperties.getProperty("homepage"));
     }
 
     private void popUpWindowSetup(ActionEvent event,String windowTitle){
@@ -236,24 +223,34 @@ public class StockController implements Initializable {
         fxmlControllerStage.initModality(Modality.WINDOW_MODAL);
         fxmlControllerStage.initOwner(((Node)event.getSource()).getScene().getWindow());
         fxmlControllerStage.setResizable(false);
-        fxmlControllerStage.show();
-        fxmlControllerStage.setOnHiding(event1 -> Platform.runLater(() -> tableProduct.refresh()));
+        fxmlControllerStage.showAndWait();
     }
 
     private void updateButtonAction(Product product){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_URL_UPDATEPRODUCT));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("updateproduct")));
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
             fxmlControllerStage.setScene(new Scene(root));
             if(loader.getController() instanceof UpdateProductController){
                 UpdateProductController updateProductController = loader.getController();
-                updateProductController.setStage(fxmlControllerStage);
-                updateProductController.setProduct(product);
-                updateProductController.setFields();
+                updateProductController.setFields(product);
                 updateProductController.setProductService(productService);
             }
         }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void loadPropertiesFile() {
+        try {
+            InputStream fxmlInput = StockController.class.getClassLoader().getResourceAsStream(FXML_PROPERTIES_URL);
+            InputStream appInput = StockController.class.getClassLoader().getResourceAsStream(APP_PROPERTIES_URL);
+            fxlmProperties = new Properties();
+            appProperties = new Properties();
+            appProperties.load(appInput);
+            fxlmProperties.load(fxmlInput);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

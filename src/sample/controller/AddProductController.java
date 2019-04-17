@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 public class AddProductController implements Initializable {
 
     private Product product;
-    private Stage stage;
     private ProductService productService;
     private Map<String, Map<Boolean, List<String>>> validation;
     private final static String QUANTITY_ERROR = "Quantity must be number";
@@ -80,10 +79,6 @@ public class AddProductController implements Initializable {
         this.productService = productService;
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         validatePrice();
@@ -93,7 +88,7 @@ public class AddProductController implements Initializable {
 
     private void validatePrice() {
         productPrice.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!NumberUtils.isNumberFloat(newValue)) {
+            if (NumberUtils.isNumberFloat(newValue)) {
                 productPrice.pseudoClassStateChanged(errorClass, false);
             } else {
                 productPrice.pseudoClassStateChanged(errorClass, true);
