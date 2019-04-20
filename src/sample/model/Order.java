@@ -3,6 +3,7 @@ package sample.model;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import sample.enums.OrderStatus;
 import sample.enums.OrderType;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ public class Order {
     private SimpleObjectProperty<BigDecimal> totalPrice;
     private SimpleObjectProperty<BigDecimal> totalDiscount;
     private SimpleObjectProperty<LocalDateTime> date;
+    private SimpleObjectProperty<OrderStatus> orderStatus;
     private boolean isActive;
 
     public Order() {
@@ -24,10 +26,11 @@ public class Order {
         this.customerAddress=new SimpleStringProperty("");
         this.description = new SimpleStringProperty("");
         this.totalPrice = new SimpleObjectProperty<>(new BigDecimal(0));
-        this.orderType = new SimpleObjectProperty("");
+        this.orderType = new SimpleObjectProperty();
         this.transactionID = new SimpleIntegerProperty(0);
         this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
         this.date=new SimpleObjectProperty<>(LocalDateTime.now());
+        this.orderStatus=new SimpleObjectProperty<>(OrderStatus.PENDDING);
         this.isActive=true;
     }
 
@@ -40,6 +43,7 @@ public class Order {
         this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
         this.transactionID = new SimpleIntegerProperty(transactionID);
         this.date=new SimpleObjectProperty<>(date);
+        this.orderStatus=new SimpleObjectProperty<>(OrderStatus.PENDDING);
         this.isActive=true;
     }
 
@@ -145,6 +149,18 @@ public class Order {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus.get();
+    }
+
+    public SimpleObjectProperty<OrderStatus> orderStatusProperty() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus.set(orderStatus);
     }
 
     @Override

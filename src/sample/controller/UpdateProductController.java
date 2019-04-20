@@ -95,7 +95,7 @@ public class UpdateProductController implements Initializable {
             fieldName.pseudoClassStateChanged(errorClass, true);
             List<String> ls = nameMap.get(true);
             for (String error : ls) {
-                errors.append(error);
+                errors.append(error+"\n");
             }
         } else {
             fieldName.pseudoClassStateChanged(errorClass, false);
@@ -105,7 +105,7 @@ public class UpdateProductController implements Initializable {
             fieldPrice.pseudoClassStateChanged(errorClass, true);
             List<String> ls = priceMap.get(true);
             for (String error : ls) {
-                errors.append(error);
+                errors.append(error+"\n");
             }
         } else {
             fieldPrice.pseudoClassStateChanged(errorClass, false);

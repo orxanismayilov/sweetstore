@@ -14,8 +14,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import sample.enums.OrderStatus;
 import sample.model.Order;
 import sample.enums.OrderType;
 import sample.service.OrderService;
@@ -54,6 +56,7 @@ public class OrderController implements Initializable {
     @FXML private TableColumn<Order,StringBuilder > clmDescription;
     @FXML private TableColumn<Order,LocalDateTime>clmDate;
     @FXML private TableColumn<Order, Void> clmAction;
+    @FXML private TableColumn<Order, OrderStatus> clmOrderStatus;
     @FXML BorderPane pane;
     @FXML Button btnNewOrder;
 
@@ -106,6 +109,7 @@ public class OrderController implements Initializable {
         clmTotalprice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         clmOrdertype.setCellValueFactory(new PropertyValueFactory<>("orderType"));
         clmTransactionID.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
+        clmOrderStatus.setCellValueFactory(new PropertyValueFactory<>("orderStatus"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         clmAction.setResizable(false);
         clmAction.setMinWidth(120);
@@ -164,6 +168,30 @@ public class OrderController implements Initializable {
         clmAction.setMinWidth(120);
         clmAction.setMaxWidth(120);
         clmTotalprice.setCellFactory(tc->TableCellStyleUtil.setMonetaryColumnStyle());
+        clmOrderStatus.setCellFactory(tc-> new TableCell<Order,OrderStatus>(){
+            @Override
+            protected void updateItem(OrderStatus item, boolean empty) {
+                super.updateItem(item, empty);
+                if (!empty) {
+                    if (item==OrderStatus.PENDDING) {
+                        setTextFill(Color.BLACK);
+                        setStyle("-fx-font-weight: bold");
+                        setStyle("-fx-background-color: yellow");
+                        setText(item.getEngMeaning());
+                    } else if(item==OrderStatus.DELIVERED){
+                        setTextFill(Color.BLACK);
+                        setStyle("-fx-font-weight: bold");
+                        setStyle("-fx-background-color: green");
+                        setText(item.getEngMeaning());
+                    } else {
+                        setTextFill(Color.BLACK);
+                        setStyle("-fx-font-weight: bold");
+                        setStyle("-fx-background-color: red");
+                        setText(item.getEngMeaning());
+                    }
+                }
+            }
+        });
 
         clmDate.setCellFactory(tc-> new TableCell<Order, LocalDateTime>() {
             @Override

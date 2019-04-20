@@ -2,13 +2,12 @@ package sample.repository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sample.model.Order;
 import sample.enums.OrderType;
+import sample.model.Order;
 import sample.utils.CopyListUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.function.Predicate;
 
 public class OrderDummyRepo {
     private static int id = 4;
@@ -20,13 +19,13 @@ public class OrderDummyRepo {
 
 
     public ObservableList getOrderList() {
-        return copyList(order -> order.isActive());
+        return copyList(order->order.isActive());
     }
 
     public void addOrder(Order order) {
         order.setDate(LocalDateTime.now());
         orderList.add(order);
-    }
+            }
 
     public void updateOrder(Order newOrder,int oldOrderId){
         for (Order oldOrder:orderList) {

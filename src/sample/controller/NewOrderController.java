@@ -12,15 +12,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import sample.enums.OrderType;
-import sample.model.*;
+import sample.model.Order;
+import sample.model.OrderProduct;
+import sample.model.OrderProductSummary;
+import sample.model.Product;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
 import sample.service.ProductService;
-import sample.utils.TableCellStyleUtil;
 import sample.utils.NumberUtils;
+import sample.utils.TableCellStyleUtil;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -338,13 +342,21 @@ public class NewOrderController implements Initializable {
 
     private void addQuantityToComboBox(){
         Callback<ListView<Product>, ListCell<Product>> factory = lv -> new ListCell<Product>() {
+            Label productLabel= new Label();
+            Label detailLabel=new Label();
             @Override
             protected void updateItem(Product item, boolean empty) {
                 super.updateItem(item, empty);
+
                 if (empty){
-                    setText(null);
+                    setGraphic(null);
                 } else {
-                    setText(item.getName()+"  "+item.getQuantity());
+                    detailLabel.setText(item.getQuantity()+"-"+item.getPrice());
+                    productLabel.setText(item.getName());
+                    AnchorPane pane=new AnchorPane(productLabel,detailLabel);
+                    AnchorPane.setLeftAnchor(productLabel, 0.0);
+                    AnchorPane.setRightAnchor(detailLabel, 0.0);;
+                    setGraphic(pane);
                 }
             }
 

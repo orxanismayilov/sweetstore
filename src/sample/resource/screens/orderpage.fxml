@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +19,7 @@
    <top>
       <AnchorPane prefHeight="42.0" prefWidth="750.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
          <children>
-            <MenuButton layoutX="918.0" layoutY="6.0" mnemonicParsing="false" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="6.0">
+            <MenuButton layoutX="918.0" layoutY="6.0" mnemonicParsing="false" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="6.0">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#buttonLogOutAction" text="Log Out" />
               </items>
@@ -29,7 +31,7 @@
                   </ImageView>
                </graphic>
             </MenuButton>
-            <Button fx:id="btnBack" layoutX="21.0" layoutY="8.0" mnemonicParsing="false" onAction="#backButtonAction">
+            <Button fx:id="btnBack" layoutX="21.0" layoutY="8.0" mnemonicParsing="false" onAction="#backButtonAction" AnchorPane.leftAnchor="25.0">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">
                      <image>
@@ -47,20 +49,21 @@
       </AnchorPane>
    </top>
    <right>
-      <VBox prefHeight="390.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="390.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
    </right>
    <left>
-      <VBox prefHeight="479.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="479.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
-      <TableView fx:id="tableView" prefHeight="479.0" prefWidth="606.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tableView" prefHeight="428.0" prefWidth="1058.0">
         <columns>
             <TableColumn fx:id="clmTransactionID" editable="false" prefWidth="133.0" text="TransactionID" />
           <TableColumn fx:id="clmName" editable="false" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="clmAddress" prefWidth="75.0" text="Adress" />
             <TableColumn fx:id="clmDescription" editable="false" prefWidth="69.0" text="Description" />
             <TableColumn fx:id="clmTotalprice" editable="false" prefWidth="265.0" text="Total Price" />
-            <TableColumn fx:id="clmOrdertype" editable="false" prefWidth="282.0" text="Type" />
+            <TableColumn fx:id="clmOrdertype" editable="false" prefWidth="282.0" text="Order Type" />
+            <TableColumn fx:id="clmOrderStatus" editable="false" prefWidth="282.0" text="Order Status" />
             <TableColumn fx:id="clmDate" editable="false" prefWidth="75.0" text="Date" />
             <TableColumn fx:id="clmAction" prefWidth="75.0" text="Action" />
         </columns>
@@ -72,7 +75,10 @@
    <bottom>
       <AnchorPane prefHeight="79.0" prefWidth="750.0" BorderPane.alignment="TOP_LEFT">
          <children>
-            <Button fx:id="btnNewOrder" layoutX="665.0" layoutY="15.0" mnemonicParsing="false" onAction="#addOrder" text="Add Order" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="33.0" />
+            <Button fx:id="btnNewOrder" layoutX="665.0" layoutY="15.0" mnemonicParsing="false" onAction="#addOrder" text="Add Order" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="25.0" />
+            <Button layoutX="264.0" layoutY="14.0" mnemonicParsing="false" text="Search" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="240.0" />
+            <TextField layoutX="14.0" layoutY="15.0" maxWidth="150.0" prefWidth="150.0" promptText="Transaction Id" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="25.0" />
+            <CheckBox layoutX="189.0" layoutY="18.0" mnemonicParsing="false" text="All" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="190.0" />
          </children>
       </AnchorPane>
    </bottom>

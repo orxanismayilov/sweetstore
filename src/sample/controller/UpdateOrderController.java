@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import sample.enums.OrderType;
@@ -281,7 +282,7 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void updateTableRow(OrderProduct selectedRow) throws Exception {
-        product=productService.getProductById(selectedRow.getProductId());
+        product = productService.getProductById(selectedRow.getProductId());
         fieldQuantity.setText(String.valueOf(selectedRow.getProductQuantity()));
         fieldPrice.setText(String.valueOf(selectedRow.getProductPrice()));
         fieldDiscount.setText(String.valueOf(selectedRow.getDiscount()));
@@ -325,8 +326,8 @@ public class UpdateOrderController implements Initializable {
                 fieldQuantity.pseudoClassStateChanged(errorClass, false);
                 labelAlert.setText("");
                 if (comboBoxProducts.getValue() != null) {
-                    totalPrice=new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
-                    totalPrice=totalPrice.setScale(2,BigDecimal.ROUND_HALF_EVEN);
+                    totalPrice = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
+                    totalPrice = totalPrice.setScale(2, BigDecimal.ROUND_HALF_EVEN);
                     fieldTotalPrice.setText(String.valueOf(totalPrice));
                 } else {
                     fieldTotalPrice.setText("0");
@@ -342,8 +343,8 @@ public class UpdateOrderController implements Initializable {
                 fieldDiscount.pseudoClassStateChanged(errorClass, false);
                 labelAlert.setText("");
                 if (comboBoxProducts.getValue() != null) {
-                    totalPrice=new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
-                    totalPrice=totalPrice.setScale(2,BigDecimal.ROUND_HALF_EVEN);
+                    totalPrice = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
+                    totalPrice = totalPrice.setScale(2, BigDecimal.ROUND_HALF_EVEN);
                     fieldTotalPrice.setText(String.valueOf(totalPrice));
                 } else {
                     fieldTotalPrice.setText("0");
@@ -381,7 +382,7 @@ public class UpdateOrderController implements Initializable {
             Map<Boolean, List<String>> quantityMap = validation.get("quantityError");
             List<String> list = quantityMap.get(true);
             for (String s : list) {
-                errors.append(s);
+                errors.append(s + "\n");
             }
         }
 
@@ -390,7 +391,7 @@ public class UpdateOrderController implements Initializable {
             Map<Boolean, List<String>> discountMap = validation.get("discountError");
             List<String> list = discountMap.get(true);
             for (String s : list) {
-                errors.append(s);
+                errors.append(s + "\n");
             }
         }
 
@@ -399,14 +400,14 @@ public class UpdateOrderController implements Initializable {
             Map<Boolean, List<String>> totalPriceMap = validation.get("totalPriceError");
             List<String> list = totalPriceMap.get(true);
             for (String s : list) {
-                errors.append(s);
+                errors.append(s + "\n");
             }
         }
         labelAlert.setText(String.valueOf(errors));
     }
 
     void setFields(Order order) {
-        this.order=order;
+        this.order = order;
         if (order != null) {
             fieldCustomerName.setText(order.getCustomerName());
             fieldCustomerAddress.setText(order.getCustomerAddress());
@@ -427,13 +428,23 @@ public class UpdateOrderController implements Initializable {
 
     private void addQuantityToComboBox() {
         Callback<ListView<Product>, ListCell<Product>> factory = lv -> new ListCell<Product>() {
+            Label productLabel = new Label();
+            Label detailLabel = new Label();
+
             @Override
             protected void updateItem(Product item, boolean empty) {
                 super.updateItem(item, empty);
+
                 if (empty) {
-                    setText(null);
+                    setGraphic(null);
                 } else {
-                    setText(item.getName() + "  " + item.getQuantity());
+                    detailLabel.setText(item.getQuantity() + "-" + item.getPrice());
+                    productLabel.setText(item.getName());
+                    AnchorPane pane = new AnchorPane(productLabel, detailLabel);
+                    AnchorPane.setLeftAnchor(productLabel, 0.0);
+                    AnchorPane.setRightAnchor(detailLabel, 0.0);
+                    ;
+                    setGraphic(pane);
                 }
             }
 
