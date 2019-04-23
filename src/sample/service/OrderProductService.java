@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import sample.model.OrderProduct;
 import sample.model.Product;
 import sample.repository.OrderProductDummyRepo;
+import sample.utils.LoadPropertyUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,18 +15,12 @@ public class OrderProductService {
     private Map<String,Map<Boolean,List<String>>> validation;
     private ProductService productService;
     private Properties properties;
-    private static String ERROR_PROPERTIES="sample/resource/properties/errors.properties";
+    private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\errors.properties";
 
     public OrderProductService() {
         this.orderProductDummyRepo = new OrderProductDummyRepo();
         this.productService=new ProductService();
-        try {
-            InputStream inputStream=OrderProductService.class.getClassLoader().getResourceAsStream(ERROR_PROPERTIES);
-            properties=new Properties();
-            properties.load(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 
     public ObservableList getOrderProductList(){

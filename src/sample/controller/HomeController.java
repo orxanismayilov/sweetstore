@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     private Properties properties;
-    private final static String PROPERTIES_URL= "sample/resource/properties/fxmlurls.properties";
+    private final static String PROPERTIES_URL= "C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\fxmlurls.properties";
 
     @FXML private BorderPane pane;
 
@@ -35,18 +36,8 @@ public class HomeController implements Initializable {
         pane.getScene().setRoot(root);
     }
 
-    private void loadPropertiesFile() {
-        try {
-            InputStream input = HomeController.class.getClassLoader().getResourceAsStream(PROPERTIES_URL);
-            properties = new Properties();
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadPropertiesFile();
+        properties= LoadPropertyUtil.loadPropertiesFile(PROPERTIES_URL);
     }
 }

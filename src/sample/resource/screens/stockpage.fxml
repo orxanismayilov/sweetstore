@@ -17,7 +17,7 @@
     <top>
       <AnchorPane prefHeight="42.0" prefWidth="750.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
          <children>
-            <MenuButton layoutX="918.0" layoutY="6.0" mnemonicParsing="false" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="6.0">
+            <MenuButton layoutX="918.0" layoutY="6.0" mnemonicParsing="false" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="6.0">
               <items>
                 <MenuItem fx:id="buttonLogOut" mnemonicParsing="false" onAction="#buttonLogOutAction" text="Log Out" />
               </items>
@@ -29,7 +29,7 @@
                   </ImageView>
                </graphic>
             </MenuButton>
-            <Button fx:id="backButton" layoutX="21.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBackAction">
+            <Button fx:id="backButton" layoutX="21.0" layoutY="8.0" mnemonicParsing="false" onAction="#btnBackAction" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="6.0">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">
                      <image>
@@ -47,10 +47,10 @@
       </AnchorPane>
    </top>
    <right>
-      <VBox prefHeight="390.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="390.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
    </right>
    <left>
-      <VBox prefHeight="479.0" prefWidth="15.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="479.0" prefWidth="25.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <TableView fx:id="tableProduct" prefHeight="479.0" prefWidth="606.0" BorderPane.alignment="CENTER">
@@ -70,7 +70,8 @@
    <bottom>
       <AnchorPane prefHeight="79.0" prefWidth="750.0" BorderPane.alignment="TOP_LEFT">
          <children>
-            <Button layoutX="665.0" layoutY="15.0" mnemonicParsing="false" onAction="#btnNewProductAction" text="Add Prodcut" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="33.0" />
+            <Button layoutX="665.0" layoutY="15.0" maxWidth="85.0" mnemonicParsing="false" onAction="#btnNewProductAction" prefWidth="85.0" text="Add Prodcut" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="25.0" />
+            <Button layoutX="910.0" layoutY="15.0" mnemonicParsing="false" text="Reload" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="125.0" />
          </children>
       </AnchorPane>
    </bottom>

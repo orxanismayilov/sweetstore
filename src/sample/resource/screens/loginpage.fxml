@@ -57,5 +57,14 @@
             </Button>
          </children>
       </VBox>
+      <VBox alignment="CENTER" layoutX="425.0" layoutY="381.0" prefHeight="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="390.0">
+         <children>
+            <Label fx:id="labelAlert" alignment="CENTER" prefHeight="40.0" prefWidth="500.0" textFill="#e10808">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

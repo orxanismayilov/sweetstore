@@ -1,6 +1,7 @@
 package sample.service;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.Order;
 import sample.repository.OrderDummyRepo;
@@ -20,6 +21,10 @@ public class OrderService {
     public void addNewOrderToList(Order order) {
         System.out.println("user"+"added order to db"+order);
         orderDummyRepo.addOrder(order);
+    }
+
+    public ObservableList searchOrderById (String id) {
+        return orderDummyRepo.searchOrderById(id);
     }
 
     public void deleteOrderByTransactionId(int transactionId) {

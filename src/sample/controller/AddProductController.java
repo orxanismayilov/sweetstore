@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.service.ProductService;
+import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class AddProductController implements Initializable {
     private Map<String, Map<Boolean, List<String>>> validation;
     private Properties properties;
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
-    private static String PROPERTIES_URL="sample/resource/properties/errors.properties";
+    private static String PROPERTIES_URL="C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\errors.properties";
     @FXML
     private TextField productName;
     @FXML
@@ -45,7 +46,7 @@ public class AddProductController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         validatePrice();
         validateQuantity();
-        loadProperties();
+        properties= LoadPropertyUtil.loadPropertiesFile(PROPERTIES_URL);
     }
 
     public void saveProduct() {
@@ -142,15 +143,5 @@ public class AddProductController implements Initializable {
             productPrice.pseudoClassStateChanged(errorClass, false);
         }
         lblAlert.setText(String.valueOf(errors));
-    }
-
-    private void loadProperties() {
-        try {
-            InputStream inputStream = StockController.class.getClassLoader().getResourceAsStream(PROPERTIES_URL);
-            properties=new Properties();
-            properties.load(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

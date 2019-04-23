@@ -8,8 +8,7 @@ import sample.model.Product;
 
 
 public class ProductInfoController {
-    private Product product;
-    private Stage stage;
+
     private String manatSymbol = "\u20BC";
     @FXML
     private Label labelId;
@@ -22,18 +21,16 @@ public class ProductInfoController {
     @FXML
     private Button btnCancel;
 
-    public void cancelAction(javafx.event.ActionEvent event) {
+    public void cancelAction() {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
 
     }
 
-    public void setFields(Product product) {
+    void setFields(Product product) {
         labelId.setText(String.valueOf(product.getId()));
         labelName.setText(product.getName());
         labelQuantity.setText(String.valueOf(product.getQuantity()));
         labelPrice.setText(String.valueOf(product.getPrice() + manatSymbol));
     }
-
-
 }

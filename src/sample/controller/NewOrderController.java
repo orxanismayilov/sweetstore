@@ -47,7 +47,6 @@ public class NewOrderController implements Initializable {
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static String ALERT_TEXT = "Please enter valid input!";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
-    private static String MANAT_SYMBOL = "\u20BC";
 
     @FXML
     private ComboBox<Product> comboBoxProducts;

@@ -3,6 +3,7 @@ package sample.service;
 import javafx.collections.ObservableList;
 import sample.model.Product;
 import sample.repository.ProductDummyRepo;
+import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
 
 import java.io.FileInputStream;
@@ -20,14 +21,7 @@ public class ProductService {
 
     public ProductService() {
         productDummyRepo = new ProductDummyRepo();
-        try {
-            InputStream inputStream= new FileInputStream(ERROR_PROPERTIES);
-            errorProperties=new Properties();
-            errorProperties.load(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 
     public ObservableList getProductList() {

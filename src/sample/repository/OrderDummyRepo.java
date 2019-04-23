@@ -58,6 +58,18 @@ public class OrderDummyRepo {
         return null;
     }
 
+    public ObservableList searchOrderById(String id) {
+        ObservableList list= FXCollections.observableArrayList();
+        for (Order order:orderList) {
+            if (order.isActive()) {
+                if (String.valueOf(order.getTransactionID()).contains(id)) {
+                    list.add(order);
+                }
+            }
+        }
+        return list;
+    }
+
     private ObservableList copyList(CopyListUtil<Order> rule){
         ObservableList<Order> copiedList=FXCollections.observableArrayList();
         for(Order order:orderList){

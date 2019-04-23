@@ -100,7 +100,6 @@ public class ProductDummyRepo  {
         return productNames;
     }
 
-
     private ObservableList copyList(ObservableList<Product> list,CopyListUtil<Product> rule){
          ObservableList<Product> copiedList=FXCollections.observableArrayList();
          for(Product product:list){
