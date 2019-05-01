@@ -15,8 +15,8 @@ public class Main extends Application {
 
     private Properties fxmlProperties;
     private Properties applicationProperties;
-    private static String FXML_PROPERTIES_URL="/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/properties/fxmlurls.properties";
-    private static String APP_PROPERTIES_URL="/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/properties/application.properties";
+    private static String FXML_PROPERTIES_URL="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
+    private static String APP_PROPERTIES_URL="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
 
     @Override
     public void start(Stage primaryStage) throws Exception{

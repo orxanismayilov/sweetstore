@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.enums.OrderStatus;
@@ -44,8 +43,8 @@ public class OrderController implements Initializable {
     private PseudoClass deliveredPseudoClass=PseudoClass.getPseudoClass("readonly");
     private PseudoClass closedPseudoClass=PseudoClass.getPseudoClass("disabled");
 
-    private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\fxmlurls.properties";
-    private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\application.properties";
+    private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
+    private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
     private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");

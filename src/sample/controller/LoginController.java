@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
     private Properties properties;
-    private final static String PROPERTIES_URL= "C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\fxmlurls.properties";
+    private final static String PROPERTIES_URL= "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
     private UserService userService;
 
     @FXML

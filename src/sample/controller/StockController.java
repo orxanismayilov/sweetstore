@@ -37,8 +37,8 @@ public class StockController implements Initializable {
     private Properties fxlmProperties;
     private Properties appProperties;
 
-    private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\fxmlurls.properties";
-    private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\application.properties";
+    private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
+    private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
     private final static String PRODUCTNOTEXIST_ALERT = "Product not exist";
     private final static String DELETE_ALERT_TEXT = "Are you sure ?";
     private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
