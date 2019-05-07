@@ -23,7 +23,7 @@ public class ProductDummyRepo  {
 
     public void addProduct(Product product){
         product.setId(getProductNewId());
-        productList.add(product);
+        productList.add(0,product);
     }
 
     public void deleteProductbyId(int id){

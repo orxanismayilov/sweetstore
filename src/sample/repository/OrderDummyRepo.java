@@ -24,7 +24,7 @@ public class OrderDummyRepo {
 
     public void addOrder(Order order) {
         order.setDate(LocalDateTime.now());
-        orderList.add(order);
+        orderList.add(0,order);
             }
 
     public void updateOrder(Order newOrder,int oldOrderId){

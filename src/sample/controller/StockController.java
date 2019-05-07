@@ -1,5 +1,6 @@
 package sample.controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +23,6 @@ import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -36,6 +36,7 @@ public class StockController implements Initializable {
     private Stage fxmlControllerStage;
     private Properties fxlmProperties;
     private Properties appProperties;
+    private final int rowsPerPage=10;
 
     private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
     private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
@@ -47,35 +48,44 @@ public class StockController implements Initializable {
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
     private static String MANAT_SYMBOL = "\u20BC";
-
-    @FXML
     private TableView<Product> tableProduct;
-    @FXML
-    private TableColumn<Product, Integer> clmID;
-    @FXML
-    private TableColumn<Product, String> clmName;
-    @FXML
-    private TableColumn<Product, Float> clmPrice;
-    @FXML
-    private TableColumn<Product, LocalDateTime> clmLastUpdate;
-    @FXML
-    private TableColumn<Product, Integer> clmQuantity;
-    @FXML
-    private TableColumn<Product, Void> clmAction;
+    private Pagination pages;
+
     @FXML
     private BorderPane pane;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService = new ProductService();
         createTable();
-        loadData();
+        paginationSetup();
         fxlmProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);
         appProperties = LoadPropertyUtil.loadPropertiesFile(APP_PROPERTIES_URL);
     }
 
+    private void paginationSetup() {
+        int numOfPages = 1;
+        if (productService.getProductList().size() % rowsPerPage == 0) {
+            numOfPages = productService.getProductList().size() / rowsPerPage;
+        } else if (productService.getProductList().size() > rowsPerPage) {
+            numOfPages = productService.getProductList().size() / rowsPerPage + 1;
+        }
+        pages=new Pagination(numOfPages,0);
+        pages.setPageFactory(this::createPage);
+        pane.centerProperty().setValue(pages);
+    }
+
     private void createTable() {
+        tableProduct=new TableView<>();
+        TableColumn<Product,Integer> clmID=new TableColumn<>();
+        TableColumn<Product,Float> clmPrice=new TableColumn<>();
+        TableColumn<Product,LocalDateTime> clmLastUpdate=new TableColumn<>();
+        TableColumn<Product,String> clmName=new TableColumn<>();
+        TableColumn<Product,Integer> clmQuantity=new TableColumn<>();
+        TableColumn<Product,Void> clmAction=new TableColumn<>();
+        tableProduct.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableProduct.getColumns().addAll(clmID,clmName,clmPrice,clmQuantity,clmLastUpdate,clmAction);
+
         clmID.setCellValueFactory(new PropertyValueFactory<>("id"));
         clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -179,7 +189,16 @@ public class StockController implements Initializable {
     public void btnNewProductAction(ActionEvent event) {
         btnNewProductCreation(event);
         popUpWindowSetup(event, appProperties.getProperty("newproducttitle"));
+        paginationSetup();
         loadData();
+    }
+
+    private Node createPage(int pageIndex) {
+        ObservableList<Product> list=productService.getProductList();
+        int fromIndex=pageIndex*rowsPerPage;
+        int toIndex=Math.min(fromIndex+rowsPerPage,list.size());
+        tableProduct.setItems(FXCollections.observableArrayList(list.subList(fromIndex,toIndex)));
+        return new BorderPane(tableProduct);
     }
 
     private void btnNewProductCreation(ActionEvent event) {

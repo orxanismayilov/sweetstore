@@ -15,7 +15,7 @@ public class OrderProductService {
     private Map<String,Map<Boolean,List<String>>> validation;
     private ProductService productService;
     private Properties properties;
-    private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\HomeProject\\src\\sample\\resource\\properties\\errors.properties";
+    private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
     public OrderProductService() {
         this.orderProductDummyRepo = new OrderProductDummyRepo();

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="580.0" maxWidth="1050.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1050.0" stylesheets="file:/C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.NewOrderController">
+<AnchorPane maxHeight="580.0" maxWidth="1050.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1050.0" stylesheets="@../css/textFieldError.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.NewOrderController">
    <children>
       <AnchorPane prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #00ABF6;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>

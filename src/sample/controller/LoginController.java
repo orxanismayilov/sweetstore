@@ -29,12 +29,12 @@ public class LoginController implements Initializable {
     private TextField txtPassword;
 
     public void loginButtonAction(ActionEvent event) throws IOException {
-        User user=new User();
+        /*User user=new User();
         user.setName(txtUsername.getText());
         user.setPassword(txtPassword.getText());
-        if (userService.validateLogin(user)) {
+        if (userService.validateLogin(user)) {*/
             ScreenUtils.changeScreen(event, properties.getProperty("homepage"));
-        }
+
     }
 
     @Override

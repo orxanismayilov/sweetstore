@@ -17,7 +17,7 @@ public class ProductService {
     private static Map<String, Map<Boolean, List<String>>> validation;
     private Properties errorProperties;
 
-    private static String ERROR_PROPERTIES="C:/Users/Orxan/Desktop/HomeProject/src/sample/resource/properties/errors.properties";
+    private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
     public ProductService() {
         productDummyRepo = new ProductDummyRepo();
@@ -31,7 +31,7 @@ public class ProductService {
     public Map addProduct(Product product) {
         if (product != null) {
             validation = isProductValid(product);
-            if (!validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true)) {
+            if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
                 Product existedProduct = productDummyRepo.isProductExist(product.getName());
                 if (existedProduct == null) {
                     productDummyRepo.addProduct(product);
@@ -58,7 +58,7 @@ public class ProductService {
     public Map updateProduct(Product product, int oldProductId) {
         if(product!=null) {
             validation=isProductValid(product);
-            if (!validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true) && !validation.get("nameError").containsKey(true)) {
+            if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
                productDummyRepo.updateProduct(product,oldProductId);
             }
         }

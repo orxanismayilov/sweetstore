@@ -1,5 +1,6 @@
 package sample.controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -49,27 +50,18 @@ public class OrderController implements Initializable {
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
-
-    @FXML
+    private static final   int rowsPerPage=10;
     private TableView<Order> tableView;
-    @FXML
     private TableColumn<Order, String> clmName;
-    @FXML
     private TableColumn<Order, String> clmAddress;
-    @FXML
     private TableColumn<Order, BigDecimal> clmTotalprice;
-    @FXML
     private TableColumn<Order, OrderType> clmOrdertype;
-    @FXML
     private TableColumn<Order, Integer> clmTransactionID;
-    @FXML
     private TableColumn<Order, StringBuilder> clmDescription;
-    @FXML
     private TableColumn<Order, LocalDateTime> clmDate;
-    @FXML
     private TableColumn<Order, Void> clmAction;
-    @FXML
     private TableColumn<Order, OrderStatus> clmOrderStatus;
+    private Pagination pages;
     @FXML
     private BorderPane pane;
     @FXML
@@ -80,9 +72,29 @@ public class OrderController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         orderService = new OrderService();
         tableBinding();
-        loadTable();
+        createPagination();
         fxmlProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);
         appProperties = LoadPropertyUtil.loadPropertiesFile(APP_PROPERTIES_URL);
+    }
+
+    private void createPagination() {
+        int numOfPages = 1;
+        if (orderService.getOrderList().size() % rowsPerPage == 0) {
+            numOfPages = orderService.getOrderList().size() / rowsPerPage;
+        } else if (orderService.getOrderList().size() > rowsPerPage) {
+            numOfPages = orderService.getOrderList().size() / rowsPerPage + 1;
+        }
+        pages=new Pagination(numOfPages,0);
+        pages.setPageFactory(this::createPage);
+        pane.centerProperty().setValue(pages);
+    }
+
+    private Node createPage(Integer pageIndex) {
+        ObservableList<Order> list=orderService.getOrderList();
+        int fromIndex=rowsPerPage*pageIndex;
+        int toIndex=Math.min(fromIndex+rowsPerPage,list.size());
+        tableView.setItems(FXCollections.observableArrayList(list.subList(fromIndex,toIndex)));
+        return tableView;
     }
 
     public void addOrder(ActionEvent event) {
@@ -123,6 +135,18 @@ public class OrderController implements Initializable {
     }
 
     private void tableBinding() {
+        tableView=new TableView<>();
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        clmName=new TableColumn<>();
+        clmAddress=new TableColumn<>();
+        clmDescription=new TableColumn<>();
+        clmOrdertype=new TableColumn<>();
+        clmTransactionID=new TableColumn<>();
+        clmOrderStatus=new TableColumn<>();
+        clmDate=new TableColumn<>();
+        clmAction=new TableColumn<>();
+        clmTotalprice=new TableColumn<>();
+
         clmName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
         clmDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -225,6 +249,8 @@ public class OrderController implements Initializable {
                 }
             }
         });
+
+        tableView.getColumns().addAll(clmTransactionID,clmName,clmAddress,clmDescription,clmTotalprice,clmOrdertype,clmOrderStatus,clmDate,clmAction);
 
     }
 
