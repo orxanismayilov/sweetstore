@@ -79,4 +79,12 @@ public class OrderDummyRepo {
        }
        return copiedList;
     }
+
+    public int getTotalCountOfOrder() {
+        int count=0;
+        for (Order o:orderList) {
+            count++;
+        }
+        return count;
+    }
 }

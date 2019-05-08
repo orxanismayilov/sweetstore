@@ -24,6 +24,7 @@ import sample.utils.ScreenUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -56,7 +57,11 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        productService = new ProductService();
+        try {
+            productService = new ProductService();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         createTable();
         paginationSetup();
         fxlmProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);
@@ -65,10 +70,11 @@ public class StockController implements Initializable {
 
     private void paginationSetup() {
         int numOfPages = 1;
-        if (productService.getProductList().size() % rowsPerPage == 0) {
-            numOfPages = productService.getProductList().size() / rowsPerPage;
-        } else if (productService.getProductList().size() > rowsPerPage) {
-            numOfPages = productService.getProductList().size() / rowsPerPage + 1;
+        int listSize=productService.getTotalCountOfProduct();
+        if (listSize % rowsPerPage == 0) {
+            numOfPages = listSize / rowsPerPage;
+        } else if (listSize > rowsPerPage) {
+            numOfPages = listSize / rowsPerPage + 1;
         }
         pages=new Pagination(numOfPages,0);
         pages.setPageFactory(this::createPage);
@@ -187,7 +193,7 @@ public class StockController implements Initializable {
     }
 
     public void btnNewProductAction(ActionEvent event) {
-        btnNewProductCreation(event);
+        btnNewProductCreation();
         popUpWindowSetup(event, appProperties.getProperty("newproducttitle"));
         paginationSetup();
         loadData();
@@ -201,7 +207,7 @@ public class StockController implements Initializable {
         return new BorderPane(tableProduct);
     }
 
-    private void btnNewProductCreation(ActionEvent event) {
+    private void btnNewProductCreation() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("addproduct")));
         try {
             Parent root = loader.load();

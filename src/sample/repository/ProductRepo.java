@@ -2,20 +2,44 @@ package sample.repository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.dao.ProductDao;
 import sample.model.Product;
 import sample.utils.CopyListUtil;
+import sample.utils.DBConnection;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-public class ProductDummyRepo  {
+public class ProductRepo implements ProductDao {
+    private ObservableList<Product> productList;
+    private Connection connection;
 
-    private static int idCounter=4;
-    private static ObservableList<Product>  productList=FXCollections.observableArrayList(
-            new Product(1,"Paxlava",50, (float) 1.2,LocalDateTime.now()),
-            new Product(2,"Wekerbura",23,2,LocalDateTime.now()),
-            new Product(3,"Tort",12, (float) 2.30,LocalDateTime.now())
-    );
+    public ProductRepo() throws SQLException {
+       connection= DBConnection.getConnection();
+        Statement statement = connection.createStatement();
+        String s = "SELECT * FROM Products";
+        productList=FXCollections.observableArrayList();
+
+        ResultSet rs = statement.executeQuery(s);
+        while (rs.next()) {
+            Product product=new Product();
+            product.setId(rs.getInt("Id"));
+            product.setName(rs.getString("Name"));
+            product.setQuantity(rs.getInt("Quantity"));
+            product.setPrice(rs.getFloat("Price"));
+            product.setUpdateDate(LocalDateTime.now());
+            if (rs.getInt("Is_Active")==1){
+                product.setActive(true);
+            } else {
+                product.setActive(false);
+            }
+            productList.add(product);
+        }
+    }
 
     public ObservableList getProductList(){
         return copyList(productList,product -> product.isActive());
@@ -65,7 +89,7 @@ public class ProductDummyRepo  {
     }
 
     public int getProductNewId() {
-        return idCounter++;
+        return 0;
 
     }
 
@@ -79,7 +103,7 @@ public class ProductDummyRepo  {
     }
 
     public ObservableList getProductNames(){
-        ObservableList<String> productNames=FXCollections.observableArrayList();
+        ObservableList<String> productNames= FXCollections.observableArrayList();
         for (Product product:productList){
             if (product.isActive()) {
                 productNames.add(product.getName());
@@ -89,14 +113,14 @@ public class ProductDummyRepo  {
         return productNames;
     }
 
-    private ObservableList copyList(ObservableList<Product> list,CopyListUtil<Product> rule){
-         ObservableList<Product> copiedList=FXCollections.observableArrayList();
-         for(Product product:list){
-             if(rule.check(product)) {
-                 copiedList.add(product);
-             }
-         }
-         return copiedList;
+    private ObservableList copyList(ObservableList<Product> list, CopyListUtil<Product> rule){
+        ObservableList<Product> copiedList=FXCollections.observableArrayList();
+        for(Product product:list){
+            if(rule.check(product)) {
+                copiedList.add(product);
+            }
+        }
+        return copiedList;
     }
 
     public Product getProductById(int id) {
@@ -109,11 +133,10 @@ public class ProductDummyRepo  {
     }
 
     public int getTotalCountOfPrduct() {
-       int count=0;
+        int count=0;
         for (Product p:productList) {
-           count++;
+            count++;
         }
         return count;
     }
-
 }

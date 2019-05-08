@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import sample.model.Order;
 import sample.repository.OrderDummyRepo;
 
+import java.sql.SQLException;
+
 public class OrderService {
     private OrderDummyRepo orderDummyRepo;
 
@@ -27,7 +29,7 @@ public class OrderService {
         return orderDummyRepo.searchOrderById(id);
     }
 
-    public void deleteOrderByTransactionId(int transactionId) {
+    public void deleteOrderByTransactionId(int transactionId) throws SQLException {
         OrderProductService orderProductService = new OrderProductService();
         orderProductService.deleteOrderProductByOrderId(transactionId);
         orderDummyRepo.deleteOrderByTransactionId(transactionId);
@@ -45,4 +47,7 @@ public class OrderService {
         return orderDummyRepo.getOrderNewId();
     }
 
+    public int getTotalCountOfOrder() {
+        return orderDummyRepo.getTotalCountOfOrder();
+    }
 }

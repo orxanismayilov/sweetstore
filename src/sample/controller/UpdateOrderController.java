@@ -25,6 +25,7 @@ import sample.utils.NumberUtils;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -96,7 +97,11 @@ public class UpdateOrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        createInstance();
+        try {
+            createInstance();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         populateTable();
         fieldInputValidation();
         comboOrderType.setItems(OrderType.getOrderTypeList());
@@ -356,7 +361,7 @@ public class UpdateOrderController implements Initializable {
         }));
     }
 
-    private void createInstance() {
+    private void createInstance() throws SQLException {
         productService = new ProductService();
         order = new Order();
         orderProductService = new OrderProductService();
@@ -450,7 +455,18 @@ public class UpdateOrderController implements Initializable {
 
         };
         comboBoxProducts.setCellFactory(factory);
-        comboBoxProducts.setButtonCell(factory.call(null));
+
+        comboBoxProducts.setButtonCell(new ListCell<Product>() {
+            @Override
+            protected void updateItem(Product item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
     }
 }
 

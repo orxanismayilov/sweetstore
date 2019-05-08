@@ -29,6 +29,7 @@ import sample.utils.TableCellStyleUtil;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -79,6 +80,7 @@ public class OrderController implements Initializable {
 
     private void createPagination() {
         int numOfPages = 1;
+        int listSize=orderService.getTotalCountOfOrder();
         if (orderService.getOrderList().size() % rowsPerPage == 0) {
             numOfPages = orderService.getOrderList().size() / rowsPerPage;
         } else if (orderService.getOrderList().size() > rowsPerPage) {
@@ -190,7 +192,11 @@ public class OrderController implements Initializable {
 
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
                         Order order = (Order) getTableRow().getItem();
-                        buttonDeleteAction(order);
+                        try {
+                            buttonDeleteAction(order);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                         loadTable();
                     });
 
@@ -254,7 +260,7 @@ public class OrderController implements Initializable {
 
     }
 
-    private void buttonDeleteAction(Order order) {
+    private void buttonDeleteAction(Order order) throws SQLException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {

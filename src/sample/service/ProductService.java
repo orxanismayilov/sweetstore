@@ -3,24 +3,26 @@ package sample.service;
 import javafx.collections.ObservableList;
 import sample.model.Product;
 import sample.repository.ProductDummyRepo;
+import sample.repository.ProductRepo;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.*;
 
 public class ProductService {
 
-    private ProductDummyRepo productDummyRepo;
+    private ProductRepo productDummyRepo;
     private static Map<String, Map<Boolean, List<String>>> validation;
     private Properties errorProperties;
 
     private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
-    public ProductService() {
-        productDummyRepo = new ProductDummyRepo();
+    public ProductService() throws SQLException {
+        productDummyRepo = new ProductRepo();
         errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 
@@ -152,6 +154,10 @@ public class ProductService {
     public Product getProductById(int id) throws Exception {
         Product product = productDummyRepo.getProductById(id);
         return product;
+    }
+
+    public int getTotalCountOfProduct() {
+        return productDummyRepo.getTotalCountOfPrduct();
     }
 
 }

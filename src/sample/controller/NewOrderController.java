@@ -28,6 +28,7 @@ import sample.utils.TableCellStyleUtil;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -100,14 +101,26 @@ public class NewOrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        productService = new ProductService();
-        orderProductService = new OrderProductService();
+        try {
+            productService = new ProductService();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            orderProductService = new OrderProductService();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         orderService = new OrderService();
         populateTable();
         fieldInputValidation();
         loadComboBoxProducts();
         disableSaveButtonIfFieldsEmpty();
-        summary = new OrderProductSummary();
+        try {
+            summary = new OrderProductSummary();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         comboOrderType.setItems(OrderType.getOrderTypeList());
         order = new Order();
         orderId = orderService.getOrderNewId();
@@ -361,7 +374,18 @@ public class NewOrderController implements Initializable {
 
         };
         comboBoxProducts.setCellFactory(factory);
-        comboBoxProducts.setButtonCell(factory.call(null));
+
+        comboBoxProducts.setButtonCell(new ListCell<Product>(){
+            @Override
+            protected void updateItem(Product item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
     }
 
     private void updateTableRow() throws Exception {

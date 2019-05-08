@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import sample.service.OrderProductService;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class OrderProductSummary {
 
@@ -13,7 +14,7 @@ public class OrderProductSummary {
     private BigDecimal totalDiscount;
     private OrderProductService orderProductService;
 
-    public OrderProductSummary() {
+    public OrderProductSummary() throws SQLException {
         orderProductService=new OrderProductService();
     }
     public void  fillDescriptionCalculateTotalPriceAndDiscount(int orderId){

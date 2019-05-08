@@ -8,6 +8,7 @@ import sample.utils.LoadPropertyUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.*;
 
 public class OrderProductService {
@@ -17,7 +18,7 @@ public class OrderProductService {
     private Properties properties;
     private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
-    public OrderProductService() {
+    public OrderProductService() throws SQLException {
         this.orderProductDummyRepo = new OrderProductDummyRepo();
         this.productService=new ProductService();
         this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
