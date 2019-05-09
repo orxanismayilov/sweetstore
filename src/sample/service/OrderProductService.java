@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import sample.model.OrderProduct;
 import sample.model.Product;
 import sample.repository.OrderProductDummyRepo;
+import sample.repository.impl.ProductDaoImpl;
 import sample.utils.LoadPropertyUtil;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class OrderProductService {
 
     public OrderProductService() throws SQLException {
         this.orderProductDummyRepo = new OrderProductDummyRepo();
-        this.productService=new ProductService();
+        this.productService=new ProductService(new ProductDaoImpl());
         this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 

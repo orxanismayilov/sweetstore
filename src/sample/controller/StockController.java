@@ -1,6 +1,5 @@
 package sample.controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Product;
+import sample.repository.impl.ProductDaoImpl;
 import sample.service.ProductService;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
@@ -58,7 +58,7 @@ public class StockController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            productService = new ProductService();
+            productService = new ProductService(new ProductDaoImpl());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -154,7 +154,7 @@ public class StockController implements Initializable {
                         Product product = (Product) getTableRow().getItem();
                         updateButtonAction(product);
                         popUpWindowSetup(eventUpdate, appProperties.getProperty("updateproducttitle"));
-                        loadData();
+                        //loadData();
                     });
                 }
             }
@@ -178,7 +178,7 @@ public class StockController implements Initializable {
         clmAction.setMaxWidth(120);
     }
 
-    private void loadData() {
+    /*private void loadData() {
         ObservableList data = null;
         try {
             data = productService.getProductList();
@@ -186,14 +186,14 @@ public class StockController implements Initializable {
             e.printStackTrace();
         }
         tableProduct.setItems(data);
-    }
+    }*/
 
     private void buttonDeleteAction(int productId) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, DELETE_ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
             productService.deleteProductbyID(productId);
-            loadData();
+            //loadData();
         }
     }
 
@@ -201,19 +201,13 @@ public class StockController implements Initializable {
         btnNewProductCreation();
         popUpWindowSetup(event, appProperties.getProperty("newproducttitle"));
         paginationSetup();
-        loadData();
+        //loadData();
     }
 
     private Node createPage(int pageIndex) {
-        ObservableList<Product> list= null;
-        try {
-            list = productService.getProductList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        int fromIndex=pageIndex*rowsPerPage;
-        int toIndex=Math.min(fromIndex+rowsPerPage,list.size());
-        tableProduct.setItems(FXCollections.observableArrayList(list.subList(fromIndex,toIndex)));
+        ObservableList<Product> list= productService.getProductList(pageIndex);
+
+        tableProduct.setItems(list);
         return new BorderPane(tableProduct);
     }
 

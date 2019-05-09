@@ -1,5 +1,6 @@
 package sample.repository;
 
+import org.apache.log4j.Logger;
 import sample.enums.UserRole;
 import sample.model.User;
 import sample.model.UserSession;
@@ -10,6 +11,7 @@ import java.util.List;
 public class UserDummyRepo {
     private List<User> userList;
     private UserSession userSession;
+    private static Logger logger=Logger.getLogger(UserDummyRepo.class.getName());
 
     public UserDummyRepo() {
         userSession=UserSession.getInstance();
@@ -44,6 +46,7 @@ public class UserDummyRepo {
             if (u.getName().equals(user.getName()) && u.getPassword().equals(user.getPassword())) {
                 userSession.setUserRole(u.getRole());
                 startUserSesion(user);
+                logger.debug(user.toString());
                 return true;
             }
         }

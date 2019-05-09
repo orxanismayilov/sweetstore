@@ -20,6 +20,7 @@ import sample.model.Order;
 import sample.model.OrderProduct;
 import sample.model.OrderProductSummary;
 import sample.model.Product;
+import sample.repository.impl.ProductDaoImpl;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
 import sample.service.ProductService;
@@ -102,7 +103,7 @@ public class NewOrderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            productService = new ProductService();
+            productService = new ProductService(new ProductDaoImpl());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -211,11 +212,7 @@ public class NewOrderController implements Initializable {
 
     private void loadComboBoxProducts(){
         ObservableList<Product> list= null;
-        try {
-            list = productService.getProductList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        list = productService.getProductListForComboBox();
         comboBoxProducts.getItems().clear();
         comboBoxProducts.setItems(list);
         addQuantityToComboBox();

@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import sample.enums.OrderType;
 import sample.model.*;
+import sample.repository.impl.ProductDaoImpl;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
 import sample.service.ProductService;
@@ -362,7 +363,7 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void createInstance() throws SQLException {
-        productService = new ProductService();
+        productService = new ProductService(new ProductDaoImpl());
         order = new Order();
         orderProductService = new OrderProductService();
         orderService = new OrderService();
@@ -426,11 +427,7 @@ public class UpdateOrderController implements Initializable {
 
     private void loadComboBoxProducts() {
         ObservableList<Product> list = null;
-        try {
-            list = productService.getProductList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        list = productService.getProductListForComboBox();
         comboBoxProducts.getItems().clear();
         comboBoxProducts.setItems(list);
         addQuantityToComboBox();

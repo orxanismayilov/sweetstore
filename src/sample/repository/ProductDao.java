@@ -6,8 +6,10 @@ import sample.model.Product;
 import java.sql.SQLException;
 
 public interface ProductDao {
-    ObservableList getProductList() throws SQLException;
-    ObservableList getProductList(int page,int count) throws SQLException;
+
+    ObservableList getProductList(int pageIndex);
+
+    ObservableList getProductListForComboBox();
 
     void addProduct(Product product);
 
@@ -16,7 +18,6 @@ public interface ProductDao {
     Product isProductExist(String name);
 
     void updateProductIncreaseQuantity(Product newProduct, int id);
-
 
     void updateProduct(Product product, int oldProductId);
 

@@ -2,9 +2,8 @@ package sample.service;
 
 import javafx.collections.ObservableList;
 import sample.repository.ProductDao;
-import sample.model.PaginationResponseObject;
 import sample.model.Product;
-import sample.repository.ProductRepo;
+import sample.repository.impl.ProductDaoImpl;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
 
@@ -13,41 +12,28 @@ import java.util.*;
 
 public class ProductService {
 
-    private ProductDao productDummyRepo;
+    private ProductDao productDao;
     private static Map<String, Map<Boolean, List<String>>> validation;
     private Properties errorProperties;
 
     private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
-    public ProductService() throws SQLException {
-        productDummyRepo = new ProductRepo();
+    public ProductService(ProductDao productDao) throws SQLException {
+        this.productDao = productDao;
         errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 
-    public ProductService(ProductDao productDaoImple)  {
-        productDummyRepo = productDaoImple;
-        errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
-    }
-
-    public ObservableList getProductList() throws SQLException {
-        return productDummyRepo.getProductList();
-    }
-    public PaginationResponseObject getProductList1(int page,int count) throws SQLException {
-        ObservableList productList=productDummyRepo.getProductList(page,count);
-        int tolalCount=productDummyRepo.getTotalCountOfPrduct();
-        PaginationResponseObject paginationResponseObject = new PaginationResponseObject();
-        paginationResponseObject.setList(productList);
-        paginationResponseObject.setTotalCount(tolalCount);
-        return paginationResponseObject;
+    public ObservableList getProductList(int pageIndex) {
+       return productDao.getProductList(pageIndex);
     }
 
     public Map addProduct(Product product) {
         if (product != null) {
             validation = isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
-                Product existedProduct = productDummyRepo.isProductExist(product.getName());
+                Product existedProduct = productDao.isProductExist(product.getName());
                 if (existedProduct == null) {
-                    productDummyRepo.addProduct(product);
+                    productDao.addProduct(product);
                     return validation;
                 } else {
                     if (existedProduct.getQuantity() + product.getQuantity() > 1000) {
@@ -59,7 +45,7 @@ public class ProductService {
                         validation.put("quantityError", quantityMap);
                         return validation;
                     } else {
-                        productDummyRepo.updateProductIncreaseQuantity(product, existedProduct.getId());
+                        productDao.updateProductIncreaseQuantity(product, existedProduct.getId());
                         return validation;
                     }
                 }
@@ -72,7 +58,7 @@ public class ProductService {
         if(product!=null) {
             validation=isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
-               productDummyRepo.updateProduct(product,oldProductId);
+               productDao.updateProduct(product,oldProductId);
             }
         }
         return validation;
@@ -151,25 +137,29 @@ public class ProductService {
     }
 
     public void deleteProductbyID(int id) {
-        productDummyRepo.deleteProductbyId(id);
+        productDao.deleteProductbyId(id);
     }
 
     public Product getProductByName(String name) {
-        return productDummyRepo.getProductByName(name);
+        return productDao.getProductByName(name);
     }
 
     public ObservableList getProductNames() {
-        return productDummyRepo.getProductNames();
+        return productDao.getProductNames();
     }
 
     public Product getProductById(int id) throws Exception {
-        Product product = productDummyRepo.getProductById(id);
+        Product product = productDao.getProductById(id);
         return product;
     }
 
-    public int getTotalCountOfProduct() {
+    public ObservableList getProductListForComboBox() {
+        return productDao.getProductListForComboBox();
+    }
+
+    public int getTotalCountOfProduct()  {
         try {
-            return productDummyRepo.getTotalCountOfPrduct();
+            return productDao.getTotalCountOfPrduct();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import org.apache.log4j.Logger;
 import sample.model.User;
 import sample.service.UserService;
 import sample.utils.LoadPropertyUtil;
