@@ -5,6 +5,8 @@ import sample.enums.UserRole;
 public class UserSession {
     private static UserSession instance=null;
     private UserRole userRole;
+    private String userName;
+
     private UserSession() {
     }
 
@@ -21,5 +23,17 @@ public class UserSession {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public static void setInstance(UserSession instance) {
+        UserSession.instance = instance;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

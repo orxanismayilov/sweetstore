@@ -210,7 +210,12 @@ public class NewOrderController implements Initializable {
     }
 
     private void loadComboBoxProducts(){
-        ObservableList<Product> list=productService.getProductList();
+        ObservableList<Product> list= null;
+        try {
+            list = productService.getProductList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         comboBoxProducts.getItems().clear();
         comboBoxProducts.setItems(list);
         addQuantityToComboBox();

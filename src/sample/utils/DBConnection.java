@@ -13,12 +13,8 @@ public class DBConnection {
     public static Connection getConnection() {
         daoProperties= LoadPropertyUtil.loadPropertiesFile(DAO_PROPERTY_URL);
         try {
-            Class.forName ("com.mysql.cj.jdbc.Driver").newInstance ();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            Class.forName (daoProperties.getProperty("driver")).newInstance ();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         Connection conn = null;

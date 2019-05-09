@@ -1,21 +1,19 @@
 package sample.service;
 
 import javafx.collections.ObservableList;
+import sample.repository.ProductDao;
+import sample.model.PaginationResponseObject;
 import sample.model.Product;
-import sample.repository.ProductDummyRepo;
 import sample.repository.ProductRepo;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.*;
 
 public class ProductService {
 
-    private ProductRepo productDummyRepo;
+    private ProductDao productDummyRepo;
     private static Map<String, Map<Boolean, List<String>>> validation;
     private Properties errorProperties;
 
@@ -26,8 +24,21 @@ public class ProductService {
         errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 
-    public ObservableList getProductList() {
+    public ProductService(ProductDao productDaoImple)  {
+        productDummyRepo = productDaoImple;
+        errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
+    }
+
+    public ObservableList getProductList() throws SQLException {
         return productDummyRepo.getProductList();
+    }
+    public PaginationResponseObject getProductList1(int page,int count) throws SQLException {
+        ObservableList productList=productDummyRepo.getProductList(page,count);
+        int tolalCount=productDummyRepo.getTotalCountOfPrduct();
+        PaginationResponseObject paginationResponseObject = new PaginationResponseObject();
+        paginationResponseObject.setList(productList);
+        paginationResponseObject.setTotalCount(tolalCount);
+        return paginationResponseObject;
     }
 
     public Map addProduct(Product product) {
@@ -157,7 +168,12 @@ public class ProductService {
     }
 
     public int getTotalCountOfProduct() {
-        return productDummyRepo.getTotalCountOfPrduct();
+        try {
+            return productDummyRepo.getTotalCountOfPrduct();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

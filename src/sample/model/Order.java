@@ -167,7 +167,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "customerName=" + customerName +
-                ", description='" + description + '\'' +
+                ", description='" + description +
                 ", orderType=" + orderType +
                 ", transactionID=" + transactionID +
                 ", totalPrice=" + totalPrice +

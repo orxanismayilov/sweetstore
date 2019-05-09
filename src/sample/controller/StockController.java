@@ -83,12 +83,12 @@ public class StockController implements Initializable {
 
     private void createTable() {
         tableProduct=new TableView<>();
-        TableColumn<Product,Integer> clmID=new TableColumn<>();
-        TableColumn<Product,Float> clmPrice=new TableColumn<>();
-        TableColumn<Product,LocalDateTime> clmLastUpdate=new TableColumn<>();
-        TableColumn<Product,String> clmName=new TableColumn<>();
-        TableColumn<Product,Integer> clmQuantity=new TableColumn<>();
-        TableColumn<Product,Void> clmAction=new TableColumn<>();
+        TableColumn<Product,Integer> clmID=new TableColumn<>("Id");
+        TableColumn<Product,Float> clmPrice=new TableColumn<>("Price");
+        TableColumn<Product,LocalDateTime> clmLastUpdate=new TableColumn<>("Last Update");
+        TableColumn<Product,String> clmName=new TableColumn<>("Name");
+        TableColumn<Product,Integer> clmQuantity=new TableColumn<>("Quantity");
+        TableColumn<Product,Void> clmAction=new TableColumn<>("Action");
         tableProduct.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableProduct.getColumns().addAll(clmID,clmName,clmPrice,clmQuantity,clmLastUpdate,clmAction);
 
@@ -179,7 +179,12 @@ public class StockController implements Initializable {
     }
 
     private void loadData() {
-        ObservableList data = productService.getProductList();
+        ObservableList data = null;
+        try {
+            data = productService.getProductList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         tableProduct.setItems(data);
     }
 
@@ -200,7 +205,12 @@ public class StockController implements Initializable {
     }
 
     private Node createPage(int pageIndex) {
-        ObservableList<Product> list=productService.getProductList();
+        ObservableList<Product> list= null;
+        try {
+            list = productService.getProductList();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         int fromIndex=pageIndex*rowsPerPage;
         int toIndex=Math.min(fromIndex+rowsPerPage,list.size());
         tableProduct.setItems(FXCollections.observableArrayList(list.subList(fromIndex,toIndex)));

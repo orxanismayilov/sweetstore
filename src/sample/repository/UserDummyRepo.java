@@ -22,6 +22,11 @@ public class UserDummyRepo {
         userList.add(user);
     }
 
+    private void startUserSesion(User user) {
+        userSession.setUserName(user.getName());
+        userSession.setUserRole(user.getRole());
+    }
+
     public void addUserAddList(User user) {
         userList.add(user);
     }
@@ -29,7 +34,7 @@ public class UserDummyRepo {
     public void deleteUserById(int id) {
         for (User user : userList) {
             if (user.getId() == id) {
-                userList.remove(user);
+                user.setActive(false);
             }
         }
     }
@@ -38,6 +43,7 @@ public class UserDummyRepo {
         for (User u : userList) {
             if (u.getName().equals(user.getName()) && u.getPassword().equals(user.getPassword())) {
                 userSession.setUserRole(u.getRole());
+                startUserSesion(user);
                 return true;
             }
         }

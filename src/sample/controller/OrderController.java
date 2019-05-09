@@ -139,15 +139,15 @@ public class OrderController implements Initializable {
     private void tableBinding() {
         tableView=new TableView<>();
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        clmName=new TableColumn<>();
-        clmAddress=new TableColumn<>();
-        clmDescription=new TableColumn<>();
-        clmOrdertype=new TableColumn<>();
-        clmTransactionID=new TableColumn<>();
-        clmOrderStatus=new TableColumn<>();
-        clmDate=new TableColumn<>();
-        clmAction=new TableColumn<>();
-        clmTotalprice=new TableColumn<>();
+        clmName=new TableColumn<>("Customer Name");
+        clmAddress=new TableColumn<>("Customer Address");
+        clmDescription=new TableColumn<>("Description");
+        clmOrdertype=new TableColumn<>("Order Type");
+        clmTransactionID=new TableColumn<>("Transaction Id");
+        clmOrderStatus=new TableColumn<>("Order Status");
+        clmDate=new TableColumn<>("Date");
+        clmAction=new TableColumn<>("Action");
+        clmTotalprice=new TableColumn<>("Total Price");
 
         clmName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));

@@ -1,10 +1,13 @@
-package sample.dao;
+package sample.repository;
 
 import javafx.collections.ObservableList;
 import sample.model.Product;
 
+import java.sql.SQLException;
+
 public interface ProductDao {
-    ObservableList getProductList();
+    ObservableList getProductList() throws SQLException;
+    ObservableList getProductList(int page,int count) throws SQLException;
 
     void addProduct(Product product);
 
@@ -17,13 +20,11 @@ public interface ProductDao {
 
     void updateProduct(Product product, int oldProductId);
 
-    int getProductNewId() ;
-
     Product getProductByName(String name);
 
     ObservableList getProductNames();
 
     Product getProductById(int id);
 
-    int getTotalCountOfPrduct();
+    int getTotalCountOfPrduct() throws SQLException;
 }
