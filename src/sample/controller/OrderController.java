@@ -1,6 +1,5 @@
 package sample.controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -54,16 +53,7 @@ public class OrderController implements Initializable {
     private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
     private static final   int rowsPerPage=10;
     private TableView<Order> tableView;
-    private TableColumn<Order, String> clmName;
-    private TableColumn<Order, String> clmAddress;
-    private TableColumn<Order, BigDecimal> clmTotalprice;
-    private TableColumn<Order, OrderType> clmOrdertype;
-    private TableColumn<Order, Integer> clmTransactionID;
-    private TableColumn<Order, StringBuilder> clmDescription;
-    private TableColumn<Order, LocalDateTime> clmDate;
-    private TableColumn<Order, Void> clmAction;
-    private TableColumn<Order, OrderStatus> clmOrderStatus;
-    private Pagination pages;
+
     @FXML
     private BorderPane pane;
     @FXML
@@ -87,13 +77,13 @@ public class OrderController implements Initializable {
         } else if (listSize > rowsPerPage) {
             numOfPages = listSize / rowsPerPage + 1;
         }
-        pages=new Pagination(numOfPages,0);
+        Pagination pages = new Pagination(numOfPages, 0);
         pages.setPageFactory(this::createPage);
         pane.centerProperty().setValue(pages);
     }
 
     private Node createPage(Integer pageIndex) {
-        ObservableList<Order> list=orderService.getOrderList(pageIndex,rowsPerPage);
+        ObservableList list=orderService.getOrderList(pageIndex,rowsPerPage);
         tableView.setItems(list);
         return tableView;
     }
@@ -115,7 +105,7 @@ public class OrderController implements Initializable {
     }
 
     public void searchButtonAction() {
-        ObservableList<Order> list=orderService.searchOrderById(searchBox.getText());
+        ObservableList list=orderService.searchOrderById(searchBox.getText());
         tableView.setItems(list);
     }
 
@@ -138,15 +128,15 @@ public class OrderController implements Initializable {
     private void tableBinding() {
         tableView=new TableView<>();
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        clmName=new TableColumn<>("Customer Name");
-        clmAddress=new TableColumn<>("Customer Address");
-        clmDescription=new TableColumn<>("Description");
-        clmOrdertype=new TableColumn<>("Order Type");
-        clmTransactionID=new TableColumn<>("Transaction Id");
-        clmOrderStatus=new TableColumn<>("Order Status");
-        clmDate=new TableColumn<>("Date");
-        clmAction=new TableColumn<>("Action");
-        clmTotalprice=new TableColumn<>("Total Price");
+        TableColumn<Order, String> clmName = new TableColumn<>("Customer Name");
+        TableColumn<Order, String> clmAddress = new TableColumn<>("Customer Address");
+        TableColumn<Order, StringBuilder> clmDescription = new TableColumn<>("Description");
+        TableColumn<Order, OrderType> clmOrdertype = new TableColumn<>("Order Type");
+        TableColumn<Order, Integer> clmTransactionID = new TableColumn<>("Transaction Id");
+        TableColumn<Order, OrderStatus> clmOrderStatus = new TableColumn<>("Order Status");
+        TableColumn<Order, LocalDateTime> clmDate = new TableColumn<>("Date");
+        TableColumn<Order, Void> clmAction = new TableColumn<>("Action");
+        TableColumn<Order, BigDecimal> clmTotalprice = new TableColumn<>("Total Price");
 
         clmName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
@@ -255,7 +245,7 @@ public class OrderController implements Initializable {
             }
         });
 
-        tableView.getColumns().addAll(clmTransactionID,clmName,clmAddress,clmDescription,clmTotalprice,clmOrdertype,clmOrderStatus,clmDate,clmAction);
+        tableView.getColumns().addAll(clmTransactionID, clmName, clmAddress, clmDescription, clmTotalprice, clmOrdertype, clmOrderStatus, clmDate, clmAction);
 
     }
 
@@ -286,16 +276,12 @@ public class OrderController implements Initializable {
 
     private void buttonInfoAction(Order order) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlProperties.getProperty("infoproduct")));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlProperties.getProperty("infoorder")));
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
             fxmlControllerStage.setScene(new Scene(root));
-            if (loader.getController() instanceof OrderInfoController) {
-             /*   OrderInfoController orderInfoController = loader.getController();
-                orderInfoController.setStage(fxmlControllerStage);
-                orderInfoController.setOrder(order);
-                orderInfoController.setFileds();*/
-            }
+            InfoOrderController infoOrderController = loader.getController();
+            infoOrderController.setFields(order);
         } catch (Exception e) {
             e.printStackTrace();
         }

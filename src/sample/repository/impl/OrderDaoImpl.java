@@ -1,6 +1,5 @@
 package sample.repository.impl;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.log4j.Logger;
@@ -25,12 +24,17 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public ObservableList getOrderList(int pageIndex, int rowsPerPage) {
-        String sql="select * from order_details where is_active=1";
+        String sql="select * from order_details where is_active=1  ORDER by id desc Limit ?,?";
         ObservableList<Order> orderList= FXCollections.observableArrayList();
+        int totalCount=getTotalCountOfOrder();
+        int fromIndex=pageIndex*rowsPerPage;
+        int toIndex=Math.min(fromIndex+rowsPerPage,totalCount);
         try (Connection conn=DBConnection.getConnection();
-             PreparedStatement ps=conn.prepareStatement(sql)
-             )
+             PreparedStatement ps=conn.prepareStatement(sql))
         {
+            ps.setInt(1,fromIndex);
+            ps.setInt(2,toIndex);
+
             try (ResultSet resultSet=ps.executeQuery()){
                 while (resultSet.next()) {
                     Order order=new Order();
@@ -48,7 +52,7 @@ public class OrderDaoImpl implements OrderDao {
             }
 
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return orderList;
     }

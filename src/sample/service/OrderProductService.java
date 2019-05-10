@@ -19,7 +19,7 @@ public class OrderProductService {
     private Properties properties;
     private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
-    public OrderProductService() throws SQLException {
+    public OrderProductService(){
         this.orderProductDummyRepo = new OrderProductDummyRepo();
         this.productService=new ProductService(new ProductDaoImpl());
         this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);

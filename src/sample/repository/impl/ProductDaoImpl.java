@@ -4,19 +4,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.Product;
 import sample.repository.ProductDao;
-import sample.utils.CopyListUtil;
 import sample.utils.DBConnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.Collections;
 
 public class ProductDaoImpl implements ProductDao {
 
     @Override
     public ObservableList getProductList(int pageIndex,int rowsPerPage) {
         ObservableList<Product> productList = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM Products where is_active=1 Limit ?,? ";
+        String sql = "SELECT * FROM Products where is_active=1 ORDER BY id DESC Limit ?,? ";
         int totalCount=getTotalCountOfPrduct();
         int fromIndex=pageIndex*rowsPerPage;
         int toIndex=Math.min(fromIndex+rowsPerPage,totalCount);
@@ -104,14 +102,14 @@ public class ProductDaoImpl implements ProductDao {
         String s = "SELECT * from products  where Name = ? ";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement ps1 = connection.prepareStatement(s);
-             PreparedStatement ps2 = connection.prepareStatement(s);
-        ) {
+             PreparedStatement ps2 = connection.prepareStatement(s))
+        {
             ps1.setString(1, name);
             ps2.setString(1, name);
             try (ResultSet rs1 = ps1.executeQuery();
                  ResultSet rs2 = ps2.executeQuery()) {
-                Product product = new Product();
                 if (rs1.next()) {
+                    Product product = new Product();
                     while (rs2.next()) {
                         if (rs2.getInt("Is_Active") == 1) {
                             product.setId(rs2.getInt("Id"));
@@ -122,8 +120,8 @@ public class ProductDaoImpl implements ProductDao {
                             product.setActive(true);
                         }
                     }
+                    return product;
                 }
-                return product;
             }
         } catch (SQLException e) {
             e.printStackTrace();

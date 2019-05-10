@@ -104,11 +104,7 @@ public class NewOrderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService = new ProductService(new ProductDaoImpl());
-        try {
-            orderProductService = new OrderProductService();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        orderProductService = new OrderProductService();
         orderService = new OrderService(new OrderDaoImpl());
         populateTable();
         fieldInputValidation();
