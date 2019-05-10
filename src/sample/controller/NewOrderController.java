@@ -20,6 +20,7 @@ import sample.model.Order;
 import sample.model.OrderProduct;
 import sample.model.OrderProductSummary;
 import sample.model.Product;
+import sample.repository.impl.OrderDaoImpl;
 import sample.repository.impl.ProductDaoImpl;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
@@ -102,17 +103,13 @@ public class NewOrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            productService = new ProductService(new ProductDaoImpl());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        productService = new ProductService(new ProductDaoImpl());
         try {
             orderProductService = new OrderProductService();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        orderService = new OrderService();
+        orderService = new OrderService(new OrderDaoImpl());
         populateTable();
         fieldInputValidation();
         loadComboBoxProducts();
@@ -124,8 +121,6 @@ public class NewOrderController implements Initializable {
         }
         comboOrderType.setItems(OrderType.getOrderTypeList());
         order = new Order();
-        orderId = orderService.getOrderNewId();
-        order.setTransactionID(orderId);
         getSelectedRow();
     }
 

@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import sample.enums.OrderStatus;
 import sample.enums.OrderType;
 import sample.model.Order;
+import sample.repository.impl.OrderDaoImpl;
 import sample.service.OrderService;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
@@ -71,7 +72,7 @@ public class OrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        orderService = new OrderService();
+        orderService = new OrderService(new OrderDaoImpl());
         tableBinding();
         createPagination();
         fxmlProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);
@@ -81,10 +82,10 @@ public class OrderController implements Initializable {
     private void createPagination() {
         int numOfPages = 1;
         int listSize=orderService.getTotalCountOfOrder();
-        if (orderService.getOrderList().size() % rowsPerPage == 0) {
-            numOfPages = orderService.getOrderList().size() / rowsPerPage;
-        } else if (orderService.getOrderList().size() > rowsPerPage) {
-            numOfPages = orderService.getOrderList().size() / rowsPerPage + 1;
+        if (listSize % rowsPerPage == 0) {
+            numOfPages = listSize / rowsPerPage;
+        } else if (listSize > rowsPerPage) {
+            numOfPages = listSize / rowsPerPage + 1;
         }
         pages=new Pagination(numOfPages,0);
         pages.setPageFactory(this::createPage);
@@ -92,17 +93,15 @@ public class OrderController implements Initializable {
     }
 
     private Node createPage(Integer pageIndex) {
-        ObservableList<Order> list=orderService.getOrderList();
-        int fromIndex=rowsPerPage*pageIndex;
-        int toIndex=Math.min(fromIndex+rowsPerPage,list.size());
-        tableView.setItems(FXCollections.observableArrayList(list.subList(fromIndex,toIndex)));
+        ObservableList<Order> list=orderService.getOrderList(pageIndex,rowsPerPage);
+        tableView.setItems(list);
         return tableView;
     }
 
     public void addOrder(ActionEvent event) {
         addOrderCreation();
         popUpWindowSetup(event, appProperties.getProperty("newordertitle"));
-        loadTable();
+        //loadTable();
     }
 
     public void buttonLogOutAction() throws IOException {
@@ -120,10 +119,10 @@ public class OrderController implements Initializable {
         tableView.setItems(list);
     }
 
-    public void loadTable() {
+   /* public void loadTable() {
         ObservableList<Order> list = orderService.getOrderList();
         tableView.setItems(list);
-    }
+    }*/
 
     private void addOrderCreation() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlProperties.getProperty("neworder")));
@@ -197,7 +196,7 @@ public class OrderController implements Initializable {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        loadTable();
+                        //loadTable();
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo) -> {
@@ -210,7 +209,7 @@ public class OrderController implements Initializable {
                         Order order = (Order) getTableRow().getItem();
                         buttonUpdateAction(order);
                         popUpWindowSetup(event, appProperties.getProperty("updateordertitle"));
-                        loadTable();
+                        //loadTable();
                     });
                 }
             }

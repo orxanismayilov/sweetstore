@@ -1,53 +1,48 @@
 package sample.service;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.Order;
+import sample.repository.OrderDao;
 import sample.repository.OrderDummyRepo;
 
 import java.sql.SQLException;
 
 public class OrderService {
-    private OrderDummyRepo orderDummyRepo;
+    private OrderDao orderDao;
 
-    public OrderService() {
-        orderDummyRepo = new OrderDummyRepo();
+    public OrderService(OrderDao orderDao) {
+        this.orderDao =orderDao;
     }
 
-    public ObservableList getOrderList() {
-        return orderDummyRepo.getOrderList();
+    public ObservableList getOrderList(int pageIndex, int rowsPerPage) {
+        return orderDao.getOrderList(pageIndex,rowsPerPage);
 
     }
 
     public void addNewOrderToList(Order order) {
         System.out.println("user"+"added order to db"+order);
-        orderDummyRepo.addOrder(order);
+        orderDao.addOrder(order);
     }
 
     public ObservableList searchOrderById (String id) {
-        return orderDummyRepo.searchOrderById(id);
+        return orderDao.searchOrderById(id);
     }
 
     public void deleteOrderByTransactionId(int transactionId) throws SQLException {
         OrderProductService orderProductService = new OrderProductService();
         orderProductService.deleteOrderProductByOrderId(transactionId);
-        orderDummyRepo.deleteOrderByTransactionId(transactionId);
+        orderDao.deleteOrderByTransactionId(transactionId);
     }
 
     public void updateOrderById(Order newOrder,int orderId){
-        orderDummyRepo.updateOrder(newOrder,orderId);
+        orderDao.updateOrder(newOrder,orderId);
     }
 
     public Order getOrderById(int orderId) {
-        return orderDummyRepo.getOrderById(orderId);
-    }
-
-    public int getOrderNewId() {
-        return orderDummyRepo.getOrderNewId();
+        return orderDao.getOrderById(orderId);
     }
 
     public int getTotalCountOfOrder() {
-        return orderDummyRepo.getTotalCountOfOrder();
+        return orderDao.getTotalCountOfOrder();
     }
 }

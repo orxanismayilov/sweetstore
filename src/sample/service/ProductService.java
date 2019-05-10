@@ -1,6 +1,8 @@
 package sample.service;
 
 import javafx.collections.ObservableList;
+import org.apache.log4j.Logger;
+import sample.model.UserSession;
 import sample.repository.ProductDao;
 import sample.model.Product;
 import sample.repository.impl.ProductDaoImpl;
@@ -15,16 +17,20 @@ public class ProductService {
     private ProductDao productDao;
     private static Map<String, Map<Boolean, List<String>>> validation;
     private Properties errorProperties;
+    private static Logger log=Logger.getLogger(ProductService.class.getName());
+    private UserSession userSession;
+
 
     private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
-    public ProductService(ProductDao productDao) throws SQLException {
+    public ProductService(ProductDao productDao) {
         this.productDao = productDao;
         errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
+        userSession=UserSession.getInstance();
     }
 
-    public ObservableList getProductList(int pageIndex) {
-       return productDao.getProductList(pageIndex);
+    public ObservableList getProductList(int pageIndex, int rowsPerPage) {
+       return productDao.getProductList(pageIndex,rowsPerPage);
     }
 
     public Map addProduct(Product product) {
@@ -34,6 +40,7 @@ public class ProductService {
                 Product existedProduct = productDao.isProductExist(product.getName());
                 if (existedProduct == null) {
                     productDao.addProduct(product);
+                    log.info(product.toString()+" "+userSession.getUserName()+" "+userSession.getUserRole());
                     return validation;
                 } else {
                     if (existedProduct.getQuantity() + product.getQuantity() > 1000) {
@@ -43,6 +50,7 @@ public class ProductService {
                         quantityMap.remove(false);
                         quantityMap.put(true, ls);
                         validation.put("quantityError", quantityMap);
+                        log.info(product.toString()+" "+userSession.getUserName()+" "+userSession.getUserRole());
                         return validation;
                     } else {
                         productDao.updateProductIncreaseQuantity(product, existedProduct.getId());

@@ -57,11 +57,7 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            productService = new ProductService(new ProductDaoImpl());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        productService = new ProductService(new ProductDaoImpl());
         createTable();
         paginationSetup();
         fxlmProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);
@@ -205,7 +201,7 @@ public class StockController implements Initializable {
     }
 
     private Node createPage(int pageIndex) {
-        ObservableList<Product> list= productService.getProductList(pageIndex);
+        ObservableList<Product> list= productService.getProductList(pageIndex,rowsPerPage);
 
         tableProduct.setItems(list);
         return new BorderPane(tableProduct);

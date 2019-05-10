@@ -107,4 +107,14 @@ public class Product {
         isActive = active;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name=" + name +
+                ", quantity=" + quantity +
+                ", updateDate=" + updateDate +
+                ", price=" + price +
+                '}';
+    }
 }

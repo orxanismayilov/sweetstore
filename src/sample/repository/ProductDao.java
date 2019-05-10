@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public interface ProductDao {
 
-    ObservableList getProductList(int pageIndex);
+    ObservableList getProductList(int pageIndex, int rowsPerPage);
 
     ObservableList getProductListForComboBox();
 

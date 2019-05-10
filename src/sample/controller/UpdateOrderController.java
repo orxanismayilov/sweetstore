@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import sample.enums.OrderType;
 import sample.model.*;
+import sample.repository.impl.OrderDaoImpl;
 import sample.repository.impl.ProductDaoImpl;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
@@ -366,7 +367,7 @@ public class UpdateOrderController implements Initializable {
         productService = new ProductService(new ProductDaoImpl());
         order = new Order();
         orderProductService = new OrderProductService();
-        orderService = new OrderService();
+        orderService = new OrderService(new OrderDaoImpl());
         summary = new OrderProductSummary();
     }
 

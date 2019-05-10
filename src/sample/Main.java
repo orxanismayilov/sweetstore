@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
+import sample.enums.OrderType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
