@@ -90,7 +90,7 @@ public class OrderProduct {
         this.productQuantity.set(productQuantity);
     }
 
-    public double getProductPrice() {
+    public Float getProductPrice() {
         return productPrice.get();
     }
 

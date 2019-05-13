@@ -3,6 +3,7 @@ package sample.controller;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import sample.model.OrderProduct;
 import sample.model.OrderProductSummary;
 import sample.model.Product;
 import sample.repository.impl.OrderDaoImpl;
+import sample.repository.impl.OrderProductImpl;
 import sample.repository.impl.ProductDaoImpl;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
@@ -30,7 +32,6 @@ import sample.utils.TableCellStyleUtil;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -99,30 +100,35 @@ public class NewOrderController implements Initializable {
     private Label labelDiscount;
     @FXML
     private ComboBox<OrderType> comboOrderType;
+    @FXML
+    private AnchorPane paneOrderDetails;
+    @FXML
+    private AnchorPane paneCustomerDetails;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService = new ProductService(new ProductDaoImpl());
-        orderProductService = new OrderProductService();
+        orderProductService = new OrderProductService(new OrderProductImpl());
         orderService = new OrderService(new OrderDaoImpl());
         populateTable();
+        paneOrderDetails.setDisable(true);
         fieldInputValidation();
         loadComboBoxProducts();
         disableSaveButtonIfFieldsEmpty();
-        try {
-            summary = new OrderProductSummary();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        summary = new OrderProductSummary();
         comboOrderType.setItems(OrderType.getOrderTypeList());
         order = new Order();
         getSelectedRow();
     }
 
-    public void addButtonAction() throws Exception {
+    public void addButtonAction() {
         if (buttonAdd.getText().equals("ADD")) {
             addOrderProduct();
+            order.setTotalDiscount(summary.getTotalDiscount());
+            order.setTotalPrice(summary.getSum());
+            order.setDescription(summary.getDescription());
+            orderService.updateOrderById(order,orderId);
         } else {
             updateOrderProduct();
         }
@@ -141,13 +147,10 @@ public class NewOrderController implements Initializable {
     public void saveButtonAction() {
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
-        order.setDescription(summary.getDescription());
-        order.setTotalPrice(summary.getSum());
-        order.setTotalDiscount(summary.getTotalDiscount());
         order.setOrderType(comboOrderType.getValue());
-        orderService.addNewOrderToList(order);
-        Stage stage = (Stage) buttonSave.getScene().getWindow();
-        stage.close();
+        orderId=orderService.addNewOrderToList(order);
+        paneCustomerDetails.setDisable(true);
+        paneOrderDetails.setDisable(false);
     }
 
     public void closeButtonAction() {
@@ -209,7 +212,7 @@ public class NewOrderController implements Initializable {
         addQuantityToComboBox();
     }
 
-    private void addOrderProduct() throws Exception {
+    private void addOrderProduct() {
         try {
             createOrderProduct();
             if (validateOrderProduct(orderProduct)) {
@@ -247,7 +250,7 @@ public class NewOrderController implements Initializable {
 
     private void createOrderProduct(){
         orderProduct = new OrderProduct();
-        orderProduct.setOrderId(order.getTransactionID());
+        orderProduct.setOrderId(orderId);
         orderProduct.setProductId(product.getId());
         orderProduct.setProductName(product.getName());
         orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
@@ -255,6 +258,7 @@ public class NewOrderController implements Initializable {
         orderProduct.setTotalPrice(totalPrice);
         orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
         orderProduct.setDescription(fieldQuantity.getText() + " " + product.getName() + " ");
+        orderProduct.setActive(true);
     }
 
     private void fillSummaryFields(){
@@ -264,8 +268,8 @@ public class NewOrderController implements Initializable {
         labelSum.setText(String.valueOf(summary.getSum()));
     }
 
-    private boolean validateOrderProduct(OrderProduct orderProduct) throws Exception {
-        Map<String, Map<Boolean, List<String>>> validation = orderProductService.addOrderProductToList(orderProduct);
+    private boolean validateOrderProduct(OrderProduct orderProduct) {
+        Map<String, Map<Boolean, List<String>>> validation = orderProductService.saveOrderProduct(orderProduct);
         if (!validation.get("quantityError").containsKey(true) && !validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)) {
             handleErrors(validation);
             return true;
@@ -314,20 +318,27 @@ public class NewOrderController implements Initializable {
     }
 
     private void loadTable() {
-        ObservableList list = orderProductService.getOrderProductByOrderId(order.getTransactionID());
+        ObservableList list = orderProductService.getOrderProductByOrderId(orderId);
         tableView.setItems(list);
     }
 
     public void clearFields() {
+        updateProduct(orderProduct);
         fieldPrice.setText("0");
         fieldTotalPrice.setText("0");
         fieldDiscount.setText("0");
         fieldQuantity.setText("0");
         labelPossibleQuantity.setText("/0");
         buttonAdd.setText("ADD");
-        comboBoxProducts.getSelectionModel().clearSelection();
+        loadComboBoxProducts();
         comboBoxProducts.disableProperty().setValue(false);
         tableView.getSelectionModel().clearSelection();
+    }
+
+    private void updateProduct(OrderProduct orderProduct) {
+        Product product=productService.getProductById(orderProduct.getProductId());
+        product.setQuantity(product.getQuantity()-Integer.parseInt(fieldQuantity.getText()));
+        productService.updateProduct(product,orderProduct.getProductId());
     }
 
     private void getSelectedRow() {
@@ -360,7 +371,7 @@ public class NewOrderController implements Initializable {
                     productLabel.setText(item.getName());
                     AnchorPane pane=new AnchorPane(productLabel,detailLabel);
                     AnchorPane.setLeftAnchor(productLabel, 0.0);
-                    AnchorPane.setRightAnchor(detailLabel, 0.0);;
+                    AnchorPane.setRightAnchor(detailLabel, 0.0);
                     setGraphic(pane);
                 }
             }
@@ -381,16 +392,17 @@ public class NewOrderController implements Initializable {
         });
     }
 
-    private void updateTableRow() throws Exception {
+    private void updateTableRow() {
         product=productService.getProductById(orderProduct.getProductId());
         fieldQuantity.setText(String.valueOf(orderProduct.getProductQuantity()));
         fieldPrice.setText(String.valueOf(orderProduct.getProductPrice()));
         fieldDiscount.setText(String.valueOf(orderProduct.getDiscount()));
         fieldTotalPrice.setText(String.valueOf(orderProduct.getTotalPrice()));
-        comboBoxProducts.setValue(product);
         comboBoxProducts.disableProperty().setValue(true);
         product.setQuantity(orderProduct.getProductQuantity()+product.getQuantity());
         labelPossibleQuantity.setText("/"+String.valueOf(product.getQuantity()));
+        comboBoxProducts.setItems(FXCollections.observableArrayList(product));
+        comboBoxProducts.getSelectionModel().selectFirst();
         productService.updateProduct(product,product.getId());
         buttonAdd.setText("Update");
     }
@@ -406,12 +418,11 @@ public class NewOrderController implements Initializable {
     private void disableSaveButtonIfFieldsEmpty() {
         BooleanBinding booleanBinding = new BooleanBinding() {
             {
-                super.bind(fieldCustomerName.textProperty(), fieldCustomerAddress.textProperty());
+                super.bind(fieldCustomerName.textProperty(), fieldCustomerAddress.textProperty() , comboOrderType.itemsProperty());
             }
-
             @Override
             protected boolean computeValue() {
-                return (fieldCustomerName.getText().isEmpty() || fieldCustomerAddress.getText().isEmpty());
+                return (fieldCustomerName.getText().isEmpty() || fieldCustomerAddress.getText().isEmpty() || comboOrderType.getItems().isEmpty());
             }
         };
         buttonSave.disableProperty().bind(booleanBinding);

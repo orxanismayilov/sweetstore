@@ -8,10 +8,12 @@ import sample.enums.OrderType;
 import sample.model.Order;
 import sample.model.UserSession;
 import sample.repository.OrderDao;
+import sample.service.OrderProductService;
 import sample.utils.DBConnection;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 public class OrderDaoImpl implements OrderDao {
@@ -58,42 +60,61 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void addOrder(Order order) {
-        String sql="INSERT INTO products (customer_name,customer_address,description,order_type,order_status,price_total,insert_date,updated_by,is_active)" +
+    public int addOrder(Order order) {
+        String sql = "INSERT INTO order_details (customer_name,customer_address,description,order_type,order_status,price_total,insert_date,updated_by,is_active)" +
                 " VALUES (?,?,?,?,?,?,?,?,?)";
-        try (Connection con=DBConnection.getConnection();
-        PreparedStatement ps=con.prepareStatement(sql))
-        {
-         ps.setString(1,order.getCustomerName());
-         ps.setString(2,order.getCustomerAddress());
-         ps.setString(3,order.getDescription());
-         ps.setString(4,order.getOrderType().getEngMeaning());
-         ps.setString(5,order.getOrderStatus().getEngMeaning());
-         ps.setFloat(6,order.getTotalPrice().floatValue());
-         ps.setDate(7,Date.valueOf("2015-03-31"));
-         ps.setString(8,userSession.getUserName());
-         ps.setInt(9,1);
-         ps.executeUpdate();
+        Timestamp ts=Timestamp.valueOf(LocalDateTime.now());
+        try (Connection con = DBConnection.getConnection()
+        ) {
+            con.setAutoCommit(false);
+
+            try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setString(1, order.getCustomerName());
+                ps.setString(2, order.getCustomerAddress());
+                ps.setString(3, order.getDescription());
+                ps.setString(4, order.getOrderType().toString());
+                ps.setString(5, OrderStatus.CLOSED.toString());
+                ps.setFloat(6, order.getTotalPrice().floatValue());
+                ps.setTimestamp(7,ts);
+                ps.setInt(8, 1);
+                ps.setInt(9, 1);
+
+                int rowAffected = ps.executeUpdate();
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    int orderId = 0;
+                    if (rs.next()) {
+                        orderId = rs.getInt(1);
+                    }
+
+                    if (rowAffected == 1) {
+                        con.commit();
+                        return orderId;
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
 
     }
 
     @Override
     public void updateOrder(Order newOrder, int oldOrderId) {
         String sql="UPDATE order_details set customer_name=?,customer_address=?,description=?,order_type=?,order_status=?,price_total=?,insert_date=?,updated_by=? where id=?";
+        Timestamp ts=Timestamp.valueOf(LocalDateTime.now());
         try (Connection con=DBConnection.getConnection();
              PreparedStatement ps=con.prepareStatement(sql))
         {
             ps.setString(1,newOrder.getCustomerName());
             ps.setString(2,newOrder.getCustomerAddress());
             ps.setString(3,newOrder.getDescription());
-            ps.setString(4,newOrder.getOrderType().getEngMeaning());
-            ps.setString(5,newOrder.getOrderStatus().getEngMeaning());
+            ps.setString(4,newOrder.getOrderType().toString());
+            ps.setString(5,newOrder.getOrderStatus().toString());
             ps.setFloat(6,newOrder.getTotalPrice().floatValue());
-            ps.setDate(7,Date.valueOf("2015-03-31"));
-            ps.setString(8,userSession.getUserName());
+            ps.setTimestamp(7,ts);
+            ps.setInt(8,1);
+            ps.setInt(9,oldOrderId);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

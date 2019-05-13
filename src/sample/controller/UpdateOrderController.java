@@ -18,6 +18,7 @@ import javafx.util.Callback;
 import sample.enums.OrderType;
 import sample.model.*;
 import sample.repository.impl.OrderDaoImpl;
+import sample.repository.impl.OrderProductImpl;
 import sample.repository.impl.ProductDaoImpl;
 import sample.service.OrderProductService;
 import sample.service.OrderService;
@@ -42,6 +43,7 @@ public class UpdateOrderController implements Initializable {
     private OrderService orderService;
     private OrderProductSummary summary;
     private BigDecimal totalPrice;
+    private int orderId;
 
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
     private static String ALERT_TEXT = "Please enter valid input!";
@@ -132,15 +134,10 @@ public class UpdateOrderController implements Initializable {
     }
 
     public void saveButtonAction() {
-        summary.fillDescriptionCalculateTotalPriceAndDiscount(order.getTransactionID());
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
-        order.setDescription(summary.getDescription());
         order.setOrderType(comboOrderType.getValue());
-        order.setTotalDiscount(summary.getTotalDiscount());
-        order.setTotalPrice(summary.getSum());
-        order.setDescription(summary.getDescription());
-        orderService.updateOrderById(order, order.getTransactionID());
+        orderService.updateOrderById(order,order.getTransactionID());
         closeButtonAction();
     }
 
@@ -366,13 +363,13 @@ public class UpdateOrderController implements Initializable {
     private void createInstance() throws SQLException {
         productService = new ProductService(new ProductDaoImpl());
         order = new Order();
-        orderProductService = new OrderProductService();
+        orderProductService = new OrderProductService(new OrderProductImpl());
         orderService = new OrderService(new OrderDaoImpl());
         summary = new OrderProductSummary();
     }
 
     private boolean validateOrderProduct(OrderProduct orderProduct) throws Exception {
-        Map<String, Map<Boolean, List<String>>> validation = orderProductService.addOrderProductToList(orderProduct);
+        Map<String, Map<Boolean, List<String>>> validation = orderProductService.saveOrderProduct(orderProduct);
         if (!validation.get("quantityError").containsKey(true) && !validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)) {
             handleErrors(validation);
             return true;

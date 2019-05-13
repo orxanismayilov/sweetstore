@@ -3,63 +3,56 @@ package sample.service;
 import javafx.collections.ObservableList;
 import sample.model.OrderProduct;
 import sample.model.Product;
-import sample.repository.OrderProductDummyRepo;
+import sample.repository.OrderProductDao;
 import sample.repository.impl.ProductDaoImpl;
 import sample.utils.LoadPropertyUtil;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.*;
 
 public class OrderProductService {
-    private OrderProductDummyRepo orderProductDummyRepo;
+    private OrderProductDao orderProductDao;
     private Map<String,Map<Boolean,List<String>>> validation;
     private ProductService productService;
     private Properties properties;
     private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
-    public OrderProductService(){
-        this.orderProductDummyRepo = new OrderProductDummyRepo();
+    public OrderProductService(OrderProductDao orderProductDao){
+        this.orderProductDao = orderProductDao;
         this.productService=new ProductService(new ProductDaoImpl());
         this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 
-    public ObservableList getOrderProductList(){
-        return orderProductDummyRepo.getList();
-    }
-
-    public Map addOrderProductToList(OrderProduct orderProduct) throws Exception {
+    public Map saveOrderProduct(OrderProduct orderProduct) {
         validation=validateOrderProduct(orderProduct);
         if (!validation.get("quantityError").containsKey(true) &&!validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)){
-            OrderProduct op=orderProductDummyRepo.doesOrderProductExist(orderProduct);
+            OrderProduct op= orderProductDao.doesOrderProductExist(orderProduct);
             Product product = productService.getProductById(orderProduct.getProductId());
             if (op==null) {
                 product.setQuantity(product.getQuantity() - orderProduct.getProductQuantity());
                 productService.updateProduct(product, product.getId());
-                orderProductDummyRepo.addOrderProductToList(orderProduct);
+                orderProductDao.saveOrderProduct(orderProduct);
             } else {
                 product.setQuantity(product.getQuantity()-orderProduct.getProductQuantity());
                 productService.updateProduct(product,product.getId());
-                orderProductDummyRepo.updateOrderProduct(orderProduct,op.getId());
+                orderProductDao.updateOrderProduct(orderProduct,op.getId());
             }
         }
         return validation;
     }
 
     public void deleteOrderProductByOrderId(int orderId){
-        orderProductDummyRepo.removeOrderProductByOrderId(orderId);
+        orderProductDao.removeOrderProductByOrderId(orderId);
     }
 
     public void removeOrderProductByProductId(int productId){
-        orderProductDummyRepo.removeOrderProductById(productId);
+        orderProductDao.removeOrderProductById(productId);
     }
 
     public ObservableList getOrderProductByOrderId(int orderId){
-        return orderProductDummyRepo.getOrderProductByOrderId(orderId);
+        return orderProductDao.getListByOrderId(orderId);
     }
 
-    private Map validateOrderProduct(OrderProduct orderProduct) throws Exception {
+    private Map validateOrderProduct(OrderProduct orderProduct) {
         validation=new HashMap<>();
         Map<Boolean,List<String>> quantityMap=new HashMap<>();
         Map<Boolean,List<String>> discountMap=new HashMap<>();

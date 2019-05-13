@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import org.apache.log4j.Logger;
 import sample.model.OrderProduct;
 import sample.repository.OrderProductDao;
+import sample.service.ProductService;
+import sample.utils.CopyListUtil;
 import sample.utils.DBConnection;
 
 import java.math.BigDecimal;
@@ -17,35 +19,56 @@ public class OrderProductImpl implements OrderProductDao {
     private static Logger logger=Logger.getLogger(OrderProductImpl.class.getName());
 
     @Override
-    public ObservableList<OrderProduct> getList() {
+    public ObservableList<OrderProduct> getListByOrderId(int orderId) {
         ObservableList<OrderProduct> orderProductsList= FXCollections.observableArrayList();
-        String sql="SELECT * FROM order_product where is_active=1";
+        String sql="SELECT * FROM order_product where is_active=1 and order_id=?";
         try (Connection con= DBConnection.getConnection();
-             PreparedStatement ps=con.prepareStatement(sql);
-             ResultSet rs=ps.executeQuery())
+             PreparedStatement ps=con.prepareStatement(sql))
         {
-            while (rs.next()) {
-                OrderProduct orderProduct=new OrderProduct();
-                orderProduct.setId(rs.getInt("id"));
-                orderProduct.setOrderId(rs.getInt("order_id"));
-                orderProduct.setProductId(rs.getInt("product_id"));
-                orderProduct.setProductPrice(rs.getFloat("price"));
-                orderProduct.setProductQuantity(rs.getInt("quantity"));
-                orderProduct.setTotalPrice(new BigDecimal(String.valueOf(rs.getFloat("total_price"))));
-                orderProduct.setDiscount(rs.getFloat("discount"));
-                orderProduct.setDescription(rs.getString("description"));
-                orderProduct.setActive(true);
-                orderProductsList.add(orderProduct);
+            ps.setInt(1,orderId);
+            try (ResultSet rs=ps.executeQuery()){
+                while (rs.next()) {
+                    OrderProduct orderProduct=new OrderProduct();
+                    orderProduct.setId(rs.getInt("id"));
+                    orderProduct.setOrderId(rs.getInt("order_id"));
+                    orderProduct.setProductId(rs.getInt("product_id"));
+                    orderProduct.setProductPrice(rs.getFloat("price"));
+                    orderProduct.setProductQuantity(rs.getInt("quantity"));
+                    orderProduct.setTotalPrice(new BigDecimal(String.valueOf(rs.getFloat("total_price"))));
+                    orderProduct.setDiscount(rs.getFloat("discount"));
+                    orderProduct.setDescription(rs.getString("description"));
+                    orderProduct.setActive(true);
+                    orderProductsList.add(orderProduct);
+                }
+            }catch (SQLException e) {
+                e.printStackTrace();
             }
+
         } catch (SQLException e) {
             logger.error(e);
         }
-        return null;
+        return orderProductsList;
     }
 
     @Override
-    public void addOrderProductToList(OrderProduct orderProduct) {
-
+    public void saveOrderProduct(OrderProduct orderProduct) {
+        String sql = "INSERT INTO order_product (order_Id,product_Id,price,quantity,total_price,discount,description,is_active)" +
+                "VALUES (?,?,?,?,?,?,?,?)";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, orderProduct.getOrderId());
+            ps.setInt(2, orderProduct.getProductId());
+            ps.setFloat(3, orderProduct.getProductPrice());
+            ps.setInt(4, orderProduct.getProductQuantity());
+            ps.setFloat(5, orderProduct.getTotalPrice().floatValue());
+            ps.setFloat(6, orderProduct.getDiscount());
+            ps.setString(7, orderProduct.getDescription());
+            ps.setInt(8, orderProduct.isActive() ? 1 : 0);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error(e);
+        }
     }
 
     @Override
@@ -66,10 +89,5 @@ public class OrderProductImpl implements OrderProductDao {
     @Override
     public void updateOrderProduct(OrderProduct newOrderProduct, int id) {
 
-    }
-
-    @Override
-    public ObservableList getOrderProductByOrderId(int orderId) {
-        return null;
     }
 }

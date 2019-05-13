@@ -91,6 +91,7 @@ public class OrderController implements Initializable {
     public void addOrder(ActionEvent event) {
         addOrderCreation();
         popUpWindowSetup(event, appProperties.getProperty("newordertitle"));
+        createPagination();
         //loadTable();
     }
 

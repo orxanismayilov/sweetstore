@@ -9,7 +9,7 @@ public interface OrderDao {
 
     ObservableList getOrderList(int pageIndex, int rowsPerPage);
 
-    void addOrder(Order order) ;
+    int addOrder(Order order) ;
 
     void updateOrder(Order newOrder, int oldOrderId);
 

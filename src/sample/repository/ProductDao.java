@@ -3,8 +3,6 @@ package sample.repository;
 import javafx.collections.ObservableList;
 import sample.model.Product;
 
-import java.sql.SQLException;
-
 public interface ProductDao {
 
     ObservableList getProductList(int pageIndex, int rowsPerPage);
@@ -27,5 +25,7 @@ public interface ProductDao {
 
     Product getProductById(int id);
 
-    int getTotalCountOfPrduct() throws SQLException;
+    int getTotalCountOfProduct();
+
+    void undoChangesProduct(ObservableList list);
 }

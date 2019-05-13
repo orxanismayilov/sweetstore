@@ -2,14 +2,12 @@ package sample.service;
 
 import javafx.collections.ObservableList;
 import org.apache.log4j.Logger;
+import sample.model.Product;
 import sample.model.UserSession;
 import sample.repository.ProductDao;
-import sample.model.Product;
-import sample.repository.impl.ProductDaoImpl;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
 
-import java.sql.SQLException;
 import java.util.*;
 
 public class ProductService {
@@ -156,7 +154,7 @@ public class ProductService {
         return productDao.getProductNames();
     }
 
-    public Product getProductById(int id) throws Exception {
+    public Product getProductById(int id) {
         Product product = productDao.getProductById(id);
         return product;
     }
@@ -165,13 +163,12 @@ public class ProductService {
         return productDao.getProductListForComboBox();
     }
 
+    public void undoChangesProduct(ObservableList list) {
+        productDao.undoChangesProduct(list);
+    }
+
     public int getTotalCountOfProduct()  {
-        try {
-            return productDao.getTotalCountOfPrduct();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return productDao.getTotalCountOfProduct();
     }
 
 }

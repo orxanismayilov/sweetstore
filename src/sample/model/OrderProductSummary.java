@@ -1,7 +1,9 @@
 package sample.model;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sample.repository.impl.OrderProductImpl;
 import sample.service.OrderProductService;
 
 import java.math.BigDecimal;
@@ -14,11 +16,12 @@ public class OrderProductSummary {
     private BigDecimal totalDiscount;
     private OrderProductService orderProductService;
 
-    public OrderProductSummary() throws SQLException {
-        orderProductService=new OrderProductService();
+    public OrderProductSummary() {
+        orderProductService=new OrderProductService(new OrderProductImpl());
     }
     public void  fillDescriptionCalculateTotalPriceAndDiscount(int orderId){
-        ObservableList<OrderProduct> list=orderProductService.getOrderProductByOrderId(orderId);
+        ObservableList<OrderProduct> list;
+        list=orderProductService.getOrderProductByOrderId(orderId);
         StringBuilder descriptionBuilder=new StringBuilder();
         this.description="";
         this.sum=new BigDecimal("0");

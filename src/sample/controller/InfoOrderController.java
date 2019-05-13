@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import sample.enums.OrderType;
 import sample.model.Order;
 import sample.model.OrderProduct;
+import sample.repository.impl.OrderProductImpl;
 import sample.service.OrderProductService;
 import sample.utils.TableCellStyleUtil;
 
@@ -59,7 +60,7 @@ public class InfoOrderController {
     }
 
     private void populateTable(int orderId){
-        OrderProductService orderProductService=new OrderProductService();
+        OrderProductService orderProductService=new OrderProductService(new OrderProductImpl());
         ObservableList list=orderProductService.getOrderProductByOrderId(orderId);
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnProduct.setCellValueFactory(new PropertyValueFactory<>("productName"));

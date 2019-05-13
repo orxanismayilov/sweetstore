@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import sample.model.Order;
 import sample.repository.OrderDao;
 import sample.repository.OrderDummyRepo;
+import sample.repository.impl.OrderProductImpl;
 
 import java.sql.SQLException;
 
@@ -19,9 +20,11 @@ public class OrderService {
 
     }
 
-    public void addNewOrderToList(Order order) {
+    public int addNewOrderToList(Order order) {
         System.out.println("user"+"added order to db"+order);
-        orderDao.addOrder(order);
+        return orderDao.addOrder(order);
+        //int id =orderDao.addOrder(order);
+        //orderpr.add(id,productlist);
     }
 
     public ObservableList searchOrderById (String id) {
@@ -29,7 +32,7 @@ public class OrderService {
     }
 
     public void deleteOrderByTransactionId(int transactionId) throws SQLException {
-        OrderProductService orderProductService = new OrderProductService();
+        OrderProductService orderProductService = new OrderProductService(new OrderProductImpl());
         orderProductService.deleteOrderProductByOrderId(transactionId);
         orderDao.deleteOrderByTransactionId(transactionId);
     }
