@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import sample.enums.OrderType;
+import sample.utils.PasswordAuthentication;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,7 +20,6 @@ public class Main extends Application {
     private Properties applicationProperties;
     private static String FXML_PROPERTIES_URL="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
     private static String APP_PROPERTIES_URL="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
-    private static Logger logger=Logger.getLogger(Main.class.getName());
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -45,7 +45,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        logger.debug("Hello this is a debug message");
-        logger.info("Hello this is an info message by orxan");
     }
 }

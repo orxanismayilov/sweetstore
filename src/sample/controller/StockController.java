@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import sample.model.Product;
 import sample.repository.impl.ProductDaoImpl;
 import sample.service.ProductService;
+import sample.utils.AlertUtil;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
 
@@ -64,7 +65,7 @@ public class StockController implements Initializable {
         appProperties = LoadPropertyUtil.loadPropertiesFile(APP_PROPERTIES_URL);
     }
 
-    private void paginationSetup() {
+    public void paginationSetup() {
         int numOfPages = 1;
         int listSize=productService.getTotalCountOfProduct();
         if (listSize % rowsPerPage == 0) {
@@ -138,6 +139,7 @@ public class StockController implements Initializable {
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
                         Product selectedProduct = (Product) getTableRow().getItem();
                         buttonDeleteAction(selectedProduct.getId());
+                        paginationSetup();
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo) -> {
@@ -174,22 +176,13 @@ public class StockController implements Initializable {
         clmAction.setMaxWidth(120);
     }
 
-    /*private void loadData() {
-        ObservableList data = null;
-        try {
-            data = productService.getProductList();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        tableProduct.setItems(data);
-    }*/
-
     private void buttonDeleteAction(int productId) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, DELETE_ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
-            productService.deleteProductbyID(productId);
-            //loadData();
+            if(!productService.deleteProductbyID(productId)){
+                AlertUtil.permissionAlert().showAndWait();
+            }
         }
     }
 

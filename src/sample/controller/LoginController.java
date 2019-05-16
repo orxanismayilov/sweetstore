@@ -3,10 +3,12 @@ package sample.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import org.apache.log4j.Logger;
 import sample.model.User;
+import sample.repository.impl.UserDaoImpl;
 import sample.service.UserService;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
@@ -28,19 +30,23 @@ public class LoginController implements Initializable {
     private TextField txtUsername;
     @FXML
     private TextField txtPassword;
+    @FXML
+    private Label labelAlert;
 
     public void loginButtonAction(ActionEvent event) throws IOException {
-        /*User user=new User();
+        User user=new User();
         user.setName(txtUsername.getText());
         user.setPassword(txtPassword.getText());
-        if (userService.validateLogin(user)) {*/
+        if (userService.validateLogin(user)) {
             ScreenUtils.changeScreen(event, properties.getProperty("homepage"));
-
+        } else {
+            labelAlert.setText("Username or password is wrong.");
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        userService=new UserService();
+        userService=new UserService(new UserDaoImpl());
         final Tooltip tooltip = new Tooltip();
         tooltip.setText("Please fill out this field.");
         txtUsername.setTooltip(tooltip);

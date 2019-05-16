@@ -49,7 +49,12 @@ public class OrderProductService {
     }
 
     public ObservableList getOrderProductByOrderId(int orderId){
-        return orderProductDao.getListByOrderId(orderId);
+        ObservableList<OrderProduct> list= orderProductDao.getListByOrderId(orderId);
+        for (OrderProduct orderProduct:list) {
+            Product product=productService.getProductById(orderProduct.getProductId());
+            orderProduct.setProductName(product.getName());
+        }
+        return list;
     }
 
     private Map validateOrderProduct(OrderProduct orderProduct) {
@@ -67,7 +72,7 @@ public class OrderProductService {
             List discountList = discountMap.get(false);
             List totalPriceList=totalPriceMap.get(false);
             if (product != null) {
-                if (orderProduct.getProductQuantity() < 0) {
+                if (orderProduct.getProductQuantity() <= 0) {
                     quantityList.add(properties.getProperty("negativeQuantity"));
                 }
                 if (orderProduct.getProductQuantity()>product.getQuantity()){

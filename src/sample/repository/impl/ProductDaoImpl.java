@@ -92,8 +92,8 @@ public class ProductDaoImpl implements ProductDao {
         try(Connection connection=DBConnection.getConnection();
             PreparedStatement ps=connection.prepareStatement(s))
         {
-            ps.setInt(1, id);
-            ps.setTimestamp(2,Timestamp.valueOf(LocalDateTime.now()));
+            ps.setInt(2, id);
+            ps.setTimestamp(1,Timestamp.valueOf(LocalDateTime.now()));
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

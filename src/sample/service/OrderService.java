@@ -21,17 +21,14 @@ public class OrderService {
     }
 
     public int addNewOrderToList(Order order) {
-        System.out.println("user"+"added order to db"+order);
         return orderDao.addOrder(order);
-        //int id =orderDao.addOrder(order);
-        //orderpr.add(id,productlist);
     }
 
     public ObservableList searchOrderById (String id) {
         return orderDao.searchOrderById(id);
     }
 
-    public void deleteOrderByTransactionId(int transactionId) throws SQLException {
+    public void deleteOrderByTransactionId(int transactionId) {
         OrderProductService orderProductService = new OrderProductService(new OrderProductImpl());
         orderProductService.deleteOrderProductByOrderId(transactionId);
         orderDao.deleteOrderByTransactionId(transactionId);

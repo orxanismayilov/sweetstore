@@ -54,7 +54,7 @@
       <AnchorPane prefHeight="79.0" prefWidth="750.0" BorderPane.alignment="TOP_LEFT">
          <children>
             <Button layoutX="665.0" layoutY="15.0" maxWidth="85.0" mnemonicParsing="false" onAction="#btnNewProductAction" prefWidth="85.0" text="Add Prodcut" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="25.0" />
-            <Button layoutX="910.0" layoutY="15.0" mnemonicParsing="false" text="Reload" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="125.0" />
+            <Button layoutX="910.0" layoutY="15.0" mnemonicParsing="false" onAction="#paginationSetup" text="Reload" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="125.0" />
          </children>
       </AnchorPane>
    </bottom>

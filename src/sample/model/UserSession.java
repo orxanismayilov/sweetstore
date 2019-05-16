@@ -1,11 +1,8 @@
 package sample.model;
 
-import sample.enums.UserRole;
-
 public class UserSession {
     private static UserSession instance=null;
-    private UserRole userRole;
-    private String userName;
+    private User user;
 
     private UserSession() {
     }
@@ -17,23 +14,11 @@ public class UserSession {
         return instance;
     }
 
-    public UserRole getUserRole() {
-        return userRole;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
-    }
-
-    public static void setInstance(UserSession instance) {
-        UserSession.instance = instance;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

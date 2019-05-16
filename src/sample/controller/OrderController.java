@@ -69,7 +69,7 @@ public class OrderController implements Initializable {
         appProperties = LoadPropertyUtil.loadPropertiesFile(APP_PROPERTIES_URL);
     }
 
-    private void createPagination() {
+    public void createPagination() {
         int numOfPages = 1;
         int listSize=orderService.getTotalCountOfOrder();
         if (listSize % rowsPerPage == 0) {
@@ -109,11 +109,6 @@ public class OrderController implements Initializable {
         ObservableList list=orderService.searchOrderById(searchBox.getText());
         tableView.setItems(list);
     }
-
-   /* public void loadTable() {
-        ObservableList<Order> list = orderService.getOrderList();
-        tableView.setItems(list);
-    }*/
 
     private void addOrderCreation() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlProperties.getProperty("neworder")));
@@ -182,12 +177,7 @@ public class OrderController implements Initializable {
 
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
                         Order order = (Order) getTableRow().getItem();
-                        try {
-                            buttonDeleteAction(order);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                        //loadTable();
+                        buttonDeleteAction(order);
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo) -> {
@@ -200,7 +190,6 @@ public class OrderController implements Initializable {
                         Order order = (Order) getTableRow().getItem();
                         buttonUpdateAction(order);
                         popUpWindowSetup(event, appProperties.getProperty("updateordertitle"));
-                        //loadTable();
                     });
                 }
             }
@@ -250,7 +239,7 @@ public class OrderController implements Initializable {
 
     }
 
-    private void buttonDeleteAction(Order order) throws SQLException {
+    private void buttonDeleteAction(Order order) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {

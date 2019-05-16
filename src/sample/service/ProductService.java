@@ -2,7 +2,9 @@ package sample.service;
 
 import javafx.collections.ObservableList;
 import org.apache.log4j.Logger;
+import sample.enums.UserRole;
 import sample.model.Product;
+import sample.model.User;
 import sample.model.UserSession;
 import sample.repository.ProductDao;
 import sample.utils.LoadPropertyUtil;
@@ -15,7 +17,7 @@ public class ProductService {
     private ProductDao productDao;
     private static Map<String, Map<Boolean, List<String>>> validation;
     private Properties errorProperties;
-    private static Logger log=Logger.getLogger(ProductService.class.getName());
+    private static Logger logger =Logger.getLogger(ProductService.class.getName());
     private UserSession userSession;
 
 
@@ -38,7 +40,7 @@ public class ProductService {
                 Product existedProduct = productDao.isProductExist(product.getName());
                 if (existedProduct == null) {
                     productDao.addProduct(product);
-                    log.info(product.toString()+" "+userSession.getUserName()+" "+userSession.getUserRole());
+                    logger.info("New product :"+product.toString()+" "+userSession.getUser().toString());
                     return validation;
                 } else {
                     if (existedProduct.getQuantity() + product.getQuantity() > 1000) {
@@ -48,10 +50,11 @@ public class ProductService {
                         quantityMap.remove(false);
                         quantityMap.put(true, ls);
                         validation.put("quantityError", quantityMap);
-                        log.info(product.toString()+" "+userSession.getUserName()+" "+userSession.getUserRole());
+                        logger.error("Update product failed: Maximum quantity error.");
                         return validation;
                     } else {
                         productDao.updateProductIncreaseQuantity(product, existedProduct.getId());
+                        logger.info("Update product:"+product.toString()+" by "+userSession.getUser().toString());
                         return validation;
                     }
                 }
@@ -61,11 +64,15 @@ public class ProductService {
     }
 
     public Map updateProduct(Product product, int oldProductId) {
+        logger.info("Product updating start");
         if(product!=null) {
             validation=isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
                productDao.updateProduct(product,oldProductId);
+               logger.info("Product update:"+product.toString()+userSession.getUser().toString());
             }
+        }else {
+            logger.error("Couldnt update product , product is null. OldProductId:"+oldProductId);
         }
         return validation;
     }
@@ -142,16 +149,17 @@ public class ProductService {
         return validation;
     }
 
-    public void deleteProductbyID(int id) {
-        productDao.deleteProductbyId(id);
+    public boolean deleteProductbyID(int id) {
+        User user=userSession.getUser();
+        if (user.getRole().equals(UserRole.ADMIN)) {
+            productDao.deleteProductbyId(id);
+            return true;
+        }
+        return false;
     }
 
     public Product getProductByName(String name) {
         return productDao.getProductByName(name);
-    }
-
-    public ObservableList getProductNames() {
-        return productDao.getProductNames();
     }
 
     public Product getProductById(int id) {

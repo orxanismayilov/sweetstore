@@ -47,7 +47,7 @@ public class OrderDaoImpl implements OrderDao {
                     order.setOrderType(OrderType.valueOf(resultSet.getString("order_type")));
                     order.setTotalPrice(new BigDecimal(String.valueOf(resultSet.getFloat("price_total"))));
                     order.setOrderStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
-                    order.setDate(LocalDateTime.now());
+                    order.setDate(resultSet.getTimestamp("insert_date").toLocalDateTime());
                     order.setActive(true);
                     orderList.add(order);
                 }
@@ -123,11 +123,12 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void deleteOrderByTransactionId(int transactionId) {
-        String sql="Update order_details set is_active=1 where id=?";
+        String sql="Update order_details set is_active=0 where id=?";
         try (Connection connection=DBConnection.getConnection();
              PreparedStatement ps=connection.prepareStatement(sql))
         {
         ps.setInt(1,transactionId);
+        ps.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -181,7 +182,7 @@ public class OrderDaoImpl implements OrderDao {
                     order.setCustomerName(resultSet.getString("customer_name"));
                     order.setCustomerAddress(resultSet.getString("customer_address"));
                     order.setDescription(resultSet.getString("description"));
-                    order.setOrderType(OrderType.valueOf(resultSet.getString("oreder_type")));
+                    order.setOrderType(OrderType.valueOf(resultSet.getString("order_type")));
                     order.setTotalPrice(new BigDecimal(String.valueOf(resultSet.getFloat("price_total"))));
                     order.setOrderStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                     order.setDate(LocalDateTime.now());
@@ -207,7 +208,7 @@ public class OrderDaoImpl implements OrderDao {
                count++;
             }
         } catch (SQLException e) {
-           logger.error(e+" "+userSession.getUserName());
+           logger.error(e+" "+userSession.getUser().toString());
            e.printStackTrace();
         }
         return count;

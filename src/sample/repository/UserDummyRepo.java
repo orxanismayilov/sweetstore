@@ -25,8 +25,7 @@ public class UserDummyRepo {
     }
 
     private void startUserSesion(User user) {
-        userSession.setUserName(user.getName());
-        userSession.setUserRole(user.getRole());
+        userSession.setUser(user);
     }
 
     public void addUserAddList(User user) {
@@ -44,7 +43,6 @@ public class UserDummyRepo {
     public boolean validateLogin(User user) {
         for (User u : userList) {
             if (u.getName().equals(user.getName()) && u.getPassword().equals(user.getPassword())) {
-                userSession.setUserRole(u.getRole());
                 startUserSesion(user);
                 logger.debug(user.toString());
                 return true;
