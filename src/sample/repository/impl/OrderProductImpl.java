@@ -21,7 +21,14 @@ public class OrderProductImpl implements OrderProductDao {
     @Override
     public ObservableList<OrderProduct> getListByOrderId(int orderId) {
         ObservableList<OrderProduct> orderProductsList= FXCollections.observableArrayList();
-        String sql="SELECT * FROM order_product where is_active=1 and order_id=?";
+        String sql="select \n" +
+                "order_product.id,order_product.order_Id,order_product.product_id,products.name,order_product.price,order_product.quantity,\n" +
+                "order_product.total_price,order_product.discount,order_product.description\n" +
+                "from \n" +
+                "order_product  \n" +
+                "inner join products  on order_product.product_id=products.id \n" +
+                "where order_id=?";
+        String sqlProduct="Select * from products where id=?";
         try (Connection con= DBConnection.getConnection();
              PreparedStatement ps=con.prepareStatement(sql))
         {
@@ -32,6 +39,7 @@ public class OrderProductImpl implements OrderProductDao {
                     orderProduct.setId(rs.getInt("id"));
                     orderProduct.setOrderId(rs.getInt("order_id"));
                     orderProduct.setProductId(rs.getInt("product_id"));
+                    orderProduct.setProductName(rs.getString("name"));
                     orderProduct.setProductPrice(rs.getFloat("price"));
                     orderProduct.setProductQuantity(rs.getInt("quantity"));
                     orderProduct.setTotalPrice(new BigDecimal(String.valueOf(rs.getFloat("total_price"))));

@@ -13,10 +13,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDao {
-    private UserSession userSession=UserSession.getInstance();
+    private UserSession userSession;
 
     @Override
     public void startUserSesion(User user) {
+        userSession=UserSession.getInstance();
         userSession.setUser(user);
     }
 

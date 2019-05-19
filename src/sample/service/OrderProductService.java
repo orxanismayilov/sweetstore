@@ -49,12 +49,7 @@ public class OrderProductService {
     }
 
     public ObservableList getOrderProductByOrderId(int orderId){
-        ObservableList<OrderProduct> list= orderProductDao.getListByOrderId(orderId);
-        for (OrderProduct orderProduct:list) {
-            Product product=productService.getProductById(orderProduct.getProductId());
-            orderProduct.setProductName(product.getName());
-        }
-        return list;
+        return orderProductDao.getListByOrderId(orderId);
     }
 
     private Map validateOrderProduct(OrderProduct orderProduct) {

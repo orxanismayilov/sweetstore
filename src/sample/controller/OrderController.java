@@ -29,7 +29,6 @@ import sample.utils.TableCellStyleUtil;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -48,9 +47,7 @@ public class OrderController implements Initializable {
     private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
     private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
     private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
-    private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
-    private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
+    private String ALERT_TEXT = "Are you sure ?";
     private static final   int rowsPerPage=10;
     private TableView<Order> tableView;
 
@@ -155,6 +152,9 @@ public class OrderController implements Initializable {
 
             @Override
             protected void updateItem(Void item, boolean empty) {
+                Image imageDelete = new Image(appProperties.getProperty("imageDelete"));
+                Image imageUpdate = new Image(appProperties.getProperty("imageUpdate"));
+                Image imageInfo = new Image(appProperties.getProperty("imageInfo"));
                 buttonDeleteGraphic.setImage(imageDelete);
                 buttonDeleteGraphic.setFitWidth(12);
                 buttonDeleteGraphic.setFitHeight(12);
@@ -204,20 +204,20 @@ public class OrderController implements Initializable {
                 super.updateItem(item, empty);
                 if (!empty) {
                     if (item == OrderStatus.PENDDING) {
-                        pseudoClassStateChanged(pendigPseudoClass,true);
+                        pseudoClassStateChanged(pendigPseudoClass, true);
                         setText(item.getEngMeaning());
                     } else if (item == OrderStatus.DELIVERED) {
-                        pseudoClassStateChanged(deliveredPseudoClass,true);
+                        pseudoClassStateChanged(deliveredPseudoClass, true);
                         setText(item.getEngMeaning());
                     } else {
-                        pseudoClassStateChanged(closedPseudoClass,true);
+                        pseudoClassStateChanged(closedPseudoClass, true);
                         setText(item.getEngMeaning());
                     }
                 } else {
                     setText(null);
-                    pseudoClassStateChanged(pendigPseudoClass,false);
-                    pseudoClassStateChanged(deliveredPseudoClass,false);
-                    pseudoClassStateChanged(closedPseudoClass,false);
+                    pseudoClassStateChanged(pendigPseudoClass, false);
+                    pseudoClassStateChanged(deliveredPseudoClass, false);
+                    pseudoClassStateChanged(closedPseudoClass, false);
                 }
             }
         });
@@ -240,7 +240,7 @@ public class OrderController implements Initializable {
     }
 
     private void buttonDeleteAction(Order order) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
             int id = order.getTransactionID();
