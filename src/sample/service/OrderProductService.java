@@ -40,7 +40,7 @@ public class OrderProductService {
         return validation;
     }
 
-    public void deleteOrderProductByOrderId(int orderId){
+    void deleteOrderProductByOrderId(int orderId){
         orderProductDao.removeOrderProductByOrderId(orderId);
     }
 

@@ -56,6 +56,9 @@ public class InfoOrderController {
         fieldCustomerAddress.setText(order.getCustomerAddress());
         fieldDescription.setText(order.getDescription());
         comboOrderType.setItems(FXCollections.observableArrayList(order.getOrderType()));
+        comboOrderType.getSelectionModel().selectFirst();
+        labelSum.setText(String.valueOf(order.getTotalPrice()));
+        labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
         populateTable(order.getTransactionID());
     }
 
