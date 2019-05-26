@@ -104,6 +104,7 @@ public class OrderController implements Initializable {
 
     public void searchButtonAction() {
         ObservableList list=orderService.searchOrderById(searchBox.getText());
+        searchBox.bindA
         tableView.setItems(list);
     }
 

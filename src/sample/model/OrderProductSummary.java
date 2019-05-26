@@ -1,13 +1,10 @@
 package sample.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.repository.impl.OrderProductImpl;
 import sample.service.OrderProductService;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 
 public class OrderProductSummary {
 
@@ -29,7 +26,7 @@ public class OrderProductSummary {
         for(OrderProduct orderProduct:list){
             sum=sum.add(orderProduct.getTotalPrice());
             totalDiscount=totalDiscount.add(BigDecimal.valueOf(orderProduct.getDiscount()));
-            descriptionBuilder.append(orderProduct.getDescription()+",");
+            descriptionBuilder.append(orderProduct.getDescription()).append(",");
         }
         int index = descriptionBuilder.lastIndexOf(",");
        if (index>0) {

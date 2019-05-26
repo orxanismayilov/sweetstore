@@ -9,9 +9,9 @@ public interface OrderProductDao {
 
     void saveOrderProduct(OrderProduct orderProduct);
 
-    void removeOrderProductByOrderId(int orderId);
+    void removeOrderProductByOrderId(OrderProduct orderProduct,int orderId);
 
-    void removeOrderProductById(int id);
+    void removeOrderProductById(OrderProduct orderProduct,int id);
 
     OrderProduct doesOrderProductExist(OrderProduct newOrderProduct);
 

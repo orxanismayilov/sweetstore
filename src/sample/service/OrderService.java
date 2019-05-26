@@ -30,7 +30,7 @@ public class OrderService {
 
     public void deleteOrderByTransactionId(int transactionId) {
         OrderProductService orderProductService = new OrderProductService(new OrderProductImpl());
-        orderProductService.deleteOrderProductByOrderId(transactionId);
+        //orderProductService.deleteOrderProductByOrderId(transactionId);
         orderDao.deleteOrderByTransactionId(transactionId);
     }
 

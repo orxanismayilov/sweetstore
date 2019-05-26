@@ -11,9 +11,9 @@ import java.util.*;
 
 public class OrderProductService {
     private OrderProductDao orderProductDao;
-    private Map<String,Map<Boolean,List<String>>> validation;
     private ProductService productService;
     private Properties properties;
+    Map<String,Map<Boolean,List<String>>> validation;
     private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
 
     public OrderProductService(OrderProductDao orderProductDao){
@@ -22,37 +22,27 @@ public class OrderProductService {
         this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 
-    public Map saveOrderProduct(OrderProduct orderProduct) {
-        validation=validateOrderProduct(orderProduct);
-        if (!validation.get("quantityError").containsKey(true) &&!validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)){
-            OrderProduct op= orderProductDao.doesOrderProductExist(orderProduct);
-            Product product = productService.getProductById(orderProduct.getProductId());
-            if (op==null) {
-                product.setQuantity(product.getQuantity() - orderProduct.getProductQuantity());
-                productService.updateProduct(product, product.getId());
-                orderProductDao.saveOrderProduct(orderProduct);
-            } else {
-                product.setQuantity(product.getQuantity()-orderProduct.getProductQuantity());
-                productService.updateProduct(product,product.getId());
-                orderProductDao.updateOrderProduct(orderProduct,op.getId());
-            }
-        }
-        return validation;
+    public void saveOrderProduct(OrderProduct orderProduct) {
+        orderProductDao.saveOrderProduct(orderProduct);
     }
 
-    void deleteOrderProductByOrderId(int orderId){
-        orderProductDao.removeOrderProductByOrderId(orderId);
+    void deleteOrderProductByOrderId(OrderProduct orderProduct,int orderId){
+        orderProductDao.removeOrderProductByOrderId(orderProduct,orderId);
     }
 
-    public void removeOrderProductByProductId(int productId){
-        orderProductDao.removeOrderProductById(productId);
+    public void removeOrderProductById(OrderProduct orderProduct,int id){
+        orderProductDao.removeOrderProductById(orderProduct,id);
     }
 
     public ObservableList getOrderProductByOrderId(int orderId){
         return orderProductDao.getListByOrderId(orderId);
     }
 
-    private Map validateOrderProduct(OrderProduct orderProduct) {
+    public  void updateOrderProduct(OrderProduct newOrderProduct, int id) {
+        orderProductDao.updateOrderProduct(newOrderProduct,id);
+    }
+
+    public Map validateOrderProduct(OrderProduct orderProduct) {
         validation=new HashMap<>();
         Map<Boolean,List<String>> quantityMap=new HashMap<>();
         Map<Boolean,List<String>> discountMap=new HashMap<>();

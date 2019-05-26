@@ -75,13 +75,13 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="labelAlert" layoutY="248.0" prefHeight="50.0" prefWidth="162.0" textFill="#f50c0c" />
+            <Label fx:id="labelAlert" layoutX="25.0" layoutY="273.0" prefHeight="50.0" prefWidth="162.0" textFill="#f50c0c" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" />
             <Label fx:id="labelPossibleQuantity" layoutX="287.0" layoutY="4.0" text="/0" AnchorPane.leftAnchor="312.0" AnchorPane.topAnchor="35.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button layoutX="935.0" mnemonicParsing="false" onAction="#clearFields" prefWidth="65.0" text="CLEAR" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="30.0" />
+            <Button layoutX="935.0" mnemonicParsing="false" onAction="#buttonClearAction" prefWidth="65.0" text="CLEAR" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="30.0" />
          </children>
       </AnchorPane>
       <Button fx:id="buttonClose" layoutX="675.0" layoutY="513.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#closeButtonAction" text="Close" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="513.0" />

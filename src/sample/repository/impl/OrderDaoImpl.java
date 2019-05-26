@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger=Logger.getLogger(OrderDaoImpl.class.getName());
@@ -193,6 +194,8 @@ public class OrderDaoImpl implements OrderDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Stream<ObservableList> stream=Stream.of(searchResult);
+        stream.distinct().limit(5);
         return searchResult;
     }
 

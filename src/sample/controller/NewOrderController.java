@@ -2,7 +2,6 @@ package sample.controller;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -13,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -45,7 +45,6 @@ public class NewOrderController implements Initializable {
     private OrderService orderService;
     private int orderId;
     private OrderProductSummary summary;
-    private BigDecimal totalPrice;
 
 
     private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
@@ -105,7 +104,6 @@ public class NewOrderController implements Initializable {
     @FXML
     private AnchorPane paneCustomerDetails;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService = new ProductService(new ProductDaoImpl());
@@ -125,9 +123,6 @@ public class NewOrderController implements Initializable {
     public void addButtonAction() {
         if (buttonAdd.getText().equals("ADD")) {
             addOrderProduct();
-            order.setTotalDiscount(summary.getTotalDiscount());
-            order.setTotalPrice(summary.getSum());
-            order.setDescription(summary.getDescription());
             orderService.updateOrderById(order,orderId);
         } else {
             updateOrderProduct();
@@ -156,6 +151,11 @@ public class NewOrderController implements Initializable {
     public void closeButtonAction() {
         Stage stage = (Stage) buttonClose.getScene().getWindow();
         stage.close();
+    }
+
+    public void buttonClearAction() {
+        updateProduct(orderProduct);
+        clearFields();
     }
 
     private void populateTable() {
@@ -191,12 +191,19 @@ public class NewOrderController implements Initializable {
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES, ButtonType.CANCEL);
                         alert.showAndWait();
+                        if (tableView.getSelectionModel() != null) {
+                            updateProduct(orderProduct);
+                        }
                         if (alert.getResult() == ButtonType.YES) {
-                            orderProductService.removeOrderProductByProductId(columnId.getCellData(getTableRow().getIndex()));
+                            OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
+                            orderProductService.removeOrderProductById(orderProduct, orderProduct.getId());
+                            fillSummaryFields();
+                            order.setTotalPrice(summary.getSum());
+                            order.setTotalDiscount(summary.getTotalDiscount());
+                            order.setDescription(summary.getDescription());
+                            orderService.updateOrderById(order, order.getTransactionID());
                             loadTable();
                             clearFields();
-                            summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
-                            fieldDescription.setText(String.valueOf(summary.getDescription()));
                         }
                     });
                 }
@@ -216,7 +223,11 @@ public class NewOrderController implements Initializable {
         try {
             createOrderProduct();
             if (validateOrderProduct(orderProduct)) {
+                orderProductService.saveOrderProduct(orderProduct);
                 fillSummaryFields();
+                order.setTotalDiscount(summary.getTotalDiscount());
+                order.setTotalPrice(summary.getSum());
+                order.setDescription(summary.getDescription());
                 loadTable();
                 loadComboBoxProducts();
                 clearFields();
@@ -232,10 +243,11 @@ public class NewOrderController implements Initializable {
     private void updateOrderProduct() {
         try {
             orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
-            orderProduct.setTotalPrice(totalPrice);
+            orderProduct.setTotalPrice(calculateTotalPrice(String.valueOf(product.getPrice()),fieldQuantity.getText(),fieldDiscount.getText()));
             orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
             orderProduct.setDescription(fieldQuantity.getText() + " " + product.getName() + ",");
             if (validateOrderProduct(orderProduct)) {
+                orderProductService.updateOrderProduct(orderProduct,orderProduct.getId());
                 fillSummaryFields();
                 clearFields();
                 loadTable();
@@ -255,7 +267,7 @@ public class NewOrderController implements Initializable {
         orderProduct.setProductName(product.getName());
         orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));
         orderProduct.setProductPrice(product.getPrice());
-        orderProduct.setTotalPrice(totalPrice);
+        orderProduct.setTotalPrice(calculateTotalPrice(String.valueOf(product.getPrice()),fieldQuantity.getText(),fieldDiscount.getText()));
         orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
         orderProduct.setDescription(fieldQuantity.getText() + " " + product.getName() + " ");
         orderProduct.setActive(true);
@@ -269,7 +281,7 @@ public class NewOrderController implements Initializable {
     }
 
     private boolean validateOrderProduct(OrderProduct orderProduct) {
-        Map<String, Map<Boolean, List<String>>> validation = orderProductService.saveOrderProduct(orderProduct);
+        Map<String, Map<Boolean, List<String>>> validation = orderProductService.validateOrderProduct(orderProduct);
         if (!validation.get("quantityError").containsKey(true) && !validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)) {
             handleErrors(validation);
             return true;
@@ -322,8 +334,8 @@ public class NewOrderController implements Initializable {
         tableView.setItems(list);
     }
 
-    public void clearFields() {
-        updateProduct(orderProduct);
+    private void clearFields() {
+        orderProduct= new OrderProduct();
         fieldPrice.setText("0");
         fieldTotalPrice.setText("0");
         fieldDiscount.setText("0");
@@ -336,24 +348,33 @@ public class NewOrderController implements Initializable {
     }
 
     private void updateProduct(OrderProduct orderProduct) {
-        Product product=productService.getProductById(orderProduct.getProductId());
-        product.setQuantity(product.getQuantity()-Integer.parseInt(fieldQuantity.getText()));
-        productService.updateProduct(product,orderProduct.getProductId());
+        if(orderProduct!=null) {
+            Product product = productService.getProductById(orderProduct.getProductId());
+            if (product != null) {
+                product.setQuantity(product.getQuantity() - orderProduct.getProductQuantity());
+                productService.updateProduct(product, orderProduct.getProductId());
+            }
+        }
     }
 
     private void getSelectedRow() {
-        tableView.getSelectionModel().selectedItemProperty().addListener((ChangeListener<OrderProduct>) (observableValue, oldValue, newValue) -> {
-            if (tableView.getSelectionModel().getSelectedItem() != null) {
-                OrderProduct selectedRow = (OrderProduct) tableView.getSelectionModel().getSelectedItem();
-                this.orderProduct=selectedRow;
-                try {
+        tableView.setRowFactory(tv -> {
+            TableRow<OrderProduct> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (! row.isEmpty() && event.getButton()== MouseButton.PRIMARY
+                        && event.getClickCount() == 1) {
+                    updateProduct(orderProduct);
+                    OrderProduct orderProduct = row.getItem();
+                    setOrderProduct(orderProduct);
                     updateTableRow();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
+            });
+            return row ;
         });
+    }
 
+    private void setOrderProduct(OrderProduct orderProduct) {
+        this.orderProduct=orderProduct;
     }
 
     private void addQuantityToComboBox(){
@@ -394,15 +415,15 @@ public class NewOrderController implements Initializable {
 
     private void updateTableRow() {
         product=productService.getProductById(orderProduct.getProductId());
+        comboBoxProducts.setItems(FXCollections.observableArrayList(product));
+        comboBoxProducts.getSelectionModel().selectFirst();
         fieldQuantity.setText(String.valueOf(orderProduct.getProductQuantity()));
         fieldPrice.setText(String.valueOf(orderProduct.getProductPrice()));
         fieldDiscount.setText(String.valueOf(orderProduct.getDiscount()));
-        fieldTotalPrice.setText(String.valueOf(orderProduct.getTotalPrice()));
+        fieldTotalPrice.setText(orderProduct.getTotalPrice().toString());
         comboBoxProducts.disableProperty().setValue(true);
         product.setQuantity(orderProduct.getProductQuantity()+product.getQuantity());
         labelPossibleQuantity.setText("/"+String.valueOf(product.getQuantity()));
-        comboBoxProducts.setItems(FXCollections.observableArrayList(product));
-        comboBoxProducts.getSelectionModel().selectFirst();
         productService.updateProduct(product,product.getId());
         buttonAdd.setText("Update");
     }
@@ -437,9 +458,8 @@ public class NewOrderController implements Initializable {
             if (NumberUtils.isNumberInteger(newValue)) {
                 try {
                     if (comboBoxProducts.getValue() != null) {
-                        totalPrice = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
-                        totalPrice = totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
-                        fieldTotalPrice.setText(String.valueOf(totalPrice));
+                        fieldTotalPrice.setText(String.valueOf(calculateTotalPrice(String.valueOf(product.getPrice()),fieldQuantity.getText(),fieldDiscount.getText())));
+
                     }
                 } catch (NumberFormatException e) {
                     fieldTotalPrice.setText("0");
@@ -458,9 +478,7 @@ public class NewOrderController implements Initializable {
             if (NumberUtils.isNumberFloat(newValue)) {
                 try {
                     if (comboBoxProducts.getValue() != null) {
-                        totalPrice = new BigDecimal(Double.toString(product.getPrice())).multiply(new BigDecimal(fieldQuantity.getText())).subtract(new BigDecimal(fieldDiscount.getText()));
-                        totalPrice = totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
-                        fieldTotalPrice.setText(String.valueOf(totalPrice));
+                        fieldTotalPrice.setText(String.valueOf(calculateTotalPrice(String.valueOf(product.getPrice()),fieldQuantity.getText(),fieldDiscount.getText())));
                     }
                 } catch (NumberFormatException e) {
                     fieldTotalPrice.setText("0");
@@ -472,5 +490,9 @@ public class NewOrderController implements Initializable {
                 labelAlert.setText(ALERT_TEXT);
             }
         }));
+    }
+
+    private BigDecimal calculateTotalPrice(String price,String quantity,String discount) {
+       return new BigDecimal(price).multiply(new BigDecimal(quantity)).subtract(new BigDecimal(discount));
     }
 }
