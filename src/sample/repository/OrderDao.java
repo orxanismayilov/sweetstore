@@ -3,7 +3,7 @@ package sample.repository;
 import javafx.collections.ObservableList;
 import sample.model.Order;
 
-import java.sql.SQLException;
+import java.util.List;
 
 public interface OrderDao {
 
@@ -17,7 +17,7 @@ public interface OrderDao {
 
     Order getOrderById(int orderId);
 
-    ObservableList searchOrderById(String id);
+    List<Order> searchOrderById(String id,boolean searchAll);
 
     int getTotalCountOfOrder() ;
 }

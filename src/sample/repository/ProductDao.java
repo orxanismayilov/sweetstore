@@ -11,7 +11,7 @@ public interface ProductDao {
 
     void addProduct(Product product);
 
-    void deleteProductbyId(int id);
+    void deleteProductById(int id);
 
     Product isProductExist(String name);
 
@@ -19,13 +19,9 @@ public interface ProductDao {
 
     void updateProduct(Product product, int oldProductId);
 
-    Product getProductByName(String name);
-
     ObservableList getProductNames();
 
     Product getProductById(int id);
 
     int getTotalCountOfProduct();
-
-    void undoChangesProduct(ObservableList list);
 }

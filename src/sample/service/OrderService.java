@@ -1,18 +1,19 @@
 package sample.service;
 
 import javafx.collections.ObservableList;
+import sample.enums.UserRole;
 import sample.model.Order;
+import sample.model.UserSession;
 import sample.repository.OrderDao;
-import sample.repository.OrderDummyRepo;
-import sample.repository.impl.OrderProductImpl;
 
-import java.sql.SQLException;
+import java.util.List;
 
 public class OrderService {
     private OrderDao orderDao;
-
+    private UserSession userSession;
     public OrderService(OrderDao orderDao) {
         this.orderDao =orderDao;
+        this.userSession=UserSession.getInstance();
     }
 
     public ObservableList getOrderList(int pageIndex, int rowsPerPage) {
@@ -24,13 +25,12 @@ public class OrderService {
         return orderDao.addOrder(order);
     }
 
-    public ObservableList searchOrderById (String id) {
-        return orderDao.searchOrderById(id);
+    public List<Order> searchOrderById (String id,boolean searchAll) {
+        searchAll=userSession.getUser().getRole()== UserRole.ADMIN ? true:false;
+        return orderDao.searchOrderById(id,searchAll);
     }
 
     public void deleteOrderByTransactionId(int transactionId) {
-        OrderProductService orderProductService = new OrderProductService(new OrderProductImpl());
-        //orderProductService.deleteOrderProductByOrderId(transactionId);
         orderDao.deleteOrderByTransactionId(transactionId);
     }
 

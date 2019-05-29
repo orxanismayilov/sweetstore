@@ -25,7 +25,6 @@ import sample.utils.ScreenUtils;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -180,7 +179,7 @@ public class StockController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, DELETE_ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
-            if(!productService.deleteProductbyID(productId)){
+            if(!productService.deleteProductByID(productId)){
                 AlertUtil.permissionAlert().showAndWait();
             }
         }

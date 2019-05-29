@@ -87,7 +87,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public void deleteProductbyId(int id) {
+    public void deleteProductById(int id) {
         String s = "UPDATE products set Is_Active =0,update_date =? where Id = ? ";
         try(Connection connection=DBConnection.getConnection();
             PreparedStatement ps=connection.prepareStatement(s))
@@ -163,10 +163,6 @@ public class ProductDaoImpl implements ProductDao {
             e.printStackTrace();
         }
     }
-    @Override
-    public Product getProductByName(String name) {
-        return null;
-    }
 
     @Override
     public ObservableList getProductNames() {
@@ -197,23 +193,6 @@ public class ProductDaoImpl implements ProductDao {
             e.printStackTrace();
         }
         return null;
-    }
-
-    @Override
-    public void undoChangesProduct(ObservableList list) {
-        ObservableList<OrderProduct> orderProducts=list;
-        String sql="UPDATE products set quantity=quantity+? where id=?";
-        try (Connection con=DBConnection.getConnection();
-        PreparedStatement ps=con.prepareStatement(sql)) {
-            for (OrderProduct orderProduct:orderProducts) {
-                ps.setInt(1,orderProduct.getProductQuantity());
-                ps.setInt(2,orderProduct.getProductId());
-                ps.executeUpdate();
-            }
-            //batch update
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

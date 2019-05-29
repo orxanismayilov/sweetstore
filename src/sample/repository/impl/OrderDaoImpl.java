@@ -15,7 +15,8 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
     private static Logger logger=Logger.getLogger(OrderDaoImpl.class.getName());
@@ -168,14 +169,15 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public ObservableList searchOrderById(String id) {
-        ObservableList<Order> searchResult=FXCollections.observableArrayList();
+    public List<Order> searchOrderById(String id,boolean searchAll) {
+        List<Order> searchResult=new ArrayList<>();
         String sc="%"+id+"%";
-        String sql="SELECT * FROM order_details WHERE id LIKE ? ";
+        String sql="SELECT * FROM order_details WHERE id LIKE ? and is_active=?";
         try (Connection con=DBConnection.getConnection();
         PreparedStatement ps=con.prepareStatement(sql))
         {
             ps.setString(1,sc);
+            ps.setInt(2,searchAll ? 0:1);
             try (ResultSet resultSet=ps.executeQuery()) {
                 while (resultSet.next()) {
                     Order order=new Order();
@@ -194,8 +196,6 @@ public class OrderDaoImpl implements OrderDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Stream<ObservableList> stream=Stream.of(searchResult);
-        stream.distinct().limit(5);
         return searchResult;
     }
 
@@ -211,7 +211,6 @@ public class OrderDaoImpl implements OrderDao {
                count++;
             }
         } catch (SQLException e) {
-           logger.error(e+" "+userSession.getUser().toString());
            e.printStackTrace();
         }
         return count;

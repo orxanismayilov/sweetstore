@@ -15,7 +15,7 @@ public class UserService {
     public boolean validateLogin(User user) {
 
        if(userDao.validateLogin(user)) {
-           logger.info("validationg user:"+user.toString());
+           logger.info("validation user:"+user.toString());
            return true;
        }
        logger.info("Login failed.");

@@ -1,5 +1,6 @@
 package sample.controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -19,9 +20,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.enums.OrderStatus;
 import sample.enums.OrderType;
+import sample.enums.UserRole;
 import sample.model.Order;
+import sample.model.UserSession;
 import sample.repository.impl.OrderDaoImpl;
 import sample.service.OrderService;
+import sample.utils.AlertUtil;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
 import sample.utils.TableCellStyleUtil;
@@ -43,6 +47,7 @@ public class OrderController implements Initializable {
     private PseudoClass pendigPseudoClass=PseudoClass.getPseudoClass("editable");
     private PseudoClass deliveredPseudoClass=PseudoClass.getPseudoClass("readonly");
     private PseudoClass closedPseudoClass=PseudoClass.getPseudoClass("disabled");
+    private UserSession userSession;
 
     private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
     private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
@@ -55,11 +60,14 @@ public class OrderController implements Initializable {
     private BorderPane pane;
     @FXML
     private TextField searchBox;
+    @FXML
+    private CheckBox checkBox;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         orderService = new OrderService(new OrderDaoImpl());
+        this.userSession=UserSession.getInstance();
         tableBinding();
         createPagination();
         fxmlProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);
@@ -103,9 +111,16 @@ public class OrderController implements Initializable {
     }
 
     public void searchButtonAction() {
-        ObservableList list=orderService.searchOrderById(searchBox.getText());
-        searchBox.bindA
-        tableView.setItems(list);
+        boolean isSelected=checkBox.isSelected();
+        if (isSelected){
+           if (userSession.getUser().getRole()== UserRole.USER) {
+               AlertUtil.permissionAlert().showAndWait();
+           } else {
+               tableView.setItems(FXCollections.observableArrayList(orderService.searchOrderById(searchBox.getText(), isSelected)));
+           }
+        } else {
+            tableView.setItems(FXCollections.observableArrayList(orderService.searchOrderById(searchBox.getText(), isSelected)));
+        }
     }
 
     private void addOrderCreation() {

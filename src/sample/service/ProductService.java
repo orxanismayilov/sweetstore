@@ -17,7 +17,7 @@ public class ProductService {
     private ProductDao productDao;
     private static Map<String, Map<Boolean, List<String>>> validation;
     private Properties errorProperties;
-    private static Logger logger =Logger.getLogger(ProductService.class.getName());
+    private static Logger logger =Logger.getLogger(ProductService.class);
     private UserSession userSession;
 
 
@@ -101,22 +101,27 @@ public class ProductService {
                 if (name.trim().length() < 2) {
                     nameErrorList.add(errorProperties.getProperty("nameSize"));
                     nameMap.put(true, nameErrorList);
+                    logger.error(errorProperties.getProperty("nameSize"));
                 } else {
                     product.setName(renameProduct(product.getName()));
                 }
             } else {
                 nameErrorList.add(errorProperties.getProperty("nullName"));
+                logger.error(errorProperties.getProperty("nullName"));
                 nameMap.put(true, nameErrorList);
             }
             List quantityErrorList = quantityMap.get(false);
             if (product.getQuantity() < 0) {
                 quantityErrorList.add(errorProperties.getProperty("negativeQuantity"));
+                logger.error(errorProperties.getProperty("negativeQuantity"));
             }
             if (product.getQuantity() > 1000) {
                 quantityErrorList.add(errorProperties.getProperty("maxQuantity"));
+                logger.error(errorProperties.getProperty("maxQuantity"));
             }
             if (!NumberUtils.isNumberInteger(String.valueOf(product.getQuantity()))) {
                 quantityErrorList.add(errorProperties.getProperty("invalidNumber"));
+                logger.error(errorProperties.getProperty("invalidNumber"+userSession.getUser().toString()));
             }
             if (!quantityErrorList.isEmpty()) {
                 quantityMap.remove(false);
@@ -126,12 +131,15 @@ public class ProductService {
             List priceErrorList = priceMap.get(false);
             if (product.getPrice() < 0) {
                 priceErrorList.add(errorProperties.getProperty("negativePrice"));
+                logger.error(errorProperties.getProperty("negativePrice"));
             }
             if (product.getPrice() > 1000) {
                 priceErrorList.add(errorProperties.getProperty("maxPrice"));
+                logger.error(errorProperties.getProperty("maxPrice"));
             }
             if (!NumberUtils.isNumberFloat(String.valueOf(product.getPrice()))) {
                 priceErrorList.add(errorProperties.getProperty("invalidNumber"));
+                logger.error(errorProperties.getProperty("invalidNumber"));
             }
             if (!priceErrorList.isEmpty()) {
                 priceMap.remove(false);
@@ -149,17 +157,14 @@ public class ProductService {
         return validation;
     }
 
-    public boolean deleteProductbyID(int id) {
+    public boolean deleteProductByID(int id) {
         User user=userSession.getUser();
         if (user.getRole().equals(UserRole.ADMIN)) {
-            productDao.deleteProductbyId(id);
+            productDao.deleteProductById(id);
+            logger.info("Product Id :"+id+" user :"+userSession.getUser().toString());
             return true;
         }
         return false;
-    }
-
-    public Product getProductByName(String name) {
-        return productDao.getProductByName(name);
     }
 
     public Product getProductById(int id) {
@@ -169,10 +174,6 @@ public class ProductService {
 
     public ObservableList getProductListForComboBox() {
         return productDao.getProductListForComboBox();
-    }
-
-    public void undoChangesProduct(ObservableList list) {
-        productDao.undoChangesProduct(list);
     }
 
     public int getTotalCountOfProduct()  {

@@ -50,7 +50,7 @@ public class OrderProductImpl implements OrderProductDao {
             }
 
         } catch (SQLException e) {
-            logger.error(e);
+            e.printStackTrace();
         }
         return orderProductsList;
     }
@@ -84,7 +84,6 @@ public class OrderProductImpl implements OrderProductDao {
             con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error(e);
         }
     }
 
