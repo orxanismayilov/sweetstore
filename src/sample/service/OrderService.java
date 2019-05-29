@@ -26,7 +26,6 @@ public class OrderService {
     }
 
     public List<Order> searchOrderById (String id,boolean searchAll) {
-        searchAll=userSession.getUser().getRole()== UserRole.ADMIN ? true:false;
         return orderDao.searchOrderById(id,searchAll);
     }
 

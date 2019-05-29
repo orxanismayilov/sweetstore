@@ -261,6 +261,7 @@ public class OrderController implements Initializable {
         if (alert.getResult() == ButtonType.YES) {
             int id = order.getTransactionID();
             orderService.deleteOrderByTransactionId(id);
+            createPagination();
         }
     }
 
