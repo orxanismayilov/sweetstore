@@ -24,9 +24,9 @@ import sample.model.Product;
 import sample.repository.impl.OrderDaoImpl;
 import sample.repository.impl.OrderProductImpl;
 import sample.repository.impl.ProductDaoImpl;
-import sample.service.OrderProductService;
-import sample.service.OrderService;
-import sample.service.ProductService;
+import sample.service.serviceImpl.OrderProductServiceImpl;
+import sample.service.serviceImpl.OrderServiceImpl;
+import sample.service.serviceImpl.ProductServiceImpl;
 import sample.utils.NumberUtils;
 import sample.utils.TableCellStyleUtil;
 
@@ -38,11 +38,11 @@ import java.util.ResourceBundle;
 
 public class NewOrderController implements Initializable {
     private OrderProduct orderProduct;
-    private ProductService productService;
-    private OrderProductService orderProductService;
+    private ProductServiceImpl productService;
+    private OrderProductServiceImpl orderProductServiceImpl;
     private Order order;
     private Product product;
-    private OrderService orderService;
+    private OrderServiceImpl orderServiceImpl;
     private int orderId;
     private OrderProductSummary summary;
 
@@ -106,9 +106,9 @@ public class NewOrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        productService = new ProductService(new ProductDaoImpl());
-        orderProductService = new OrderProductService(new OrderProductImpl());
-        orderService = new OrderService(new OrderDaoImpl());
+        productService = new ProductServiceImpl(new ProductDaoImpl());
+        orderProductServiceImpl = new OrderProductServiceImpl(new OrderProductImpl());
+        orderServiceImpl = new OrderServiceImpl(new OrderDaoImpl());
         populateTable();
         paneOrderDetails.setDisable(true);
         fieldInputValidation();
@@ -123,7 +123,7 @@ public class NewOrderController implements Initializable {
     public void addButtonAction() {
         if (buttonAdd.getText().equals("ADD")) {
             addOrderProduct();
-            orderService.updateOrderById(order,orderId);
+            orderServiceImpl.updateOrderById(order,orderId);
         } else {
             updateOrderProduct();
         }
@@ -143,7 +143,7 @@ public class NewOrderController implements Initializable {
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setOrderType(comboOrderType.getValue());
-        orderId=orderService.addNewOrderToList(order);
+        orderId= orderServiceImpl.addNewOrderToList(order);
         paneCustomerDetails.setDisable(true);
         paneOrderDetails.setDisable(false);
     }
@@ -196,12 +196,12 @@ public class NewOrderController implements Initializable {
                         }
                         if (alert.getResult() == ButtonType.YES) {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
-                            orderProductService.removeOrderProductById(orderProduct, orderProduct.getId());
+                            orderProductServiceImpl.removeOrderProductById(orderProduct, orderProduct.getId());
                             fillSummaryFields();
                             order.setTotalPrice(summary.getSum());
                             order.setTotalDiscount(summary.getTotalDiscount());
                             order.setDescription(summary.getDescription());
-                            orderService.updateOrderById(order, order.getTransactionID());
+                            orderServiceImpl.updateOrderById(order, order.getTransactionID());
                             loadTable();
                             clearFields();
                         }
@@ -223,7 +223,7 @@ public class NewOrderController implements Initializable {
         try {
             createOrderProduct();
             if (validateOrderProduct(orderProduct)) {
-                orderProductService.saveOrderProduct(orderProduct);
+                orderProductServiceImpl.saveOrderProduct(orderProduct);
                 fillSummaryFields();
                 order.setTotalDiscount(summary.getTotalDiscount());
                 order.setTotalPrice(summary.getSum());
@@ -247,7 +247,7 @@ public class NewOrderController implements Initializable {
             orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
             orderProduct.setDescription(fieldQuantity.getText() + " " + product.getName() + ",");
             if (validateOrderProduct(orderProduct)) {
-                orderProductService.updateOrderProduct(orderProduct,orderProduct.getId());
+                orderProductServiceImpl.updateOrderProduct(orderProduct,orderProduct.getId());
                 fillSummaryFields();
                 clearFields();
                 loadTable();
@@ -281,7 +281,7 @@ public class NewOrderController implements Initializable {
     }
 
     private boolean validateOrderProduct(OrderProduct orderProduct) {
-        Map<String, Map<Boolean, List<String>>> validation = orderProductService.validateOrderProduct(orderProduct);
+        Map<String, Map<Boolean, List<String>>> validation = orderProductServiceImpl.validateOrderProduct(orderProduct);
         if (!validation.get("quantityError").containsKey(true) && !validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)) {
             handleErrors(validation);
             return true;
@@ -330,7 +330,7 @@ public class NewOrderController implements Initializable {
     }
 
     private void loadTable() {
-        ObservableList list = orderProductService.getOrderProductByOrderId(orderId);
+        ObservableList list = orderProductServiceImpl.getOrderProductByOrderId(orderId);
         tableView.setItems(list);
     }
 

@@ -30,8 +30,7 @@
             <Label layoutX="391.0" layoutY="5.0" maxWidth="100.0" prefWidth="100.0" text="Customer Address:" AnchorPane.leftAnchor="415.0" AnchorPane.topAnchor="35.0" />
             <Label layoutY="87.0" maxWidth="65.0" prefWidth="65.0" text="Description:" AnchorPane.leftAnchor="25.0" />
             <TextField fx:id="fieldDescription" alignment="TOP_LEFT" editable="false" layoutX="101.0" layoutY="40.0" maxHeight="50.0" prefHeight="50.0" promptText="Description." AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="265.0" AnchorPane.topAnchor="70.0" />
-            <Button fx:id="buttonSave" layoutX="815.0" layoutY="93.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="95.0" />
-            <Button fx:id="buttonSave1" layoutX="959.0" layoutY="101.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Edit" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="95.0" />
+            <Button fx:id="buttonSave" layoutX="815.0" layoutY="93.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#saveButtonAction" text="Save" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="95.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="paneOrderDetails" layoutX="25.0" layoutY="210.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="185.0">

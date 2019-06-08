@@ -18,7 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.repository.impl.ProductDaoImpl;
-import sample.service.ProductService;
+import sample.service.serviceImpl.ProductServiceImpl;
 import sample.utils.AlertUtil;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 
 public class StockController implements Initializable {
 
-    private ProductService productService;
+    private ProductServiceImpl productService;
     private Stage fxmlControllerStage;
     private Properties fxlmProperties;
     private Properties appProperties;
@@ -57,7 +57,7 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        productService = new ProductService(new ProductDaoImpl());
+        productService = new ProductServiceImpl(new ProductDaoImpl());
         createTable();
         paginationSetup();
         fxlmProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);

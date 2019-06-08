@@ -15,8 +15,6 @@ public interface OrderDao {
 
     void deleteOrderByTransactionId(int transactionId);
 
-    Order getOrderById(int orderId);
-
     List<Order> searchOrderById(String id,boolean searchAll);
 
     int getTotalCountOfOrder() ;

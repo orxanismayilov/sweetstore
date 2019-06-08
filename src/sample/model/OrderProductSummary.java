@@ -2,7 +2,7 @@ package sample.model;
 
 import javafx.collections.ObservableList;
 import sample.repository.impl.OrderProductImpl;
-import sample.service.OrderProductService;
+import sample.service.serviceImpl.OrderProductServiceImpl;
 
 import java.math.BigDecimal;
 
@@ -11,14 +11,14 @@ public class OrderProductSummary {
     private String description;
     private BigDecimal sum;
     private BigDecimal totalDiscount;
-    private OrderProductService orderProductService;
+    private OrderProductServiceImpl orderProductServiceImpl;
 
     public OrderProductSummary() {
-        orderProductService=new OrderProductService(new OrderProductImpl());
+        orderProductServiceImpl =new OrderProductServiceImpl(new OrderProductImpl());
     }
     public void  fillDescriptionCalculateTotalPriceAndDiscount(int orderId){
         ObservableList<OrderProduct> list;
-        list=orderProductService.getOrderProductByOrderId(orderId);
+        list= orderProductServiceImpl.getOrderProductByOrderId(orderId);
         StringBuilder descriptionBuilder=new StringBuilder();
         this.description="";
         this.sum=new BigDecimal("0");

@@ -3,45 +3,20 @@ package sample.service;
 import javafx.collections.ObservableList;
 import sample.enums.UserRole;
 import sample.model.Order;
-import sample.model.UserSession;
-import sample.repository.OrderDao;
 
 import java.util.List;
 
-public class OrderService {
-    private OrderDao orderDao;
-    private UserSession userSession;
-    public OrderService(OrderDao orderDao) {
-        this.orderDao =orderDao;
-        this.userSession=UserSession.getInstance();
-    }
+public interface OrderService {
 
-    public ObservableList getOrderList(int pageIndex, int rowsPerPage) {
-        return orderDao.getOrderList(pageIndex,rowsPerPage);
+    ObservableList getOrderList(int pageIndex, int rowsPerPage);
 
-    }
+    int addNewOrderToList(Order order);
 
-    public int addNewOrderToList(Order order) {
-        return orderDao.addOrder(order);
-    }
+    List<Order> searchOrderById(String id, boolean searchAll);
 
-    public List<Order> searchOrderById (String id,boolean searchAll) {
-        return orderDao.searchOrderById(id,searchAll);
-    }
+    boolean deleteOrderByTransactionId(int transactionId);
 
-    public void deleteOrderByTransactionId(int transactionId) {
-        orderDao.deleteOrderByTransactionId(transactionId);
-    }
+    void updateOrderById(Order newOrder, int orderId);
 
-    public void updateOrderById(Order newOrder,int orderId){
-        orderDao.updateOrder(newOrder,orderId);
-    }
-
-    public Order getOrderById(int orderId) {
-        return orderDao.getOrderById(orderId);
-    }
-
-    public int getTotalCountOfOrder() {
-        return orderDao.getTotalCountOfOrder();
-    }
+    int getTotalCountOfOrder();
 }

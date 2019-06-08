@@ -8,14 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
-import sample.service.ProductService;
+import sample.service.serviceImpl.ProductServiceImpl;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -24,7 +21,7 @@ import java.util.ResourceBundle;
 public class AddProductController implements Initializable {
 
     private Product product;
-    private ProductService productService;
+    private ProductServiceImpl productService;
     private Map<String, Map<Boolean, List<String>>> validation;
     private Properties properties;
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
@@ -85,7 +82,7 @@ public class AddProductController implements Initializable {
         stage.close();
     }
 
-    public void setProductService(ProductService productService) {
+    public void setProductService(ProductServiceImpl productService) {
         this.productService = productService;
     }
 

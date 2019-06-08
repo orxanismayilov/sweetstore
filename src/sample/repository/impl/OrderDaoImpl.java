@@ -8,18 +8,15 @@ import sample.enums.OrderType;
 import sample.model.Order;
 import sample.model.UserSession;
 import sample.repository.OrderDao;
-import sample.service.OrderProductService;
 import sample.utils.DBConnection;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoImpl implements OrderDao {
-    private static Logger logger=Logger.getLogger(OrderDaoImpl.class.getName());
     private UserSession userSession;
 
     public OrderDaoImpl() {
@@ -139,36 +136,6 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Order getOrderById(int orderId) {
-        String sql="SELECT * from where id=?";
-        try (Connection con=DBConnection.getConnection();
-        PreparedStatement ps=con.prepareStatement(sql))
-        {
-            ps.setInt(1,orderId);
-            try(ResultSet rs=ps.executeQuery()) {
-                while (rs.next()) {
-                   Order order=new Order();
-                   order.setTransactionID(rs.getInt("id"));
-                   order.setCustomerName(rs.getString("customer_name"));
-                   order.setCustomerAddress(rs.getString("customer_address"));
-                   order.setDescription(rs.getString("description"));
-                   order.setOrderStatus(OrderStatus.valueOf(rs.getString("order_status")));
-                   order.setOrderType(OrderType.valueOf(rs.getString("order_type")));
-                   order.setTotalPrice(new BigDecimal(String.valueOf(rs.getFloat("price_total"))));
-                   order.setDate(LocalDateTime.now());
-                   order.setTotalDiscount(new BigDecimal(String.valueOf(rs.getFloat("discount"))));
-                   order.setActive(true);
-                   return order;
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public List<Order> searchOrderById(String id,boolean searchAll) {
         List<Order> searchResult=new ArrayList<>();
         String sc="%"+id+"%";
@@ -189,7 +156,7 @@ public class OrderDaoImpl implements OrderDao {
                     order.setTotalPrice(new BigDecimal(String.valueOf(resultSet.getFloat("price_total"))));
                     order.setOrderStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
                     order.setDate(LocalDateTime.now());
-                    order.setActive(true);
+                    order.setActive(resultSet.getBoolean("is_active"));
                     searchResult.add(order);
                 }
             }

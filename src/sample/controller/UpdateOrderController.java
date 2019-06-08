@@ -2,7 +2,6 @@ package sample.controller;
 
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -22,9 +21,9 @@ import sample.model.*;
 import sample.repository.impl.OrderDaoImpl;
 import sample.repository.impl.OrderProductImpl;
 import sample.repository.impl.ProductDaoImpl;
-import sample.service.OrderProductService;
-import sample.service.OrderService;
-import sample.service.ProductService;
+import sample.service.serviceImpl.OrderProductServiceImpl;
+import sample.service.serviceImpl.OrderServiceImpl;
+import sample.service.serviceImpl.ProductServiceImpl;
 import sample.utils.TableCellStyleUtil;
 import sample.utils.NumberUtils;
 
@@ -37,11 +36,11 @@ import java.util.ResourceBundle;
 public class UpdateOrderController implements Initializable {
 
     private OrderProduct orderProduct;
-    private ProductService productService;
-    private OrderProductService orderProductService;
+    private ProductServiceImpl productService;
+    private OrderProductServiceImpl orderProductServiceImpl;
     private Order order;
     private Product product;
-    private OrderService orderService;
+    private OrderServiceImpl orderServiceImpl;
     private OrderProductSummary summary;
     private BigDecimal totalPrice;
 
@@ -133,7 +132,7 @@ public class UpdateOrderController implements Initializable {
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setOrderType(comboOrderType.getValue());
-        orderService.updateOrderById(order,order.getTransactionID());
+        orderServiceImpl.updateOrderById(order,order.getTransactionID());
     }
 
     public void closeButtonAction() {
@@ -184,12 +183,12 @@ public class UpdateOrderController implements Initializable {
                         }
                         if (alert.getResult() == ButtonType.YES) {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
-                            orderProductService.removeOrderProductById(orderProduct, orderProduct.getId());
+                            orderProductServiceImpl.removeOrderProductById(orderProduct, orderProduct.getId());
                             fillSummaryFields();
                             order.setTotalPrice(summary.getSum());
                             order.setTotalDiscount(summary.getTotalDiscount());
                             order.setDescription(summary.getDescription());
-                            orderService.updateOrderById(order, order.getTransactionID());
+                            orderServiceImpl.updateOrderById(order, order.getTransactionID());
                             loadTable();
                             clearFields();
                         }
@@ -203,12 +202,12 @@ public class UpdateOrderController implements Initializable {
         try {
             createOrderProduct();
             if (validateOrderProduct(orderProduct)) {
-                orderProductService.saveOrderProduct(orderProduct);
+                orderProductServiceImpl.saveOrderProduct(orderProduct);
                 fillSummaryFields();
                 order.setTotalPrice(summary.getSum());
                 order.setTotalDiscount(summary.getTotalDiscount());
                 order.setDescription(summary.getDescription());
-                orderService.updateOrderById(order,order.getTransactionID());
+                orderServiceImpl.updateOrderById(order,order.getTransactionID());
                 loadTable();
                 clearFields();
             } else {
@@ -224,12 +223,12 @@ public class UpdateOrderController implements Initializable {
         try {
             updateOrderProduct();
             if (validateOrderProduct(orderProduct)) {
-                orderProductService.updateOrderProduct(orderProduct,orderProduct.getId());
+                orderProductServiceImpl.updateOrderProduct(orderProduct,orderProduct.getId());
                 fillSummaryFields();
                 order.setTotalPrice(summary.getSum());
                 order.setTotalDiscount(summary.getTotalDiscount());
                 order.setDescription(summary.getDescription());
-                orderService.updateOrderById(order,order.getTransactionID());
+                orderServiceImpl.updateOrderById(order,order.getTransactionID());
                 clearFields();
                 loadTable();
                 buttonAdd.setText("ADD");
@@ -248,7 +247,7 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void loadTable() {
-        ObservableList list = orderProductService.getOrderProductByOrderId(order.getTransactionID());
+        ObservableList list = orderProductServiceImpl.getOrderProductByOrderId(order.getTransactionID());
         tableView.setItems(list);
     }
 
@@ -387,15 +386,15 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void createInstance() {
-        productService = new ProductService(new ProductDaoImpl());
+        productService = new ProductServiceImpl(new ProductDaoImpl());
         order = new Order();
-        orderProductService = new OrderProductService(new OrderProductImpl());
-        orderService = new OrderService(new OrderDaoImpl());
+        orderProductServiceImpl = new OrderProductServiceImpl(new OrderProductImpl());
+        orderServiceImpl = new OrderServiceImpl(new OrderDaoImpl());
         summary = new OrderProductSummary();
     }
 
     private boolean validateOrderProduct(OrderProduct orderProduct) {
-        Map<String, Map<Boolean, List<String>>> validation = orderProductService.validateOrderProduct(orderProduct);
+        Map<String, Map<Boolean, List<String>>> validation = orderProductServiceImpl.validateOrderProduct(orderProduct);
         if (!validation.get("quantityError").containsKey(true) && !validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)) {
             handleErrors(validation);
             return true;

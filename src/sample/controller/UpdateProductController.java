@@ -8,13 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
-import sample.service.ProductService;
+import sample.service.serviceImpl.ProductServiceImpl;
 import sample.utils.NumberUtils;
 
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class UpdateProductController implements Initializable {
@@ -22,7 +21,7 @@ public class UpdateProductController implements Initializable {
     private final static String PRICE_ERROR = "Please enter valid price.";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
     private Product existedProduct;
-    private ProductService productService;
+    private ProductServiceImpl productService;
 
     @FXML
     private TextField fieldName;
@@ -114,7 +113,7 @@ public class UpdateProductController implements Initializable {
 
     }
 
-    protected void setProductService(ProductService productService) {
+    protected void setProductService(ProductServiceImpl productService) {
         this.productService = productService;
     }
 
