@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import sample.model.User;
 import sample.repository.impl.UserDaoImpl;
+import sample.service.UserService;
 import sample.service.serviceImpl.UserServiceImpl;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.ScreenUtils;
@@ -22,7 +23,7 @@ public class LoginController implements Initializable {
 
     private Properties properties;
     private final static String PROPERTIES_URL= "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @FXML
     private TextField txtUsername;

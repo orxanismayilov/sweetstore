@@ -19,8 +19,6 @@ public interface ProductDao {
 
     void updateProduct(Product product, int oldProductId);
 
-    ObservableList getProductNames();
-
     Product getProductById(int id);
 
     int getTotalCountOfProduct();

@@ -57,10 +57,10 @@ public class OrderProductImpl implements OrderProductDao {
 
     @Override
     public void saveOrderProduct(OrderProduct orderProduct) {
-        String sqlOrderProduct = "INSERT INTO order_product (order_Id,product_Id,price,quantity,total_price,discount,description,is_active)" +
+        String sql = "INSERT INTO order_product (order_Id,product_Id,price,quantity,total_price,discount,description,is_active)" +
                 "VALUES (?,?,?,?,?,?,?,?)";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement psOrderProduct = con.prepareStatement(sqlOrderProduct)) {
+             PreparedStatement psOrderProduct = con.prepareStatement(sql)) {
             psOrderProduct.setInt(1, orderProduct.getOrderId());
             psOrderProduct.setInt(2, orderProduct.getProductId());
             psOrderProduct.setFloat(3, orderProduct.getProductPrice());
@@ -82,9 +82,9 @@ public class OrderProductImpl implements OrderProductDao {
 
     @Override
     public void removeOrderProductById(OrderProduct orderProduct, int id) {
-        String sqlOrderProduct = "UPDATE order_product set is_active=0 where id=?";
+        String sql = "UPDATE order_product set is_active=0 where id=?";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sqlOrderProduct)) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -99,9 +99,9 @@ public class OrderProductImpl implements OrderProductDao {
 
     @Override
     public void updateOrderProduct(OrderProduct newOrderProduct, int id) {
-        String sqlOrderProduct = "UPDATE order_product set quantity=?,discount=?,total_price=?,description=? where Id = ? ";
+        String sql = "UPDATE order_product set quantity=?,discount=?,total_price=?,description=? where Id = ? ";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement psOrderProduct = con.prepareStatement(sqlOrderProduct)) {
+             PreparedStatement psOrderProduct = con.prepareStatement(sql)) {
             psOrderProduct.setInt(1, newOrderProduct.getProductQuantity());
             psOrderProduct.setFloat(2, newOrderProduct.getDiscount());
             psOrderProduct.setFloat(3, newOrderProduct.getTotalPrice().floatValue());

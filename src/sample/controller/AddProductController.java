@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.model.Product;
+import sample.service.ProductService;
 import sample.service.serviceImpl.ProductServiceImpl;
 import sample.utils.LoadPropertyUtil;
 import sample.utils.NumberUtils;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 public class AddProductController implements Initializable {
 
     private Product product;
-    private ProductServiceImpl productService;
+    private ProductService productService;
     private Map<String, Map<Boolean, List<String>>> validation;
     private Properties properties;
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
@@ -82,7 +83,7 @@ public class AddProductController implements Initializable {
         stage.close();
     }
 
-    public void setProductService(ProductServiceImpl productService) {
+    public void setProductService(ProductService productService) {
         this.productService = productService;
     }
 

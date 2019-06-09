@@ -24,6 +24,8 @@ import sample.model.Product;
 import sample.repository.impl.OrderDaoImpl;
 import sample.repository.impl.OrderProductImpl;
 import sample.repository.impl.ProductDaoImpl;
+import sample.service.OrderProductService;
+import sample.service.ProductService;
 import sample.service.serviceImpl.OrderProductServiceImpl;
 import sample.service.serviceImpl.OrderServiceImpl;
 import sample.service.serviceImpl.ProductServiceImpl;
@@ -38,8 +40,8 @@ import java.util.ResourceBundle;
 
 public class NewOrderController implements Initializable {
     private OrderProduct orderProduct;
-    private ProductServiceImpl productService;
-    private OrderProductServiceImpl orderProductServiceImpl;
+    private ProductService productService;
+    private OrderProductService orderProductService;
     private Order order;
     private Product product;
     private OrderServiceImpl orderServiceImpl;
@@ -107,7 +109,7 @@ public class NewOrderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService = new ProductServiceImpl(new ProductDaoImpl());
-        orderProductServiceImpl = new OrderProductServiceImpl(new OrderProductImpl());
+        orderProductService = new OrderProductServiceImpl(new OrderProductImpl());
         orderServiceImpl = new OrderServiceImpl(new OrderDaoImpl());
         populateTable();
         paneOrderDetails.setDisable(true);
@@ -196,7 +198,7 @@ public class NewOrderController implements Initializable {
                         }
                         if (alert.getResult() == ButtonType.YES) {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
-                            orderProductServiceImpl.removeOrderProductById(orderProduct, orderProduct.getId());
+                            orderProductService.removeOrderProductById(orderProduct, orderProduct.getId());
                             fillSummaryFields();
                             order.setTotalPrice(summary.getSum());
                             order.setTotalDiscount(summary.getTotalDiscount());
@@ -223,7 +225,7 @@ public class NewOrderController implements Initializable {
         try {
             createOrderProduct();
             if (validateOrderProduct(orderProduct)) {
-                orderProductServiceImpl.saveOrderProduct(orderProduct);
+                orderProductService.saveOrderProduct(orderProduct);
                 fillSummaryFields();
                 order.setTotalDiscount(summary.getTotalDiscount());
                 order.setTotalPrice(summary.getSum());
@@ -247,7 +249,7 @@ public class NewOrderController implements Initializable {
             orderProduct.setDiscount(Float.parseFloat(fieldDiscount.getText()));
             orderProduct.setDescription(fieldQuantity.getText() + " " + product.getName() + ",");
             if (validateOrderProduct(orderProduct)) {
-                orderProductServiceImpl.updateOrderProduct(orderProduct,orderProduct.getId());
+                orderProductService.updateOrderProduct(orderProduct,orderProduct.getId());
                 fillSummaryFields();
                 clearFields();
                 loadTable();
@@ -281,7 +283,7 @@ public class NewOrderController implements Initializable {
     }
 
     private boolean validateOrderProduct(OrderProduct orderProduct) {
-        Map<String, Map<Boolean, List<String>>> validation = orderProductServiceImpl.validateOrderProduct(orderProduct);
+        Map<String, Map<Boolean, List<String>>> validation = orderProductService.validateOrderProduct(orderProduct);
         if (!validation.get("quantityError").containsKey(true) && !validation.get("discountError").containsKey(true) && !validation.get("totalPriceError").containsKey(true)) {
             handleErrors(validation);
             return true;
@@ -330,7 +332,7 @@ public class NewOrderController implements Initializable {
     }
 
     private void loadTable() {
-        ObservableList list = orderProductServiceImpl.getOrderProductByOrderId(orderId);
+        ObservableList list = orderProductService.getOrderProductByOrderId(orderId);
         tableView.setItems(list);
     }
 

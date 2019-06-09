@@ -31,7 +31,9 @@ public class ProductDaoImpl implements ProductDao {
                    product.setName(rs.getString("Name"));
                    product.setQuantity(rs.getInt("Quantity"));
                    product.setPrice(rs.getFloat("Price"));
-                   product.setUpdateDate(rs.getTimestamp("update_date").toLocalDateTime());
+                  if (rs.getTimestamp("update_date")!=null) {
+                      product.setUpdateDate(rs.getTimestamp("update_date").toLocalDateTime());
+                  }
                    product.setActive(true);
                    productList.add(product);
                }
@@ -58,7 +60,9 @@ public class ProductDaoImpl implements ProductDao {
                 product.setName(rs.getString("Name"));
                 product.setQuantity(rs.getInt("Quantity"));
                 product.setPrice(rs.getFloat("Price"));
-                product.setUpdateDate(rs.getTimestamp("update_date").toLocalDateTime());
+                if (rs.getTimestamp("update_date")!=null) {
+                    product.setUpdateDate(rs.getTimestamp("update_date").toLocalDateTime());
+                }
                 product.setActive(true);
 
                 productList.add(product);
@@ -71,9 +75,9 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void addProduct(Product product) {
-        String s = "INSERT INTO products (Name,Quantity,Price,Update_Date,Is_Active) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO products (Name,Quantity,Price,Update_Date,Is_Active) VALUES (?,?,?,?,?)";
         try(Connection connection=DBConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(s))
+            PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setInt(2, product.getQuantity());
@@ -88,9 +92,9 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void deleteProductById(int id) {
-        String s = "UPDATE products set Is_Active =0,update_date =? where Id = ? ";
+        String sql = "UPDATE products set Is_Active =0,update_date =? where Id = ? ";
         try(Connection connection=DBConnection.getConnection();
-            PreparedStatement ps=connection.prepareStatement(s))
+            PreparedStatement ps=connection.prepareStatement(sql))
         {
             ps.setInt(2, id);
             ps.setTimestamp(1,Timestamp.valueOf(LocalDateTime.now()));
@@ -162,11 +166,6 @@ public class ProductDaoImpl implements ProductDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public ObservableList getProductNames() {
-        return null;
     }
 
     @Override

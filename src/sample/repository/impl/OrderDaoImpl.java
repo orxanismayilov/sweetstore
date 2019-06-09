@@ -46,7 +46,9 @@ public class OrderDaoImpl implements OrderDao {
                     order.setOrderType(OrderType.valueOf(resultSet.getString("order_type")));
                     order.setTotalPrice(new BigDecimal(String.valueOf(resultSet.getFloat("price_total"))));
                     order.setOrderStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
-                    order.setDate(resultSet.getTimestamp("insert_date").toLocalDateTime());
+                    if (resultSet.getTimestamp("insert_date")!= null) {
+                        order.setDate(resultSet.getTimestamp("insert_date").toLocalDateTime());
+                    }
                     order.setActive(true);
                     orderList.add(order);
                 }
@@ -155,7 +157,9 @@ public class OrderDaoImpl implements OrderDao {
                     order.setOrderType(OrderType.valueOf(resultSet.getString("order_type")));
                     order.setTotalPrice(new BigDecimal(String.valueOf(resultSet.getFloat("price_total"))));
                     order.setOrderStatus(OrderStatus.valueOf(resultSet.getString("order_status")));
-                    order.setDate(LocalDateTime.now());
+                    if (resultSet.getTimestamp("insert_date")!=null){
+                        order.setDate(resultSet.getTimestamp("insert_date").toLocalDateTime());
+                    }
                     order.setActive(resultSet.getBoolean("is_active"));
                     searchResult.add(order);
                 }

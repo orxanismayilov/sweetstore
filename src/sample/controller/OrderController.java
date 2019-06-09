@@ -24,6 +24,7 @@ import sample.enums.UserRole;
 import sample.model.Order;
 import sample.model.UserSession;
 import sample.repository.impl.OrderDaoImpl;
+import sample.service.OrderService;
 import sample.service.serviceImpl.OrderServiceImpl;
 import sample.utils.AlertUtil;
 import sample.utils.LoadPropertyUtil;
@@ -40,7 +41,7 @@ import java.util.ResourceBundle;
 
 public class OrderController implements Initializable {
 
-    private OrderServiceImpl orderServiceImpl;
+    private OrderService orderService;
     private Stage fxmlControllerStage;
     private Properties fxmlProperties;
     private Properties appProperties;
@@ -66,7 +67,7 @@ public class OrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        orderServiceImpl = new OrderServiceImpl(new OrderDaoImpl());
+        orderService = new OrderServiceImpl(new OrderDaoImpl());
         this.userSession=UserSession.getInstance();
         tableBinding();
         createPagination();
@@ -76,7 +77,7 @@ public class OrderController implements Initializable {
 
     public void createPagination() {
         int numOfPages = 1;
-        int listSize= orderServiceImpl.getTotalCountOfOrder();
+        int listSize= orderService.getTotalCountOfOrder();
         if (listSize % rowsPerPage == 0) {
             numOfPages = listSize / rowsPerPage;
         } else if (listSize > rowsPerPage) {
@@ -88,7 +89,7 @@ public class OrderController implements Initializable {
     }
 
     private Node createPage(Integer pageIndex) {
-        ObservableList list= orderServiceImpl.getOrderList(pageIndex,rowsPerPage);
+        ObservableList list= orderService.getOrderList(pageIndex,rowsPerPage);
         tableView.setItems(list);
         return tableView;
     }
@@ -116,10 +117,10 @@ public class OrderController implements Initializable {
            if (userSession.getUser().getRole()== UserRole.USER) {
                AlertUtil.permissionAlert().showAndWait();
            } else {
-               tableView.setItems(FXCollections.observableArrayList(orderServiceImpl.searchOrderById(searchBox.getText(), isSelected)));
+               tableView.setItems(FXCollections.observableArrayList(orderService.searchOrderById(searchBox.getText(), isSelected)));
            }
         } else {
-            tableView.setItems(FXCollections.observableArrayList(orderServiceImpl.searchOrderById(searchBox.getText(), isSelected)));
+            tableView.setItems(FXCollections.observableArrayList(orderService.searchOrderById(searchBox.getText(), isSelected)));
         }
     }
 
@@ -260,7 +261,7 @@ public class OrderController implements Initializable {
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
             int id = order.getTransactionID();
-            if (orderServiceImpl.deleteOrderByTransactionId(id)) {
+            if (orderService.deleteOrderByTransactionId(id)) {
                 createPagination();
             } else {
                 AlertUtil.permissionAlert().showAndWait();

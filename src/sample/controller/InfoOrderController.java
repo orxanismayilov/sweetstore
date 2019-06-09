@@ -10,6 +10,7 @@ import sample.enums.OrderType;
 import sample.model.Order;
 import sample.model.OrderProduct;
 import sample.repository.impl.OrderProductImpl;
+import sample.service.OrderProductService;
 import sample.service.serviceImpl.OrderProductServiceImpl;
 import sample.utils.TableCellStyleUtil;
 
@@ -63,8 +64,8 @@ public class InfoOrderController {
     }
 
     private void populateTable(int orderId){
-        OrderProductServiceImpl orderProductServiceImpl =new OrderProductServiceImpl(new OrderProductImpl());
-        ObservableList list= orderProductServiceImpl.getOrderProductByOrderId(orderId);
+        OrderProductService orderProductService =new OrderProductServiceImpl(new OrderProductImpl());
+        ObservableList list= orderProductService.getOrderProductByOrderId(orderId);
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnProduct.setCellValueFactory(new PropertyValueFactory<>("productName"));
         columnQuantity.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));

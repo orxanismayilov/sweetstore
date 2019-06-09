@@ -18,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.model.Product;
 import sample.repository.impl.ProductDaoImpl;
+import sample.service.ProductService;
 import sample.service.serviceImpl.ProductServiceImpl;
 import sample.utils.AlertUtil;
 import sample.utils.LoadPropertyUtil;
@@ -33,7 +34,7 @@ import java.util.ResourceBundle;
 
 public class StockController implements Initializable {
 
-    private ProductServiceImpl productService;
+    private ProductService productService;
     private Stage fxmlControllerStage;
     private Properties fxlmProperties;
     private Properties appProperties;
