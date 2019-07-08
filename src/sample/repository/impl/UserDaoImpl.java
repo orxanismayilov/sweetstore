@@ -48,11 +48,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean validateLogin(User user) {
         String sql="SELECT * from users where CAST(name AS BINARY) = ?  and is_active=1 ";
-        PasswordAuthentication pass=new PasswordAuthentication();
         String password=user.getPassword();
         try (Connection con=DBConnection.getConnection();
              PreparedStatement ps=con.prepareStatement(sql)) {
-            ps.setString(1,user.getName());
+             ps.setString(1,user.getName());
             try (ResultSet rs1=ps.executeQuery()){
 
                     while (rs1.next()) {
