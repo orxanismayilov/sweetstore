@@ -15,7 +15,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public ObservableList getProductList(int pageIndex,int rowsPerPage) {
         ObservableList<Product> productList = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM Products where is_active=1 ORDER BY id DESC Limit ?,? ";
+        String sql = "SELECT * FROM PRODUCTS where is_active=1 ORDER BY id DESC Limit ?,? ";
         int totalCount= getTotalCountOfProduct();
         int fromIndex=pageIndex*rowsPerPage;
         int toIndex=Math.min(fromIndex+rowsPerPage,totalCount);
@@ -49,7 +49,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public ObservableList getProductListForComboBox() {
-        String sql="select * from Products where Is_Active=1 and quantity>0";
+        String sql="select * from PRODUCTS where Is_Active=1 and quantity>0";
         ObservableList productList=FXCollections.observableArrayList();
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -75,7 +75,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void addProduct(Product product) {
-        String sql = "INSERT INTO products (Name,Quantity,Price,Update_Date,Is_Active) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO PRODUCTS (Name,Quantity,Price,Update_Date,Is_Active) VALUES (?,?,?,?,?)";
         try(Connection connection=DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
@@ -92,7 +92,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void deleteProductById(int id) {
-        String sql = "UPDATE products set Is_Active =0,update_date =? where Id = ? ";
+        String sql = "UPDATE PRODUCTS set Is_Active =0,update_date =? where Id = ? ";
         try(Connection connection=DBConnection.getConnection();
             PreparedStatement ps=connection.prepareStatement(sql))
         {
@@ -106,7 +106,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Product isProductExist(String name) {
-        String s = "SELECT * from products  where Name = ? ";
+        String s = "SELECT * from PRODUCTS  where Name = ? ";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement ps1 = connection.prepareStatement(s);
              PreparedStatement ps2 = connection.prepareStatement(s))
@@ -154,7 +154,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void updateProduct(Product product, int oldProductId) {
-        String sql = "UPDATE products set name=?,price=?,quantity=?,update_date=? where id=?";
+        String sql = "UPDATE PRODUCTS set name=?,price=?,quantity=?,update_date=? where id=?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
              ps.setString(1, product.getName());
@@ -170,7 +170,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Product getProductById(int id) {
-        String sql="SELECT * FROM  products WHERE id=? and is_active=1";
+        String sql="SELECT * FROM  PRODUCTS WHERE id=? and is_active=1";
         try (Connection connection=DBConnection.getConnection();
              PreparedStatement ps=connection.prepareStatement(sql)){
             ps.setInt(1,id);
@@ -197,7 +197,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public int getTotalCountOfProduct()  {
         int count = 0;
-        String s = "SELECT * FROM Products where is_active=1";
+        String s = "SELECT * FROM PRODUCTS where is_active=1";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(s);
              ResultSet rs = ps.executeQuery()) {

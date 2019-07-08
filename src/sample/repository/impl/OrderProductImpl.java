@@ -24,7 +24,7 @@ public class OrderProductImpl implements OrderProductDao {
                 "order_product.id,order_product.order_Id,order_product.product_id,products.name,order_product.price,order_product.quantity,\n" +
                 "order_product.total_price,order_product.discount,order_product.description\n" +
                 "from \n" +
-                "order_product  \n" +
+                "ORDER_PRODUCT  \n" +
                 "inner join products  on order_product.product_id=products.id \n" +
                 "where order_id=? and order_product.is_active=1";
         try (Connection con = DBConnection.getConnection();
@@ -57,7 +57,7 @@ public class OrderProductImpl implements OrderProductDao {
 
     @Override
     public void saveOrderProduct(OrderProduct orderProduct) {
-        String sql = "INSERT INTO order_product (order_Id,product_Id,price,quantity,total_price,discount,description,is_active)" +
+        String sql = "INSERT INTO ORDER_PRODUCT (order_Id,product_Id,price,quantity,total_price,discount,description,is_active)" +
                 "VALUES (?,?,?,?,?,?,?,?)";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement psOrderProduct = con.prepareStatement(sql)) {
@@ -76,13 +76,8 @@ public class OrderProductImpl implements OrderProductDao {
     }
 
     @Override
-    public void removeOrderProductByOrderId(OrderProduct orderProduct,int orderId) {
-
-    }
-
-    @Override
-    public void removeOrderProductById(OrderProduct orderProduct, int id) {
-        String sql = "UPDATE order_product set is_active=0 where id=?";
+    public void removeOrderProductById(int id) {
+        String sql = "UPDATE ORDER_PRODUCT set is_active=0 where id=?";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -93,13 +88,8 @@ public class OrderProductImpl implements OrderProductDao {
     }
 
     @Override
-    public OrderProduct doesOrderProductExist(OrderProduct newOrderProduct) {
-        return null;
-    }
-
-    @Override
     public void updateOrderProduct(OrderProduct newOrderProduct, int id) {
-        String sql = "UPDATE order_product set quantity=?,discount=?,total_price=?,description=? where Id = ? ";
+        String sql = "UPDATE ORDER_PRODUCT set quantity=?,discount=?,total_price=?,description=? where Id = ? ";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement psOrderProduct = con.prepareStatement(sql)) {
             psOrderProduct.setInt(1, newOrderProduct.getProductQuantity());

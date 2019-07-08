@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void addUserAddList(User user) {
-        String sql = "INSERT into users (Name,password,role,is_active) values (?,?,?,?)";
+        String sql = "INSERT into USERS (Name,password,role,is_active) values (?,?,?,?)";
         PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
         String password = passwordAuthentication.hash(user.getPassword());
         try (Connection con = DBConnection.getConnection();
@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean validateLogin(User user) {
-        String sql="SELECT * from users where CAST(name AS BINARY) = ?  and is_active=1 ";
+        String sql="SELECT * from USERS where CAST(name AS BINARY) = ?  and is_active=1 ";
         String password=user.getPassword();
         try (Connection con=DBConnection.getConnection();
              PreparedStatement ps=con.prepareStatement(sql)) {

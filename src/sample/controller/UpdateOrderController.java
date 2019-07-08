@@ -186,7 +186,7 @@ public class UpdateOrderController implements Initializable {
                         }
                         if (alert.getResult() == ButtonType.YES) {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
-                            orderProductService.removeOrderProductById(orderProduct, orderProduct.getId());
+                            orderProductService.removeOrderProductById(orderProduct.getId());
                             fillSummaryFields();
                             order.setTotalPrice(summary.getSum());
                             order.setTotalDiscount(summary.getTotalDiscount());

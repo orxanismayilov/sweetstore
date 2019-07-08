@@ -25,7 +25,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public ObservableList getOrderList(int pageIndex, int rowsPerPage) {
-        String sql="select * from order_details where is_active=1  ORDER by id desc Limit ?,?";
+        String sql="select * from ORDER_DETAILS where is_active=1  ORDER by id desc Limit ?,?";
         ObservableList<Order> orderList= FXCollections.observableArrayList();
         int totalCount=getTotalCountOfOrder();
         int fromIndex=pageIndex*rowsPerPage;
@@ -62,7 +62,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public int addOrder(Order order) {
-        String sql = "INSERT INTO order_details (customer_name,customer_address,description,order_type,order_status,price_total,insert_date,updated_by,is_active)" +
+        String sql = "INSERT INTO ORDER_DETAILS (customer_name,customer_address,description,order_type,order_status,price_total,insert_date,updated_by,is_active)" +
                 " VALUES (?,?,?,?,?,?,?,?,?)";
         Timestamp ts=Timestamp.valueOf(LocalDateTime.now());
         try (Connection con = DBConnection.getConnection()
@@ -124,7 +124,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void deleteOrderByTransactionId(int transactionId) {
-        String sql="Update order_details set is_active=0 where id=?";
+        String sql="Update ORDER_DETAILS set is_active=0 where id=?";
         try (Connection connection=DBConnection.getConnection();
              PreparedStatement ps=connection.prepareStatement(sql))
         {
@@ -141,7 +141,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> searchOrderById(String id,boolean searchAll) {
         List<Order> searchResult=new ArrayList<>();
         String sc="%"+id+"%";
-        String sql="SELECT * FROM order_details WHERE id LIKE ? and is_active=?";
+        String sql="SELECT * FROM ORDER_DETAILS WHERE id LIKE ? and is_active=?";
         try (Connection con=DBConnection.getConnection();
         PreparedStatement ps=con.prepareStatement(sql))
         {
@@ -172,7 +172,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public int getTotalCountOfOrder() {
-        String sql="SELECT * FROM order_details where is_active=1";
+        String sql="SELECT * FROM ORDER_DETAILS where is_active=1";
         int count =0;
         try (Connection conn= DBConnection.getConnection();
              PreparedStatement ps=conn.prepareStatement(sql);

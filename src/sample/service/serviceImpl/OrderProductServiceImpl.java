@@ -27,8 +27,8 @@ public class OrderProductServiceImpl implements OrderProductService {
         orderProductDao.saveOrderProduct(orderProduct);
     }
 
-    public void removeOrderProductById(OrderProduct orderProduct,int id){
-        orderProductDao.removeOrderProductById(orderProduct,id);
+    public void removeOrderProductById(int id){
+        orderProductDao.removeOrderProductById(id);
     }
 
     public ObservableList getOrderProductByOrderId(int orderId){
