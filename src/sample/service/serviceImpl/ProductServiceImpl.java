@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private UserSession userSession;
 
 
-    private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
+    private static String ERROR_PROPERTIES="sample/resource/properties/errors.properties";
 
     public ProductServiceImpl(ProductDao productDao) {
         this.productDao = productDao;

@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
     private Properties properties;
-    private final static String PROPERTIES_URL= "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
+    private final static String PROPERTIES_URL= "sample/resource/properties/fxmlurls.properties";
 
     @FXML private BorderPane pane;
 

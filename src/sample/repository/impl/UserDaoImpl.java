@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUserById(int id) {
-
+        
     }
 
     @Override
@@ -57,7 +57,7 @@ public class UserDaoImpl implements UserDao {
                     while (rs1.next()) {
                         User nUser=new User();
                         nUser.setName(rs1.getString("name"));
-                        nUser.setPassword(rs1.getString("password"));
+                        nUser.setPassword(rs1.getString("maindb.password"));
                         nUser.setId(rs1.getInt("id"));
                         nUser.setRole(UserRole.valueOf(rs1.getString("role")));
                         return authcateUserPassword(nUser,password);

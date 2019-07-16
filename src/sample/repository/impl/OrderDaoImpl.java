@@ -77,7 +77,7 @@ public class OrderDaoImpl implements OrderDao {
                 ps.setString(5, OrderStatus.CLOSED.toString());
                 ps.setFloat(6, order.getTotalPrice().floatValue());
                 ps.setTimestamp(7,ts);
-                ps.setInt(8, 1);
+                ps.setInt(8, userSession.getUser().getId());
                 ps.setInt(9, 1);
 
                 int rowAffected = ps.executeUpdate();
@@ -102,7 +102,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void updateOrder(Order newOrder, int oldOrderId) {
-        String sql="UPDATE order_details set customer_name=?,customer_address=?,description=?,order_type=?,order_status=?,price_total=?,insert_date=?,updated_by=? where id=?";
+        String sql="UPDATE ORDER_DETAILS set customer_name=?,customer_address=?,description=?,order_type=?,order_status=?,price_total=?,insert_date=?,updated_by=? where id=?";
         Timestamp ts=Timestamp.valueOf(LocalDateTime.now());
         try (Connection con=DBConnection.getConnection();
              PreparedStatement ps=con.prepareStatement(sql))

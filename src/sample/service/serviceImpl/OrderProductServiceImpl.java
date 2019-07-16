@@ -15,7 +15,7 @@ public class OrderProductServiceImpl implements OrderProductService {
     private ProductServiceImpl productService;
     private Properties properties;
     Map<String,Map<Boolean,List<String>>> validation;
-    private static String ERROR_PROPERTIES="C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\errors.properties";
+    private static String ERROR_PROPERTIES="sample/resource/properties/errors.properties";
 
     public OrderProductServiceImpl(OrderProductDao orderProductDao){
         this.orderProductDao = orderProductDao;

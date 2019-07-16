@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import sample.model.OrderProduct;
 import sample.model.Product;
+import sample.model.UserSession;
 import sample.repository.ProductDao;
 import sample.utils.DBConnection;
 
@@ -11,6 +12,8 @@ import java.sql.*;
 import java.time.LocalDateTime;
 
 public class ProductDaoImpl implements ProductDao {
+
+    private UserSession userSession=UserSession.getInstance();
 
     @Override
     public ObservableList getProductList(int pageIndex,int rowsPerPage) {
@@ -75,7 +78,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void addProduct(Product product) {
-        String sql = "INSERT INTO PRODUCTS (Name,Quantity,Price,Update_Date,Is_Active) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO PRODUCTS (Name,Quantity,Price,Update_Date,updated_by,Is_Active) VALUES (?,?,?,?,?,?)";
         try(Connection connection=DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql))
         {
@@ -83,6 +86,7 @@ public class ProductDaoImpl implements ProductDao {
             preparedStatement.setInt(2, product.getQuantity());
             preparedStatement.setFloat(3, product.getPrice());
             preparedStatement.setDate(4, Date.valueOf("2015-03-31"));
+            preparedStatement.setInt(5,userSession.getUser().getId());
             preparedStatement.setInt(5, 1);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -50,8 +50,8 @@ public class OrderController implements Initializable {
     private PseudoClass closedPseudoClass=PseudoClass.getPseudoClass("disabled");
     private UserSession userSession;
 
-    private final static String FXML_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\fxmlurls.properties";
-    private final static String APP_PROPERTIES_URL = "C:\\Users\\Orxan\\Desktop\\Home Project\\Home Project\\src\\sample\\resource\\properties\\application.properties";
+    private final static String FXML_PROPERTIES_URL = "sample/resource/properties/fxmlurls.properties";
+    private final static String APP_PROPERTIES_URL = "sample/resource/properties/application.properties";
     private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private String ALERT_TEXT = "Are you sure ?";
     private static final   int rowsPerPage=10;

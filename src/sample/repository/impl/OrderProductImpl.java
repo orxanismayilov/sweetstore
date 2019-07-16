@@ -21,12 +21,12 @@ public class OrderProductImpl implements OrderProductDao {
     public ObservableList<OrderProduct> getListByOrderId(int orderId) {
         ObservableList<OrderProduct> orderProductsList = FXCollections.observableArrayList();
         String sql = "select \n" +
-                "order_product.id,order_product.order_Id,order_product.product_id,products.name,order_product.price,order_product.quantity,\n" +
-                "order_product.total_price,order_product.discount,order_product.description\n" +
+                "ORDER_PRODUCT.id,ORDER_PRODUCT.order_Id,ORDER_PRODUCT.product_id,PRODUCTS.name,ORDER_PRODUCT.price,ORDER_PRODUCT.quantity,\n" +
+                "ORDER_PRODUCT.total_price,ORDER_PRODUCT.discount,ORDER_PRODUCT.description\n" +
                 "from \n" +
                 "ORDER_PRODUCT  \n" +
-                "inner join products  on order_product.product_id=products.id \n" +
-                "where order_id=? and order_product.is_active=1";
+                "inner join PRODUCTS  on ORDER_PRODUCT.product_id=PRODUCTS.id \n" +
+                "where order_id=? and ORDER_PRODUCT.is_active=1";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, orderId);
