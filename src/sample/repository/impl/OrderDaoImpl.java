@@ -62,6 +62,8 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public int addOrder(Order order) {
+
+        //master
         String sql = "INSERT INTO ORDER_DETAILS (customer_name,customer_address,description,order_type,order_status,price_total,insert_date,updated_by,is_active)" +
                 " VALUES (?,?,?,?,?,?,?,?,?)";
         Timestamp ts=Timestamp.valueOf(LocalDateTime.now());
