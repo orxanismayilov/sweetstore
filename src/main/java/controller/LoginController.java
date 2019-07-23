@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
     private Properties properties;
-    private final static String PROPERTIES_URL= "sample/resource/properties/fxmlurls.properties";
+    private final static String PROPERTIES_URL= "/resources/properties/fxmlurls.properties";
     private UserService userService;
 
     @FXML

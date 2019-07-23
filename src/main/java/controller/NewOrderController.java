@@ -50,7 +50,7 @@ public class NewOrderController implements Initializable {
     private OrderProductSummary summary;
 
 
-    private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
+    private static final Image imageDelete = new Image("/resources/images/trash_26px.png");
     private static String ALERT_TEXT = "Please enter valid input!";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1100.0" stylesheets="file:/C:/Users/Orxan/Desktop/Home%20Project/Home%20Project/src/sample/resource/css/orderstylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.OrderController">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderController">
    <top>
       <AnchorPane prefHeight="42.0" prefWidth="750.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
          <children>
@@ -24,7 +25,7 @@
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">
                      <image>
-                        <Image url="file:/C:/Users/Orxan/Desktop/Home%20Project/Home%20Project/src/sample/resource/images/user_location_50px.png" />
+                        <Image url="@../images/user_location_50px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -33,7 +34,7 @@
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0">
                      <image>
-                        <Image url="file:/C:/Users/Orxan/Desktop/Home%20Project/Home%20Project/src/sample/resource/images/left_arrow_96px.png" />
+                        <Image url="@../images/left_arrow_96px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -63,4 +64,8 @@
          </children>
       </AnchorPane>
    </bottom>
+   <stylesheets>
+      <URL value="@../../../../sample/resource/css/orderstylesheet.css" />
+      <URL value="@../css/orderstylesheet.css" />
+   </stylesheets>
 </BorderPane>

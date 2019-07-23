@@ -40,15 +40,15 @@ public class StockController implements Initializable {
     private Properties appProperties;
     private final int rowsPerPage=10;
 
-    private final static String FXML_PROPERTIES_URL = "sample/resource/properties/fxmlurls.properties";
-    private final static String APP_PROPERTIES_URL = "sample/resource/properties/application.properties";
+    private final static String FXML_PROPERTIES_URL = "/resources/properties/fxmlurls.properties";
+    private final static String APP_PROPERTIES_URL = "/resources/properties/application.properties";
     private final static String PRODUCTNOTEXIST_ALERT = "Product not exist";
     private final static String DELETE_ALERT_TEXT = "Are you sure ?";
     private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private static String NUM_FORMAT_PATTERN = "#,###,###,##0.00";
-    private static final Image imageDelete = new Image("/sample/resource/images/trash_26px.png");
-    private static final Image imageUpdate = new Image("/sample/resource/images/edit_property_26px.png");
-    private static final Image imageInfo = new Image("/sample/resource/images/info_24px.png");
+    private static final Image imageDelete = new Image("/resources/images/trash_26px.png");
+    private static final Image imageUpdate = new Image("/resources/images/edit_property_26px.png");
+    private static final Image imageInfo = new Image("/resources/images/info_24px.png");
     private static String MANAT_SYMBOL = "\u20BC";
     private TableView<Product> tableProduct;
     private Pagination pages;

@@ -13,7 +13,7 @@ public class LoadPropertyUtil {
     public static Properties loadPropertiesFile(String url) {
         Properties properties = new Properties();
         try {
-            InputStream input =new FileInputStream(url);
+            InputStream input =LoadPropertyUtil.class.getResourceAsStream(url);
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();

@@ -25,7 +25,7 @@ public class AddProductController implements Initializable {
     private Map<String, Map<Boolean, List<String>>> validation;
     private Properties properties;
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
-    private static String PROPERTIES_URL="sample/resource/properties/errors.properties";
+    private static String PROPERTIES_URL="/resources/properties/errors.properties";
     @FXML
     private TextField productName;
     @FXML

@@ -7,19 +7,19 @@ import java.util.Properties;
 
 public class DBConnection {
 
-    private static String DAO_PROPERTY_URL="sample/resource/properties/db.properties";
+    private static String DAO_PROPERTY_URL="/resources/properties/db.properties";
     private static Properties daoProperties;
 
     public static Connection getConnection() {
         daoProperties= LoadPropertyUtil.loadPropertiesFile(DAO_PROPERTY_URL);
         try {
-            Class.forName (daoProperties.getProperty("maindb.driver")).newInstance ();
+            Class.forName (daoProperties.getProperty("localedb.driver")).newInstance ();
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection (daoProperties.getProperty("maindb.url"), daoProperties.getProperty("maindb.user"), daoProperties.getProperty("maindb.password"));
+            conn = DriverManager.getConnection (daoProperties.getProperty("localedb.url"), daoProperties.getProperty("localedb.user"), daoProperties.getProperty("localedb.password"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

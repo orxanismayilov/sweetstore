@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.HomeController">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
    <top>
       <AnchorPane prefHeight="50.0" prefWidth="599.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
          <children>
@@ -22,7 +22,7 @@
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="25.0">
                      <image>
-                        <Image url="file:/C:/Users/Orxan/Desktop/Home%20Project/Home%20Project/src/sample/resource/images/user_location_50px.png" />
+                        <Image url="@../images/user_location_50px.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -71,7 +71,7 @@
                      <graphic>
                         <ImageView>
                            <image>
-                              <Image url="file:/C:/Users/Orxan/Desktop/Home%20Project/Home%20Project/src/sample/resource/images/statistics_100px_1.png" />
+                              <Image url="@../images/statistics_100px_1.png" />
                            </image>
                         </ImageView>
                      </graphic>
