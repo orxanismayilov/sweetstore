@@ -1,7 +1,7 @@
 package repository;
 
 import javafx.collections.ObservableList;
-import sample.model.Order;
+import model.Order;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface OrderDao {
 
     void deleteOrderByTransactionId(int transactionId);
 
-    List<Order> searchOrderById(String id,boolean searchAll);
+    List<Order> searchOrderById(String id, boolean searchAll);
 
     int getTotalCountOfOrder() ;
 }

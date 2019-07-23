@@ -2,11 +2,10 @@ package repository.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.OrderProduct;
 import org.apache.log4j.Logger;
-import sample.model.Order;
-import sample.model.OrderProduct;
-import sample.repository.OrderProductDao;
-import sample.utils.DBConnection;
+import repository.OrderProductDao;
+import utils.DBConnection;
 
 import java.math.BigDecimal;
 import java.sql.Connection;

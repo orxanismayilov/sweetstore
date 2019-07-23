@@ -1,7 +1,7 @@
 package service;
 
 import javafx.collections.ObservableList;
-import sample.model.Product;
+import model.Product;
 
 import java.util.List;
 import java.util.Map;

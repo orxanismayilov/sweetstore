@@ -1,5 +1,8 @@
 package controller;
 
+import enums.OrderStatus;
+import enums.OrderType;
+import enums.UserRole;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -18,18 +21,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.enums.OrderStatus;
-import sample.enums.OrderType;
-import sample.enums.UserRole;
-import sample.model.Order;
-import sample.model.UserSession;
-import sample.repository.impl.OrderDaoImpl;
-import sample.service.OrderService;
-import sample.service.serviceImpl.OrderServiceImpl;
-import sample.utils.AlertUtil;
-import sample.utils.LoadPropertyUtil;
-import sample.utils.ScreenUtils;
-import sample.utils.TableCellStyleUtil;
+import model.Order;
+import model.UserSession;
+import repository.impl.OrderDaoImpl;
+import service.OrderService;
+import service.serviceImpl.OrderServiceImpl;
+import utils.AlertUtil;
+import utils.LoadPropertyUtil;
+import utils.ScreenUtils;
+import utils.TableCellStyleUtil;
 
 import java.io.IOException;
 import java.math.BigDecimal;

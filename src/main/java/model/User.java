@@ -1,6 +1,7 @@
 package model;
 
-import sample.enums.UserRole;
+
+import enums.UserRole;
 
 public class User {
     private int id;

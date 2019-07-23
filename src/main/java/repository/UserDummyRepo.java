@@ -1,9 +1,9 @@
 package repository;
 
+import enums.UserRole;
+import model.User;
+import model.UserSession;
 import org.apache.log4j.Logger;
-import sample.enums.UserRole;
-import sample.model.User;
-import sample.model.UserSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,6 @@ public class UserDummyRepo {
         user.setId(1);
         user.setName("orxan");
         user.setPassword("orxan123");
-        user.setRole(UserRole.ADMIN);
         userList.add(user);
     }
 

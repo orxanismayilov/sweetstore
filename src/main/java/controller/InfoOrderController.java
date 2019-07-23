@@ -6,13 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import sample.enums.OrderType;
-import sample.model.Order;
-import sample.model.OrderProduct;
-import sample.repository.impl.OrderProductImpl;
-import sample.service.OrderProductService;
-import sample.service.serviceImpl.OrderProductServiceImpl;
-import sample.utils.TableCellStyleUtil;
+import enums.OrderType;
+import model.Order;
+import model.OrderProduct;
+import repository.impl.OrderProductImpl;
+import service.OrderProductService;
+import service.serviceImpl.OrderProductServiceImpl;
+import utils.TableCellStyleUtil;
 
 import java.math.BigDecimal;
 

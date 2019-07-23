@@ -1,9 +1,9 @@
 package service.serviceImpl;
 
+import model.User;
 import org.apache.log4j.Logger;
-import sample.model.User;
-import sample.repository.UserDao;
-import sample.service.UserService;
+import repository.UserDao;
+import service.UserService;
 
 public class UserServiceImpl implements UserService {
     private UserDao userDao;

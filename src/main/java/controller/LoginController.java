@@ -6,12 +6,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import sample.model.User;
-import sample.repository.impl.UserDaoImpl;
-import sample.service.UserService;
-import sample.service.serviceImpl.UserServiceImpl;
-import sample.utils.LoadPropertyUtil;
-import sample.utils.ScreenUtils;
+import model.User;
+import repository.impl.UserDaoImpl;
+import service.UserService;
+import service.serviceImpl.UserServiceImpl;
+import utils.LoadPropertyUtil;
+import utils.ScreenUtils;
 
 import java.io.IOException;
 import java.net.URL;

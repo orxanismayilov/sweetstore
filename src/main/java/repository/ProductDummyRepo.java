@@ -2,8 +2,8 @@ package repository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sample.model.Product;
-import sample.utils.CopyListUtil;
+import model.Product;
+import utils.CopyListUtil;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -89,7 +89,7 @@ public class ProductDummyRepo  {
         return productNames;
     }
 
-    private ObservableList copyList(ObservableList<Product> list,CopyListUtil<Product> rule){
+    private ObservableList copyList(ObservableList<Product> list, CopyListUtil<Product> rule){
          ObservableList<Product> copiedList=FXCollections.observableArrayList();
          for(Product product:list){
              if(rule.check(product)) {

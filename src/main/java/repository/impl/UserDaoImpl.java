@@ -1,18 +1,18 @@
 package repository.impl;
 
-import sample.enums.UserRole;
-import sample.model.User;
-import sample.model.UserSession;
-import sample.repository.UserDao;
-import sample.utils.DBConnection;
-import sample.utils.PasswordAuthentication;
+import model.User;
+import model.UserSession;
+import repository.UserDao;
+import enums.UserRole;
+import utils.DBConnection;
+import utils.PasswordAuthentication;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoImpl implements UserDao {
+public  class UserDaoImpl implements UserDao {
     private UserSession userSession;
 
     @Override

@@ -1,7 +1,7 @@
 package repository;
 
 import javafx.collections.ObservableList;
-import sample.model.Product;
+import model.Product;
 
 public interface ProductDao {
 

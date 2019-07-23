@@ -1,5 +1,6 @@
 package controller;
 
+import enums.OrderType;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -16,21 +17,21 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import sample.enums.OrderType;
-import sample.model.Order;
-import sample.model.OrderProduct;
-import sample.model.OrderProductSummary;
-import sample.model.Product;
-import sample.repository.impl.OrderDaoImpl;
-import sample.repository.impl.OrderProductImpl;
-import sample.repository.impl.ProductDaoImpl;
-import sample.service.OrderProductService;
-import sample.service.ProductService;
-import sample.service.serviceImpl.OrderProductServiceImpl;
-import sample.service.serviceImpl.OrderServiceImpl;
-import sample.service.serviceImpl.ProductServiceImpl;
-import sample.utils.NumberUtils;
-import sample.utils.TableCellStyleUtil;
+import model.Order;
+import model.OrderProduct;
+import model.OrderProductSummary;
+import model.Product;
+import repository.impl.OrderDaoImpl;
+import repository.impl.OrderProductImpl;
+import repository.impl.ProductDaoImpl;
+import service.OrderProductService;
+import service.ProductService;
+import service.serviceImpl.OrderProductServiceImpl;
+import service.serviceImpl.OrderServiceImpl;
+import service.serviceImpl.ProductServiceImpl;
+import utils.NumberUtils;
+import utils.TableCellStyleUtil;
+
 
 import java.math.BigDecimal;
 import java.net.URL;

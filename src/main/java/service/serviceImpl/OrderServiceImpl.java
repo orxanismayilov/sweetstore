@@ -1,12 +1,12 @@
 package service.serviceImpl;
 
+import enums.UserRole;
 import javafx.collections.ObservableList;
+import model.Order;
+import model.UserSession;
 import org.apache.log4j.Logger;
-import sample.enums.UserRole;
-import sample.model.Order;
-import sample.model.UserSession;
-import sample.repository.OrderDao;
-import sample.service.OrderService;
+import repository.OrderDao;
+import service.OrderService;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public boolean deleteOrderByTransactionId(int transactionId) {
-        if (userSession.getUser().getRole()==UserRole.ADMIN){
+        if (userSession.getUser().getRole()== UserRole.ADMIN){
             orderDao.deleteOrderByTransactionId(transactionId);
             logger.info("Order delete started. Order Id:"+transactionId+"user :"+userSession.getUser().toString());
             return true;

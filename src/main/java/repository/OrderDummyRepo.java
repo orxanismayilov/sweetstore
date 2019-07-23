@@ -1,10 +1,10 @@
 package repository;
 
+import enums.OrderType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sample.enums.OrderType;
-import sample.model.Order;
-import sample.utils.CopyListUtil;
+import model.Order;
+import utils.CopyListUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -2,18 +2,17 @@ package repository.impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sample.model.OrderProduct;
-import sample.model.Product;
-import sample.model.UserSession;
-import sample.repository.ProductDao;
-import sample.utils.DBConnection;
+import model.Product;
+import model.UserSession;
+import repository.ProductDao;
+import utils.DBConnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 
 public class ProductDaoImpl implements ProductDao {
 
-    private UserSession userSession=UserSession.getInstance();
+    private UserSession userSession= UserSession.getInstance();
 
     @Override
     public ObservableList getProductList(int pageIndex,int rowsPerPage) {

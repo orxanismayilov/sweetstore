@@ -7,10 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sample.model.Product;
-import sample.service.ProductService;
-import sample.service.serviceImpl.ProductServiceImpl;
-import sample.utils.NumberUtils;
+import model.Product;
+import service.ProductService;
+import utils.NumberUtils;
 
 import java.net.URL;
 import java.util.List;

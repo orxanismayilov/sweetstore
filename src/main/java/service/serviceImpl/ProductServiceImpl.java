@@ -1,15 +1,15 @@
 package service.serviceImpl;
 
+import enums.UserRole;
 import javafx.collections.ObservableList;
+import model.Product;
+import model.User;
+import model.UserSession;
 import org.apache.log4j.Logger;
-import sample.enums.UserRole;
-import sample.model.Product;
-import sample.model.User;
-import sample.model.UserSession;
-import sample.repository.ProductDao;
-import sample.service.ProductService;
-import sample.utils.LoadPropertyUtil;
-import sample.utils.NumberUtils;
+import repository.ProductDao;
+import service.ProductService;
+import utils.LoadPropertyUtil;
+import utils.NumberUtils;
 
 import java.util.*;
 

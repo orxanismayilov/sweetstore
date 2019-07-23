@@ -1,8 +1,7 @@
 package service;
 
 import javafx.collections.ObservableList;
-import sample.enums.UserRole;
-import sample.model.Order;
+import model.Order;
 
 import java.util.List;
 

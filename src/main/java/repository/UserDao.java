@@ -1,6 +1,6 @@
 package repository;
 
-import sample.model.User;
+import model.User;
 
 public interface UserDao {
     void startUserSesion(User user);

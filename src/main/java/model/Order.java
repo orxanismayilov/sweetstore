@@ -1,11 +1,10 @@
 package model;
 
+import enums.OrderStatus;
+import enums.OrderType;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import sample.enums.OrderStatus;
-import sample.enums.OrderType;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

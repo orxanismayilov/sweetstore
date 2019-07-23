@@ -1,14 +1,13 @@
 package repository.impl;
 
+import enums.OrderStatus;
+import enums.OrderType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.log4j.Logger;
-import sample.enums.OrderStatus;
-import sample.enums.OrderType;
-import sample.model.Order;
-import sample.model.UserSession;
-import sample.repository.OrderDao;
-import sample.utils.DBConnection;
+import model.Order;
+import model.UserSession;
+import repository.OrderDao;
+import utils.DBConnection;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -30,7 +29,7 @@ public class OrderDaoImpl implements OrderDao {
         int totalCount=getTotalCountOfOrder();
         int fromIndex=pageIndex*rowsPerPage;
         int toIndex=Math.min(fromIndex+rowsPerPage,totalCount);
-        try (Connection conn=DBConnection.getConnection();
+        try (Connection conn= DBConnection.getConnection();
              PreparedStatement ps=conn.prepareStatement(sql))
         {
             ps.setInt(1,fromIndex);

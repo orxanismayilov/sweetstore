@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.LoadPropertyUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,10 +22,10 @@ public class Main extends Application {
         try {
             InputStream fxmlInputStream= new FileInputStream(FXML_PROPERTIES_URL);
             InputStream appInputStream= new FileInputStream(APP_PROPERTIES_URL);
-            fxmlProperties=new Properties();
-            applicationProperties =new Properties();
-            applicationProperties.load(appInputStream);
-            fxmlProperties.load(fxmlInputStream);
+            fxmlProperties= LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);
+            applicationProperties =LoadPropertyUtil.loadPropertiesFile(APP_PROPERTIES_URL);
+            //applicationProperties.load(appInputStream);
+            //fxmlProperties.load(fxmlInputStream);
         }catch (IOException e) {
             e.printStackTrace();
         }

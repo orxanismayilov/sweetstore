@@ -1,12 +1,8 @@
 package service;
 
 import javafx.collections.ObservableList;
-import sample.model.OrderProduct;
-import sample.model.Product;
+import model.OrderProduct;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public interface OrderProductService {

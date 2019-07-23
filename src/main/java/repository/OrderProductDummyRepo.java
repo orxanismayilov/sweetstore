@@ -2,8 +2,8 @@ package repository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sample.model.OrderProduct;
-import sample.utils.CopyListUtil;
+import model.OrderProduct;
+import utils.CopyListUtil;
 
 import java.util.function.Predicate;
 

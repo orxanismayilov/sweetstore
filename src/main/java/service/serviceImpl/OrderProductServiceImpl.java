@@ -1,12 +1,12 @@
 package service.serviceImpl;
 
 import javafx.collections.ObservableList;
-import sample.model.OrderProduct;
-import sample.model.Product;
-import sample.repository.OrderProductDao;
-import sample.repository.impl.ProductDaoImpl;
-import sample.service.OrderProductService;
-import sample.utils.LoadPropertyUtil;
+import model.OrderProduct;
+import model.Product;
+import repository.OrderProductDao;
+import repository.impl.ProductDaoImpl;
+import service.OrderProductService;
+import utils.LoadPropertyUtil;
 
 import java.util.*;
 

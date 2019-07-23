@@ -1,8 +1,8 @@
 package model;
 
 import javafx.collections.ObservableList;
-import sample.repository.impl.OrderProductImpl;
-import sample.service.serviceImpl.OrderProductServiceImpl;
+import repository.impl.OrderProductImpl;
+import service.serviceImpl.OrderProductServiceImpl;
 
 import java.math.BigDecimal;
 
