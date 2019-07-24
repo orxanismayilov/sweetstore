@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HomeController">
+   <top>
+      <AnchorPane prefHeight="50.0" prefWidth="599.0" style="-fx-background-color: #00ABF6;" BorderPane.alignment="TOP_RIGHT">
+         <children>
+            <MenuButton layoutX="679.0" layoutY="9.0" mnemonicParsing="false" style="-fx-background-color: #00ABF6;" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="9.0">
+              <items>
+                <MenuItem fx:id="buttonLogOut" mnemonicParsing="false" onAction="#buttonLogOutAction" text="Log Out" />
+              </items>
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0">
+                     <image>
+                        <Image url="@../images/user_location_50px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </MenuButton>
+            <Label alignment="CENTER" layoutY="8.0" prefHeight="35.0" prefWidth="936.0" text="SWEET STORE" textFill="#fcf9f9" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="64.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="322.0" prefWidth="593.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" layoutX="1.0" layoutY="126.0" prefHeight="150.0" prefWidth="598.0" spacing="20.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="126.0">
+               <children>
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#btnSalesAction" prefHeight="150.0" prefWidth="150.0" text="SALES">
+                     <graphic>
+                        <ImageView fx:id="buttonSales">
+                           <image>
+                              <Image url="@../images/bill_100px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#btnStockAction" prefHeight="150.0" prefWidth="150.0" text="STOCK">
+                     <graphic>
+                        <ImageView>
+                           <image>
+                              <Image url="@../images/product_100px.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefHeight="150.0" prefWidth="150.0" text="STATTISTICS">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <graphic>
+                        <ImageView>
+                           <image>
+                              <Image url="@../images/statistics_100px_1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <AnchorPane prefHeight="128.0" prefWidth="725.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <right>
+      <AnchorPane prefHeight="322.0" prefWidth="77.0" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <AnchorPane prefHeight="322.0" prefWidth="75.0" />
+   </left>
+</BorderPane>
