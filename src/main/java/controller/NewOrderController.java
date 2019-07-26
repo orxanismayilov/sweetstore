@@ -120,6 +120,7 @@ public class NewOrderController implements Initializable {
         summary = new OrderProductSummary();
         comboOrderType.setItems(OrderType.getOrderTypeList());
         order = new Order();
+        System.out.println(order.getDescription());
         getSelectedRow();
     }
 

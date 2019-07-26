@@ -1,145 +1,139 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import enums.OrderStatus;
 import enums.OrderType;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@XmlRootElement
 public class Order {
-    private SimpleStringProperty customerName;
-    private SimpleStringProperty customerAddress;
-    private SimpleStringProperty description;
-    private SimpleObjectProperty<OrderType> orderType;
-    private SimpleIntegerProperty transactionID;
-    private SimpleObjectProperty<BigDecimal> totalPrice;
-    private SimpleObjectProperty<BigDecimal> totalDiscount;
-    private SimpleObjectProperty<LocalDateTime> date;
-    private SimpleObjectProperty<OrderStatus> orderStatus;
+    private String customerName;
+    private String customerAddress;
+    private String description;
+    private OrderType orderType;
+    private int transactionID;
+    private BigDecimal totalPrice;
+    private BigDecimal totalDiscount;
+    private String date;
+    private OrderStatus orderStatus;
     private boolean isActive;
 
     public Order() {
-        this.customerName = new SimpleStringProperty("");
-        this.customerAddress=new SimpleStringProperty("");
-        this.description = new SimpleStringProperty("");
-        this.totalPrice = new SimpleObjectProperty<>(new BigDecimal(0));
-        this.orderType = new SimpleObjectProperty();
-        this.transactionID = new SimpleIntegerProperty(0);
-        this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
-        this.date=new SimpleObjectProperty<>(LocalDateTime.now());
-        this.orderStatus=new SimpleObjectProperty<>(OrderStatus.PENDDING);
-        this.isActive=true;
     }
 
-    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, OrderType orderType, Integer transactionID, LocalDateTime date) {
-        this.customerName = new SimpleStringProperty(customerName);
-        this.customerAddress=new SimpleStringProperty(customerAdderss);
-        this.description = new SimpleStringProperty(description);
-        this.totalPrice = new SimpleObjectProperty<>(priceBigDecimal);
-        this.orderType = new SimpleObjectProperty<>(orderType);
-        this.totalDiscount=new SimpleObjectProperty<>(new BigDecimal(0));
-        this.transactionID = new SimpleIntegerProperty(transactionID);
-        this.date=new SimpleObjectProperty<>(date);
-        this.orderStatus=new SimpleObjectProperty<>(OrderStatus.PENDDING);
+    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, Integer transactionID, String date) {
+        this.customerName = customerName;
+        this.customerAddress=customerAdderss;
+        this.description =description;
+        this.totalPrice = priceBigDecimal;
+        this.orderType = orderType;
+        this.totalDiscount=totalDiscount;
+        this.transactionID = transactionID;
+        this.date=date;
+        this.orderStatus=orderStatus;
         this.isActive=true;
     }
 
     public String getCustomerName() {
-        return customerName.get();
-    }
-
-    public SimpleStringProperty customerNameProperty() {
         return customerName;
     }
 
+    public SimpleStringProperty customerNameProperty() {
+        return new SimpleStringProperty(customerName);
+    }
+
     public void setCustomerName(String customerName) {
-        this.customerName.set(customerName);
+        this.customerName=customerName;
     }
 
     public String getCustomerAddress() {
-        return customerAddress.get();
-    }
-
-    public SimpleStringProperty customerAddressProperty() {
         return customerAddress;
     }
 
+    public SimpleStringProperty customerAddressProperty() {
+        return  new SimpleStringProperty(customerAddress);
+    }
+
     public void setCustomerAddress(String customerAddress) {
-        this.customerAddress.set(customerAddress);
+        this.customerAddress=customerAddress;
     }
 
     public String getDescription() {
-        return description.get();
-    }
-
-    public SimpleStringProperty descriptionProperty() {
         return description;
     }
 
+    public SimpleStringProperty descriptionProperty() {
+        return new SimpleStringProperty(description);
+    }
+
     public void setDescription(String description) {
-        this.description.set(description);
+        this.description=description;
     }
 
     public OrderType getOrderType() {
-        return orderType.get();
-    }
-
-    public SimpleObjectProperty<OrderType> orderTypeProperty() {
         return orderType;
     }
 
+    public SimpleObjectProperty<OrderType> orderTypeProperty() {
+        return new SimpleObjectProperty<>(orderType);
+    }
+
     public void setOrderType(OrderType orderType) {
-        this.orderType.set(orderType);
+        this.orderType=orderType;
     }
 
     public int getTransactionID() {
-        return transactionID.get();
-    }
-
-    public SimpleIntegerProperty transactionIDProperty() {
         return transactionID;
     }
 
+    public SimpleIntegerProperty transactionIDProperty() {
+        return new SimpleIntegerProperty(transactionID);
+    }
+
     public void setTransactionID(int transactionID) {
-        this.transactionID.set(transactionID);
+        this.transactionID=transactionID;
     }
 
-    public LocalDateTime getDate() {
-        return date.get();
-    }
-
-    public SimpleObjectProperty<LocalDateTime> dateProperty() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date.set(date);
+    public SimpleStringProperty dateProperty() {
+        return new SimpleStringProperty(date);
+    }
+
+    public void setDate(String date) {
+        this.date=date;
     }
 
     public BigDecimal getTotalPrice() {
-        return totalPrice.get();
-    }
-
-    public SimpleObjectProperty<BigDecimal> totalPriceProperty() {
         return totalPrice;
     }
 
+    public SimpleObjectProperty<BigDecimal> totalPriceProperty() {
+        return new SimpleObjectProperty<>(totalPrice);
+    }
+
     public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice.set(totalPrice);
+        this.totalPrice=totalPrice;
     }
 
     public BigDecimal getTotalDiscount() {
-        return totalDiscount.get();
-    }
-
-    public SimpleObjectProperty<BigDecimal> totalDiscountProperty() {
         return totalDiscount;
     }
 
+    public SimpleObjectProperty<BigDecimal> totalDiscountProperty() {
+        return new SimpleObjectProperty<>(totalDiscount);
+    }
+
     public void setTotalDiscount(BigDecimal totalDiscount) {
-        this.totalDiscount.set(totalDiscount);
+        this.totalDiscount=totalDiscount;
     }
 
     public boolean isActive() {
@@ -151,15 +145,15 @@ public class Order {
     }
 
     public OrderStatus getOrderStatus() {
-        return orderStatus.get();
-    }
-
-    public SimpleObjectProperty<OrderStatus> orderStatusProperty() {
         return orderStatus;
     }
 
+    public SimpleObjectProperty<OrderStatus> orderStatusProperty() {
+        return new SimpleObjectProperty<>(orderStatus);
+    }
+
     public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus.set(orderStatus);
+        this.orderStatus=orderStatus;
     }
 
     @Override

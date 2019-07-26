@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -102,7 +103,7 @@ public class StockController implements Initializable {
                 if (empty) {
                     setText(null);
                 } else {
-                    setText(String.valueOf(numberFormat.format(price)) + MANAT_SYMBOL);
+                    setText(numberFormat.format(price) + MANAT_SYMBOL);
                 }
             }
         });
@@ -152,7 +153,7 @@ public class StockController implements Initializable {
                         Product product = (Product) getTableRow().getItem();
                         updateButtonAction(product);
                         popUpWindowSetup(eventUpdate, appProperties.getProperty("updateproducttitle"));
-                        //loadData();
+                        paginationSetup();
                     });
                 }
             }
@@ -194,8 +195,7 @@ public class StockController implements Initializable {
     }
 
     private Node createPage(int pageIndex) {
-        ObservableList<Product> list= productService.getProductList(pageIndex,rowsPerPage);
-
+        ObservableList list= productService.getProductList(pageIndex,rowsPerPage);
         tableProduct.setItems(list);
         return new BorderPane(tableProduct);
     }

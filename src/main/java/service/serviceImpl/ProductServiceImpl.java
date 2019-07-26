@@ -1,8 +1,12 @@
 package service.serviceImpl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import enums.UserRole;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Product;
+import model.ResponseObject;
 import model.User;
 import model.UserSession;
 import org.apache.log4j.Logger;
@@ -10,7 +14,9 @@ import repository.ProductDao;
 import service.ProductService;
 import utils.LoadPropertyUtil;
 import utils.NumberUtils;
+import utils.RestClientUtil;
 
+import javax.ws.rs.core.GenericType;
 import java.util.*;
 
 public class ProductServiceImpl implements ProductService {
@@ -20,27 +26,40 @@ public class ProductServiceImpl implements ProductService {
     private Properties errorProperties;
     private static Logger logger =Logger.getLogger(ProductServiceImpl.class);
     private UserSession userSession;
+    private Properties uriProperties;
 
-
+    private static String URI_PROPERTIES="/resources/properties/resource-uri.properties";
     private static String ERROR_PROPERTIES="/resources/properties/errors.properties";
 
     public ProductServiceImpl(ProductDao productDao) {
         this.productDao = productDao;
         errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
         userSession=UserSession.getInstance();
+        uriProperties=LoadPropertyUtil.loadPropertiesFile(URI_PROPERTIES);
     }
 
-    public ObservableList getProductList(int pageIndex, int rowsPerPage) {
-       return productDao.getProductList(pageIndex,rowsPerPage);
+    public ObservableList<Product> getProductList(int pageIndex, int rowsPerPage) {
+        String uri=uriProperties.getProperty("producturi")+"?startPage="+pageIndex+"&rowsPerPage="+rowsPerPage;
+        ResponseObject responseObject= RestClientUtil.getResourceList(uri);
+        ObjectMapper mapper=new ObjectMapper();
+        List<Product> list = mapper.convertValue(responseObject.getData(), new TypeReference<List<Product>>(){});
+        System.out.println(list.get(0));
+        ObservableList<Product> products=FXCollections.observableArrayList(list);
+        System.out.println(list.get(0));
+        Product product=(Product)list.get(0);
+        System.out.println(product.getName());
+        System.out.println(product.nameProperty().getName());
+        return products;
     }
 
     public Map addProduct(Product product) {
+        String uri=uriProperties.getProperty("producturi");
         if (product != null) {
             validation = isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
                 Product existedProduct = productDao.isProductExist(product.getName());
                 if (existedProduct == null) {
-                    productDao.addProduct(product);
+                    RestClientUtil.addNewResource(product,uri);
                     logger.info("New product :"+product.toString()+" "+userSession.getUser().toString());
                     return validation;
                 } else {
@@ -54,7 +73,8 @@ public class ProductServiceImpl implements ProductService {
                         logger.error("Update product failed: Maximum quantity error.");
                         return validation;
                     } else {
-                        productDao.updateProductIncreaseQuantity(product, existedProduct.getId());
+                        existedProduct.setQuantity(existedProduct.getId()+product.getQuantity());
+                        RestClientUtil.updateResource(uri,existedProduct.getId(),existedProduct);
                         logger.info("Update product:"+product.toString()+" by "+userSession.getUser().toString());
                         return validation;
                     }
@@ -66,11 +86,12 @@ public class ProductServiceImpl implements ProductService {
 
     public Map updateProduct(Product product, int oldProductId) {
         logger.info("Product updating start");
+        String uri=uriProperties.getProperty("producturi");
         if(product!=null) {
             validation=isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
-               productDao.updateProduct(product,oldProductId);
-               logger.info("Product update:"+product.toString()+userSession.getUser().toString());
+                RestClientUtil.updateResource(uri,oldProductId,product);
+                logger.info("Product update:"+product.toString()+userSession.getUser().toString());
             }
         }else {
             logger.error("Couldnt update product , product is null. OldProductId:"+oldProductId);
@@ -160,8 +181,9 @@ public class ProductServiceImpl implements ProductService {
 
     public boolean deleteProductByID(int id) {
         User user=userSession.getUser();
+        String uri=uriProperties.getProperty("producturi");
         if (user.getRole().equals(UserRole.ADMIN)) {
-            productDao.deleteProductById(id);
+            RestClientUtil.deleteResource(uri,id);
             logger.info("Product Id :"+id+" user :"+userSession.getUser().toString());
             return true;
         }
@@ -169,8 +191,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Product getProductById(int id) {
-        Product product = productDao.getProductById(id);
-        return product;
+        String uri=uriProperties.getProperty("producturi");
+        ResponseObject responseObject= RestClientUtil.getSingleResource(uri,id);
+        /*Product product = new ObjectMapper(responseObject.getData(),Product.class);*/
+        return productDao.getProductById(id);
     }
 
     public ObservableList getProductListForComboBox() {

@@ -11,11 +11,7 @@ import java.time.LocalDateTime;
 
 public class OrderDummyRepo {
     private static int id = 4;
-    private static ObservableList<Order> orderList = FXCollections.observableArrayList(
-            new Order("Orxan", "Muxax", "Mallar", BigDecimal.valueOf(15), OrderType.ONLINE, 1, LocalDateTime.now()),
-            new Order("Amil", "Baki", "sirniyyat", BigDecimal.valueOf(23), OrderType.OFFLINE, 2, LocalDateTime.now()),
-            new Order("Eltun", "Tala", "guller", BigDecimal.valueOf(456), OrderType.OFFLINE, 3, LocalDateTime.now())
-    );
+    private static ObservableList<Order> orderList = FXCollections.observableArrayList();
 
 
     public ObservableList getOrderList() {
@@ -23,7 +19,7 @@ public class OrderDummyRepo {
     }
 
     public void addOrder(Order order) {
-        order.setDate(LocalDateTime.now());
+        order.setDate(LocalDateTime.now().toString());
         orderList.add(0,order);
             }
 

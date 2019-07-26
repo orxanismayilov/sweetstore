@@ -2,101 +2,87 @@ package model;
 
 import javafx.beans.property.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
-
+@XmlRootElement
 public class Product {
-    private SimpleIntegerProperty id;
-    private SimpleStringProperty name;
-    private SimpleIntegerProperty quantity;
-    private SimpleObjectProperty<LocalDateTime> updateDate;
-    private SimpleFloatProperty price;
+    private int id;
+    private String name;
+    private int quantity;
+    private String updateDate;
+    private float price;
     private boolean isActive;
 
     public Product() {
-        this.id = new SimpleIntegerProperty(0);
-        this.name = new SimpleStringProperty("");
-        this.quantity = new SimpleIntegerProperty(0);
-        this.price = new SimpleFloatProperty(0);
-        this.updateDate = new SimpleObjectProperty<>(LocalDateTime.now());
-        this.isActive = true;
     }
 
-    public Product(int id, String name, int quantity, float price, LocalDateTime updateDate) {
-        this.id = new SimpleIntegerProperty(id);
-        this.name = new SimpleStringProperty(name);
-        this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleFloatProperty(price);
-        this.updateDate = new SimpleObjectProperty<>(updateDate);
-        this.isActive = true;
-    }
-
-    public Product(String name, int quantity, float price, LocalDateTime updateDate) {
-        this.id = new SimpleIntegerProperty(0);
-        this.name = new SimpleStringProperty(name);
-        this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleFloatProperty(price);
-        this.updateDate = new SimpleObjectProperty<>(updateDate);
-        this.isActive = true;
+    public Product(int id, String name, int quantity, String updateDate, float price, boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.updateDate = updateDate;
+        this.price = price;
+        this.isActive = isActive;
     }
 
     public int getId() {
-        return id.get();
-    }
-
-    public SimpleIntegerProperty idProperty() {
         return id;
     }
 
+    public SimpleIntegerProperty idProperty() {
+        return new SimpleIntegerProperty(id);
+    }
+
     public void setId(int id) {
-        this.id.set(id);
+        this.id=id;
     }
 
     public String getName() {
-        return name.get();
-    }
-
-    public SimpleStringProperty nameProperty() {
         return name;
     }
 
+    public SimpleStringProperty nameProperty() {
+        return new SimpleStringProperty(name);
+    }
+
     public void setName(String name) {
-        this.name.set(name);
+        this.name=name;
     }
 
     public int getQuantity() {
-        return quantity.get();
-    }
-
-    public SimpleIntegerProperty quantityProperty() {
         return quantity;
     }
 
+    public SimpleIntegerProperty quantityProperty() {
+        return new SimpleIntegerProperty(quantity);
+    }
+
     public void setQuantity(int quantity) {
-        this.quantity.set(quantity);
+        this.quantity=quantity;
     }
 
-    public LocalDateTime getUpdateDate() {
-        return updateDate.get();
-    }
-
-    public void setUpdateDate(LocalDateTime updateDate) {
-        this.updateDate.set(updateDate);
-    }
-
-    public SimpleObjectProperty<LocalDateTime> updateDateProperty() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public float getPrice() {
-        return price.get();
+    public void setUpdateDate(String updateDate) {
+        this.updateDate=updateDate;
     }
 
-    public SimpleFloatProperty priceProperty() {
+    public SimpleStringProperty updateDateProperty() {
+        return new SimpleStringProperty(updateDate);
+    }
+
+    public float getPrice() {
         return price;
     }
 
+    public SimpleFloatProperty priceProperty() {
+        return new SimpleFloatProperty(price);
+    }
+
     public void setPrice(float price) {
-        this.price.set(price);
+        this.price=price;
     }
 
     public boolean isActive() {

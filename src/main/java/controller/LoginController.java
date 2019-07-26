@@ -34,8 +34,8 @@ public class LoginController implements Initializable {
 
     public void loginButtonAction(ActionEvent event) throws IOException {
         User user=new User();
-        user.setName(txtUsername.getText());
-        user.setPassword(txtPassword.getText());
+        user.setName("Orxan");
+        user.setPassword("orxan123");
         if (userService.validateLogin(user)) {
             ScreenUtils.changeScreen(event, properties.getProperty("homepage"));
         } else {

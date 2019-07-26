@@ -49,6 +49,7 @@ public class AddProductController implements Initializable {
     public void saveProduct() {
         product = new Product();
         product.setName(productName.getText());
+        product.setActive(true);
         try {
             product.setQuantity(Integer.parseInt(productQuantity.getText()));
         } catch (NumberFormatException e) {

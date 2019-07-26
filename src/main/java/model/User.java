@@ -11,11 +11,6 @@ public class User {
     private boolean isActive;
 
     public User() {
-        this.id = 0;
-        this.name = "";
-        this.role=UserRole.USER;
-        this.password = "";
-        this.isActive = true;
     }
 
     public int getId() {

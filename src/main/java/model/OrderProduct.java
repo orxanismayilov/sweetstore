@@ -6,124 +6,114 @@ import java.math.BigDecimal;
 
 public class OrderProduct {
 
-    private SimpleIntegerProperty id;
-    private SimpleIntegerProperty orderId;
-    private SimpleIntegerProperty productId;
-    private SimpleStringProperty productName;
-    private SimpleIntegerProperty productQuantity;
-    private SimpleFloatProperty productPrice;
-    private SimpleObjectProperty<BigDecimal> totalPrice;
-    private SimpleFloatProperty discount;
+    private int id;
+    private int orderId;
+    private int productId;
+    private String productName;
+    private int productQuantity;
+    private float productPrice;
+    private BigDecimal totalPrice;
+    private float discount;
     private String description;
     private boolean isActive;
 
     public OrderProduct() {
-        this.id=new SimpleIntegerProperty(0);
-        this.orderId=new SimpleIntegerProperty(0);
-        this.productId=new SimpleIntegerProperty(0);
-        this.productName=new SimpleStringProperty("");
-        this.productQuantity=new SimpleIntegerProperty(0);
-        this.productPrice=new SimpleFloatProperty(0);
-        this.totalPrice=new SimpleObjectProperty<>(new BigDecimal(0));
-        this.discount=new SimpleFloatProperty(0);
-        this.isActive=true;
-
     }
 
     public int getId() {
-        return id.get();
-    }
-
-    public SimpleIntegerProperty idProperty() {
         return id;
     }
 
+    public SimpleIntegerProperty idProperty() {
+        return new SimpleIntegerProperty(id);
+    }
+
     public void setId(int id) {
-        this.id.set(id);
+        this.id=id;
     }
 
     public int getOrderId() {
-        return orderId.get();
-    }
-
-    public SimpleIntegerProperty orderIdProperty() {
         return orderId;
     }
 
+    public SimpleIntegerProperty orderIdProperty() {
+        return new SimpleIntegerProperty(orderId);
+    }
+
     public void setOrderId(int orderId) {
-        this.orderId.set(orderId);
+        this.orderId=orderId;
     }
 
     public int getProductId() {
-        return productId.get();
+        return productId=productId;
     }
 
     public SimpleIntegerProperty productIdProperty() {
-        return productId;
+        return new SimpleIntegerProperty(productId);
     }
 
     public void setProductId(int productId) {
-        this.productId.set(productId);
+        this.productId=productId;
     }
 
     public String getProductName() {
-        return productName.get();
-    }
-
-    public SimpleStringProperty productNameProperty() {
         return productName;
     }
 
+    public SimpleStringProperty productNameProperty() {
+        return new SimpleStringProperty(productName);
+    }
+
     public void setProductName(String productName) {
-        this.productName.set(productName);
+        this.productName=productName;
     }
 
     public int getProductQuantity() {
-        return productQuantity.get();
-    }
-
-    public SimpleIntegerProperty productQuantityProperty() {
         return productQuantity;
     }
 
+    public SimpleIntegerProperty productQuantityProperty() {
+        return new SimpleIntegerProperty(productQuantity);
+    }
+
     public void setProductQuantity(int productQuantity) {
-        this.productQuantity.set(productQuantity);
+        this.productQuantity=productQuantity;
     }
 
     public Float getProductPrice() {
-        return productPrice.get();
-    }
-
-    public SimpleFloatProperty productPriceProperty() {
         return productPrice;
     }
 
+    public SimpleFloatProperty productPriceProperty() {
+        return new SimpleFloatProperty(productPrice);
+    }
+
     public void setProductPrice(float productPrice) {
-        this.productPrice.set(productPrice);
+        this.productPrice=productPrice;
     }
 
     public BigDecimal getTotalPrice() {
-        return totalPrice.get();
-    }
-
-    public SimpleObjectProperty<BigDecimal> totalPriceProperty() {
         return totalPrice;
     }
 
+    public SimpleObjectProperty<BigDecimal> totalPriceProperty() {
+        return new SimpleObjectProperty<BigDecimal>(totalPrice) ;
+    }
+
     public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice.set(totalPrice);
+        this.totalPrice=totalPrice;
     }
 
     public float getDiscount() {
-        return discount.get();
-    }
-
-    public SimpleFloatProperty discountProperty() {
         return discount;
     }
 
+    public SimpleFloatProperty discountProperty() {
+        return new SimpleFloatProperty(discount);
+    }
+
     public void setDiscount(float discount) {
-        this.discount.set(discount);
+        this.discount=discount;
     }
 
     public String getDescription() {

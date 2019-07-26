@@ -11,11 +11,7 @@ import java.util.Collections;
 public class ProductDummyRepo  {
 
     private static int idCounter=4;
-    private static ObservableList<Product>  productList=FXCollections.observableArrayList(
-            new Product(1,"Paxlava",50, (float) 1.2,LocalDateTime.now()),
-            new Product(2,"Wekerbura",23,2,LocalDateTime.now()),
-            new Product(3,"Tort",12, (float) 2.30,LocalDateTime.now())
-    );
+    private static ObservableList<Product>  productList=FXCollections.observableArrayList();
 
     public ObservableList getProductList(){
         return copyList(productList,product -> product.isActive());
@@ -50,7 +46,7 @@ public class ProductDummyRepo  {
             if (p.getId()==id){
                 p.setQuantity(p.getQuantity()+newProduct.getQuantity());
                 p.setPrice(newProduct.getPrice());
-                p.setUpdateDate(LocalDateTime.now());
+                p.setUpdateDate(LocalDateTime.now().toString());
             }
         }
     }
