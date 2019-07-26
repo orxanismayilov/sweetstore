@@ -260,7 +260,7 @@ public class OrderController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
-            int id = order.getTransactionID();
+            String id = order.getTransactionID();
             if (orderService.deleteOrderByTransactionId(id)) {
                 createPagination();
             } else {

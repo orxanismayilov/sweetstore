@@ -11,7 +11,7 @@ public interface OrderProductService {
 
     void removeOrderProductById(int id);
 
-    ObservableList getOrderProductByOrderId(int orderId);
+    ObservableList getOrderProductByOrderId(String orderId);
 
     void updateOrderProduct(OrderProduct newOrderProduct, int id);
 

@@ -17,7 +17,7 @@ public class OrderProductImpl implements OrderProductDao {
     private static Logger logger = Logger.getLogger(OrderProductImpl.class);
 
     @Override
-    public ObservableList<OrderProduct> getListByOrderId(int orderId) {
+    public ObservableList<OrderProduct> getListByOrderId(String orderId) {
         ObservableList<OrderProduct> orderProductsList = FXCollections.observableArrayList();
         String sql = "select \n" +
                 "ORDER_PRODUCT.id,ORDER_PRODUCT.order_Id,ORDER_PRODUCT.product_id,PRODUCTS.name,ORDER_PRODUCT.price,ORDER_PRODUCT.quantity,\n" +

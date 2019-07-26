@@ -9,13 +9,13 @@ public interface OrderService {
 
     ObservableList getOrderList(int pageIndex, int rowsPerPage);
 
-    int addNewOrderToList(Order order);
+    String addNewOrderToList(Order order);
 
     List<Order> searchOrderById(String id, boolean searchAll);
 
-    boolean deleteOrderByTransactionId(int transactionId);
+    boolean deleteOrderByTransactionId(String transactionId);
 
-    void updateOrderById(Order newOrder, int orderId);
+    void updateOrderById(Order newOrder, String orderId);
 
     int getTotalCountOfOrder();
 }

@@ -12,13 +12,13 @@ public interface ProductService {
 
     Map addProduct(Product product);
 
-    Map updateProduct(Product product, int oldProductId);
+    Map updateProduct(Product product, String oldProductId);
 
     Map<String, Map<Boolean, List<String>>> isProductValid(Product product);
 
-    boolean deleteProductByID(int id);
+    boolean deleteProductByID(String id);
 
-    Product getProductById(int id);
+    Product getProductById(String id);
 
     ObservableList getProductListForComboBox();
 

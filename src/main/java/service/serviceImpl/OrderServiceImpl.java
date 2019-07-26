@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    public int addNewOrderToList(Order order) {
+    public String addNewOrderToList(Order order) {
         String uri=uriProperties.getProperty("orderuri");
         ResponseObject responseObject= RestClientUtil.addNewResource(order,uri);
         Order order1= (Order) responseObject.getData();
@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.searchOrderById(id,searchAll);
     }
 
-    public boolean deleteOrderByTransactionId(int transactionId) {
+    public boolean deleteOrderByTransactionId(String transactionId) {
         String uri=uriProperties.getProperty("orderuri");
         if (userSession.getUser().getRole()== UserRole.ADMIN){
             RestClientUtil.deleteResource(uri,transactionId);
@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
      return false;
     }
 
-    public void updateOrderById(Order newOrder,int orderId){
+    public void updateOrderById(Order newOrder, String orderId){
         String uri=uriProperties.getProperty("orderuri");
         newOrder.setTotalDiscount(new BigDecimal(0));
         RestClientUtil.updateResource(uri,orderId,newOrder);

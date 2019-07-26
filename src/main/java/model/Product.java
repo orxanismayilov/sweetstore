@@ -3,10 +3,10 @@ package model;
 import javafx.beans.property.*;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDateTime;
+
 @XmlRootElement
 public class Product {
-    private int id;
+    private String id;
     private String name;
     private int quantity;
     private String updateDate;
@@ -16,7 +16,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, String name, int quantity, String updateDate, float price, boolean isActive) {
+    public Product(String id, String name, int quantity, String updateDate, float price, boolean isActive) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -25,7 +25,7 @@ public class Product {
         this.isActive = isActive;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -33,7 +33,7 @@ public class Product {
         return new SimpleIntegerProperty(id);
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id=id;
     }
 

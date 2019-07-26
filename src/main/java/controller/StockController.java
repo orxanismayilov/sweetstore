@@ -1,6 +1,5 @@
 package controller;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,8 +27,6 @@ import utils.ScreenUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -83,7 +80,7 @@ public class StockController implements Initializable {
         tableProduct=new TableView<>();
         TableColumn<Product,Integer> clmID=new TableColumn<>("Id");
         TableColumn<Product,Float> clmPrice=new TableColumn<>("Price");
-        TableColumn<Product,LocalDateTime> clmLastUpdate=new TableColumn<>("Last Update");
+        TableColumn<Product,String> clmLastUpdate=new TableColumn<>("Last Update");
         TableColumn<Product,String> clmName=new TableColumn<>("Name");
         TableColumn<Product,Integer> clmQuantity=new TableColumn<>("Quantity");
         TableColumn<Product,Void> clmAction=new TableColumn<>("Action");
@@ -158,18 +155,7 @@ public class StockController implements Initializable {
                 }
             }
         });
-        clmLastUpdate.setCellFactory(tc -> new TableCell<Product, LocalDateTime>() {
-            @Override
-            protected void updateItem(LocalDateTime time, boolean empty) {
-                super.updateItem(time, empty);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
-                if (empty) {
-                    setText(null);
-                } else {
-                    setText(time.format(formatter));
-                }
-            }
-        });
+
         clmID.setMaxWidth(100);
         clmID.setMinWidth(60);
         clmAction.setResizable(false);
@@ -177,7 +163,7 @@ public class StockController implements Initializable {
         clmAction.setMaxWidth(120);
     }
 
-    private void buttonDeleteAction(int productId) {
+    private void buttonDeleteAction(String productId) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, DELETE_ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
@@ -215,7 +201,7 @@ public class StockController implements Initializable {
         }
     }
 
-    private void buttonInfoAction(int id) {
+    private void buttonInfoAction(String id) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("infoproduct")));
             Parent root = loader.load();

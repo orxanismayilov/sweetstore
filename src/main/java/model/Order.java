@@ -1,6 +1,5 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import enums.OrderStatus;
 import enums.OrderType;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,7 +8,6 @@ import javafx.beans.property.SimpleStringProperty;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @XmlRootElement
 public class Order {
@@ -17,7 +15,7 @@ public class Order {
     private String customerAddress;
     private String description;
     private OrderType orderType;
-    private int transactionID;
+    private String transactionID;
     private BigDecimal totalPrice;
     private BigDecimal totalDiscount;
     private String date;
@@ -27,7 +25,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, Integer transactionID, String date) {
+    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, String transactionID, String date) {
         this.customerName = customerName;
         this.customerAddress=customerAdderss;
         this.description =description;
@@ -88,7 +86,7 @@ public class Order {
         this.orderType=orderType;
     }
 
-    public int getTransactionID() {
+    public String getTransactionID() {
         return transactionID;
     }
 
@@ -96,7 +94,7 @@ public class Order {
         return new SimpleIntegerProperty(transactionID);
     }
 
-    public void setTransactionID(int transactionID) {
+    public void setTransactionID(String transactionID) {
         this.transactionID=transactionID;
     }
 

@@ -5,7 +5,7 @@ import model.OrderProduct;
 
 public interface OrderProductDao {
 
-    ObservableList<OrderProduct> getListByOrderId(int orderId);
+    ObservableList<OrderProduct> getListByOrderId(String orderId);
 
     void saveOrderProduct(OrderProduct orderProduct);
 

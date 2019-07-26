@@ -1,12 +1,10 @@
 package repository;
 
-import enums.OrderType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Order;
 import utils.CopyListUtil;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class OrderDummyRepo {
@@ -23,7 +21,7 @@ public class OrderDummyRepo {
         orderList.add(0,order);
             }
 
-    public void updateOrder(Order newOrder,int oldOrderId){
+    public void updateOrder(Order newOrder, String oldOrderId){
         for (Order oldOrder:orderList) {
             if (oldOrder.getTransactionID()==oldOrderId) {
                 orderList.remove(oldOrder);

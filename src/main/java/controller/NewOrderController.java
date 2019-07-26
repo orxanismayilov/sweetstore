@@ -46,7 +46,7 @@ public class NewOrderController implements Initializable {
     private Order order;
     private Product product;
     private OrderServiceImpl orderServiceImpl;
-    private int orderId;
+    private String orderId;
     private OrderProductSummary summary;
 
 
