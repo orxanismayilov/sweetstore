@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 public class OrderProduct {
 
     private int id;
-    private String orderId;
-    private String productId;
+    private int orderId;
+    private int productId;
     private String productName;
     private int productQuantity;
     private float productPrice;
@@ -32,7 +32,7 @@ public class OrderProduct {
         this.id=id;
     }
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
@@ -40,11 +40,11 @@ public class OrderProduct {
         return new SimpleIntegerProperty(orderId);
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId=orderId;
     }
 
-    public String getProductId() {
+    public int getProductId() {
         return productId=productId;
     }
 
@@ -52,7 +52,7 @@ public class OrderProduct {
         return new SimpleIntegerProperty(productId);
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(int productId) {
         this.productId=productId;
     }
 

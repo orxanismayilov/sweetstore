@@ -15,7 +15,7 @@ public class Order {
     private String customerAddress;
     private String description;
     private OrderType orderType;
-    private String transactionID;
+    private int transactionID;
     private BigDecimal totalPrice;
     private BigDecimal totalDiscount;
     private String date;
@@ -25,7 +25,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, String transactionID, String date) {
+    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, int transactionID, String date) {
         this.customerName = customerName;
         this.customerAddress=customerAdderss;
         this.description =description;
@@ -86,7 +86,7 @@ public class Order {
         this.orderType=orderType;
     }
 
-    public String getTransactionID() {
+    public int getTransactionID() {
         return transactionID;
     }
 
@@ -94,7 +94,7 @@ public class Order {
         return new SimpleIntegerProperty(transactionID);
     }
 
-    public void setTransactionID(String transactionID) {
+    public void setTransactionID(int transactionID) {
         this.transactionID=transactionID;
     }
 

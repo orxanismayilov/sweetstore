@@ -163,7 +163,7 @@ public class StockController implements Initializable {
         clmAction.setMaxWidth(120);
     }
 
-    private void buttonDeleteAction(String productId) {
+    private void buttonDeleteAction(int productId) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, DELETE_ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
@@ -201,7 +201,7 @@ public class StockController implements Initializable {
         }
     }
 
-    private void buttonInfoAction(String id) {
+    private void buttonInfoAction(int id) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("infoproduct")));
             Parent root = loader.load();

@@ -60,7 +60,7 @@ public class ProductDummyRepo  {
         }
     }
 
-    public String getProductNewId() {
+    public int getProductNewId() {
         return idCounter++;
 
     }

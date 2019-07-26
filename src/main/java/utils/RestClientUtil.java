@@ -31,7 +31,7 @@ public class RestClientUtil {
         return responseObject;
     }
 
-    public static void updateResource(String uri, String id, Object resource){
+    public static void updateResource(String uri, int id, Object resource){
         Client client=ClientBuilder.newClient();
         Response response=client
                 .target(uri)
@@ -49,7 +49,7 @@ public class RestClientUtil {
         return response.readEntity(ResponseObject.class);
     }
 
-    public static void deleteResource(String uri, String id) {
+    public static void deleteResource(String uri, int id) {
         Client client = ClientBuilder.newClient();
         client
                 .target(uri)

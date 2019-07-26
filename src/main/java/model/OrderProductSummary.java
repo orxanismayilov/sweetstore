@@ -16,7 +16,7 @@ public class OrderProductSummary {
     public OrderProductSummary() {
         orderProductServiceImpl =new OrderProductServiceImpl(new OrderProductImpl());
     }
-    public void  fillDescriptionCalculateTotalPriceAndDiscount(String orderId){
+    public void  fillDescriptionCalculateTotalPriceAndDiscount(int orderId){
         ObservableList<OrderProduct> list;
         list= orderProductServiceImpl.getOrderProductByOrderId(orderId);
         StringBuilder descriptionBuilder=new StringBuilder();

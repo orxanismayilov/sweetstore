@@ -21,7 +21,7 @@ public class OrderDummyRepo {
         orderList.add(0,order);
             }
 
-    public void updateOrder(Order newOrder, String oldOrderId){
+    public void updateOrder(Order newOrder, int oldOrderId){
         for (Order oldOrder:orderList) {
             if (oldOrder.getTransactionID()==oldOrderId) {
                 orderList.remove(oldOrder);

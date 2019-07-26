@@ -31,7 +31,7 @@ public class OrderProductServiceImpl implements OrderProductService {
         orderProductDao.removeOrderProductById(id);
     }
 
-    public ObservableList getOrderProductByOrderId(String orderId){
+    public ObservableList getOrderProductByOrderId(int orderId){
         return orderProductDao.getListByOrderId(orderId);
     }
 

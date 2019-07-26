@@ -63,7 +63,7 @@ public class InfoOrderController {
         populateTable(order.getTransactionID());
     }
 
-    private void populateTable(String orderId){
+    private void populateTable(int orderId){
         OrderProductService orderProductService =new OrderProductServiceImpl(new OrderProductImpl());
         ObservableList list= orderProductService.getOrderProductByOrderId(orderId);
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));

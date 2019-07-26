@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Product {
-    private String id;
+    private int id;
     private String name;
     private int quantity;
     private String updateDate;
@@ -16,7 +16,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String id, String name, int quantity, String updateDate, float price, boolean isActive) {
+    public Product(int id, String name, int quantity, String updateDate, float price, boolean isActive) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -25,7 +25,7 @@ public class Product {
         this.isActive = isActive;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -33,7 +33,7 @@ public class Product {
         return new SimpleIntegerProperty(id);
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id=id;
     }
 

@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     private static String URI_PROPERTIES="/resources/properties/resource-uri.properties";
     private static String ERROR_PROPERTIES="/resources/properties/errors.properties";
 
-    public ProductServiceImpl() {
+    public ProductServiceImpl(ProductDao productDao) {
         errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
         userSession=UserSession.getInstance();
         uriProperties=LoadPropertyUtil.loadPropertiesFile(URI_PROPERTIES);
@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
         return validation;
     }
 
-    public Map updateProduct(Product product, String oldProductId) {
+    public Map updateProduct(Product product, int oldProductId) {
         logger.info("Product updating start");
         String uri=uriProperties.getProperty("producturi");
         Map<String, Map<Boolean, List<String>>> validation=new HashMap<>();
@@ -148,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
         return validation;
     }
 
-    public boolean deleteProductByID(String id) {
+    public boolean deleteProductByID(int id) {
         User user=userSession.getUser();
         String uri=uriProperties.getProperty("producturi");
         if (user.getRole().equals(UserRole.ADMIN)) {
@@ -159,15 +159,16 @@ public class ProductServiceImpl implements ProductService {
         return false;
     }
 
-    public Product getProductById(String id) {
+    public Product getProductById(int id) {
         String uri=uriProperties.getProperty("producturi");
-        ResponseObject responseObject= RestClientUtil.getSingleResource(uri,id);
-        return (Product) responseObject.getData();
+        ResponseObject<Product> responseObject= RestClientUtil.getSingleResource(uri,String.valueOf(id));
+        Product product= (Product) responseObject.getData();
+        return product;
     }
 
     public ObservableList getProductListForComboBox() {
         String uri=uriProperties.getProperty("producturi")+"/combo-box";
-        ResponseObject responseObject=RestClientUtil.getResourceList(uri);
+        ResponseObject<List<Product>> responseObject=RestClientUtil.getResourceList(uri);
         ObjectMapper mapper=new ObjectMapper();
         List<Product> list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Product>>(){});
         return FXCollections.observableArrayList(list);
@@ -175,8 +176,9 @@ public class ProductServiceImpl implements ProductService {
 
     public int getTotalCountOfProduct()  {
         String uri=uriProperties.getProperty("producturi");
-        ResponseObject responseObject=RestClientUtil.getSingleResource(uri,"/count");
-        return (int) responseObject.getData();
+        ResponseObject<Integer> responseObject=RestClientUtil.getSingleResource(uri,"/count");
+        int count= (int) responseObject.getData();
+        return count;
     }
 
 }
