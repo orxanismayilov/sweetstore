@@ -33,9 +33,6 @@ public class ProductDaoImpl implements ProductDao {
                    product.setName(rs.getString("Name"));
                    product.setQuantity(rs.getInt("Quantity"));
                    product.setPrice(rs.getFloat("Price"));
-                  if (rs.getTimestamp("update_date")!=null) {
-                      product.setUpdateDate(rs.getTimestamp("update_date").toLocalDateTime());
-                  }
                    product.setActive(true);
                    productList.add(product);
                }
@@ -63,7 +60,6 @@ public class ProductDaoImpl implements ProductDao {
                 product.setQuantity(rs.getInt("Quantity"));
                 product.setPrice(rs.getFloat("Price"));
                 if (rs.getTimestamp("update_date")!=null) {
-                    product.setUpdateDate(rs.getTimestamp("update_date").toLocalDateTime());
                 }
                 product.setActive(true);
 
@@ -126,7 +122,6 @@ public class ProductDaoImpl implements ProductDao {
                             product.setName(rs2.getString("Name"));
                             product.setQuantity(rs2.getInt("Quantity"));
                             product.setPrice(rs2.getFloat("Price"));
-                            product.setUpdateDate(LocalDateTime.now());
                             product.setActive(true);
                         }
                     }
@@ -183,7 +178,6 @@ public class ProductDaoImpl implements ProductDao {
                     product.setId(rs.getInt("id"));
                     product.setName(rs.getString("name"));
                     product.setPrice(rs.getFloat("price"));
-                    product.setUpdateDate(rs.getTimestamp("update_date").toLocalDateTime());
                     product.setQuantity(rs.getInt("quantity"));
                     product.setActive(true);
                     return product;
