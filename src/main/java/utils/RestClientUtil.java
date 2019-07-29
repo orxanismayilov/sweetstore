@@ -35,7 +35,7 @@ public class RestClientUtil {
 
     public static void updateResource(String uri, int id, Object resource){
         Client client=ClientBuilder.newClient();
-        Response response=client
+        client
                 .target(uri)
                 .path(String.valueOf(id))
                 .request()

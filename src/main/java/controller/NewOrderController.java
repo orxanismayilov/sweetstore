@@ -499,4 +499,5 @@ public class NewOrderController implements Initializable {
     private BigDecimal calculateTotalPrice(String price,String quantity,String discount) {
        return new BigDecimal(price).multiply(new BigDecimal(quantity)).subtract(new BigDecimal(discount));
     }
+
 }

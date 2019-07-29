@@ -23,6 +23,15 @@ public class Order {
     private boolean isActive;
 
     public Order() {
+        customerName="";
+        customerAddress="";
+        description="";
+        orderType=OrderType.ONLINE;
+        transactionID=0;
+        totalPrice=new BigDecimal("0");
+        date="";
+        orderStatus=OrderStatus.CLOSED;
+        isActive=true;
     }
 
     public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, int transactionID, String date) {
