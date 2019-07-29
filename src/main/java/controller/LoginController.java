@@ -1,5 +1,6 @@
 package controller;
 
+import enums.UserRole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,6 +37,7 @@ public class LoginController implements Initializable {
         User user=new User();
         user.setName("Orxan");
         user.setPassword("orxan123");
+        user.setRole(UserRole.USER);
         if (userService.validateLogin(user)) {
             ScreenUtils.changeScreen(event, properties.getProperty("homepage"));
         } else {
