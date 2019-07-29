@@ -393,10 +393,10 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void createInstance() {
-        productService = new ProductServiceImpl(new ProductDaoImpl());
+        productService = new ProductServiceImpl();
         order = new Order();
         orderProductService = new OrderProductServiceImpl(new OrderProductImpl());
-        orderService = new OrderServiceImpl(new OrderDaoImpl());
+        orderService = new OrderServiceImpl();
         summary = new OrderProductSummary();
     }
 

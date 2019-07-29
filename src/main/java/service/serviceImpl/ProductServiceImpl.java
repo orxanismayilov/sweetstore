@@ -23,21 +23,22 @@ public class ProductServiceImpl implements ProductService {
     private static Logger logger =Logger.getLogger(ProductServiceImpl.class);
     private UserSession userSession;
     private Properties uriProperties;
+    private ObjectMapper mapper;
 
     private static String URI_PROPERTIES="/resources/properties/resource-uri.properties";
     private static String ERROR_PROPERTIES="/resources/properties/errors.properties";
 
-    public ProductServiceImpl(ProductDao productDao) {
+    public ProductServiceImpl() {
         errorProperties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
         userSession=UserSession.getInstance();
         uriProperties=LoadPropertyUtil.loadPropertiesFile(URI_PROPERTIES);
+        mapper=new ObjectMapper();
     }
 
     public ObservableList<Product> getProductList(int pageIndex, int rowsPerPage) {
         // TO DO response objecte tezden baxaciyiq.
         String uri=uriProperties.getProperty("producturi")+"?startPage="+pageIndex+"&rowsPerPage="+rowsPerPage;
         ResponseObject responseObject= RestClientUtil.getResourceList(uri);
-        ObjectMapper mapper=new ObjectMapper();
         List<Product> list = mapper.convertValue(responseObject.getData(), new TypeReference<List<Product>>(){});
         return FXCollections.observableArrayList(list);
     }
@@ -162,14 +163,13 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(int id) {
         String uri=uriProperties.getProperty("producturi");
         ResponseObject<Product> responseObject= RestClientUtil.getSingleResource(uri,String.valueOf(id));
-        Product product= (Product) responseObject.getData();
+        Product product=mapper.convertValue(responseObject.getData(),new TypeReference<Product>(){});
         return product;
     }
 
     public ObservableList getProductListForComboBox() {
         String uri=uriProperties.getProperty("producturi")+"/combo-box";
         ResponseObject<List<Product>> responseObject=RestClientUtil.getResourceList(uri);
-        ObjectMapper mapper=new ObjectMapper();
         List<Product> list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Product>>(){});
         return FXCollections.observableArrayList(list);
     }
@@ -177,8 +177,7 @@ public class ProductServiceImpl implements ProductService {
     public int getTotalCountOfProduct()  {
         String uri=uriProperties.getProperty("producturi");
         ResponseObject<Integer> responseObject=RestClientUtil.getSingleResource(uri,"/count");
-        int count= (int) responseObject.getData();
-        return count;
+        return (int) responseObject.getData();
     }
 
 }

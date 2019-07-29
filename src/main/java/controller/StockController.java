@@ -56,7 +56,7 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        productService = new ProductServiceImpl(new ProductDaoImpl());
+        productService = new ProductServiceImpl();
         createTable();
         paginationSetup();
         fxlmProperties = LoadPropertyUtil.loadPropertiesFile(FXML_PROPERTIES_URL);

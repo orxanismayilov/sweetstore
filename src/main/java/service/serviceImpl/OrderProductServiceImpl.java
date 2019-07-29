@@ -19,7 +19,7 @@ public class OrderProductServiceImpl implements OrderProductService {
 
     public OrderProductServiceImpl(OrderProductDao orderProductDao){
         this.orderProductDao = orderProductDao;
-        this.productService=new ProductServiceImpl(new ProductDaoImpl());
+        this.productService=new ProductServiceImpl();
         this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
     }
 

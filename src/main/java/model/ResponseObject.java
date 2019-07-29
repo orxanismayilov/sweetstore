@@ -1,8 +1,5 @@
 package model;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class ResponseObject<T> {
     private String message;
     private T data;

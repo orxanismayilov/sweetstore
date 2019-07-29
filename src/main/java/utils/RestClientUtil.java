@@ -1,10 +1,12 @@
 package utils;
 
+import model.Product;
 import model.ResponseObject;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -46,7 +48,8 @@ public class RestClientUtil {
                 .target(uri)
                 .request(MediaType.APPLICATION_JSON)
                 .post((Entity.entity(resource,MediaType.APPLICATION_JSON)));
-        return response.readEntity(ResponseObject.class);
+        ResponseObject responseObject= response.readEntity(ResponseObject.class);
+        return responseObject;
     }
 
     public static void deleteResource(String uri, int id) {

@@ -67,7 +67,7 @@ public class OrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        orderService = new OrderServiceImpl(new OrderDaoImpl());
+        orderService = new OrderServiceImpl();
         this.userSession=UserSession.getInstance();
         tableBinding();
         createPagination();
@@ -144,7 +144,7 @@ public class OrderController implements Initializable {
         TableColumn<Order, OrderType> clmOrdertype = new TableColumn<>("Order Type");
         TableColumn<Order, Integer> clmTransactionID = new TableColumn<>("Transaction Id");
         TableColumn<Order, OrderStatus> clmOrderStatus = new TableColumn<>("Order Status");
-        TableColumn<Order, LocalDateTime> clmDate = new TableColumn<>("Date");
+        TableColumn<Order, String> clmDate = new TableColumn<>("Date");
         TableColumn<Order, Void> clmAction = new TableColumn<>("Action");
         TableColumn<Order, BigDecimal> clmTotalprice = new TableColumn<>("Total Price");
 
@@ -207,6 +207,7 @@ public class OrderController implements Initializable {
                         Order order = (Order) getTableRow().getItem();
                         buttonUpdateAction(order);
                         popUpWindowSetup(event, appProperties.getProperty("updateordertitle"));
+                        createPagination();
                     });
                 }
             }
@@ -235,19 +236,6 @@ public class OrderController implements Initializable {
                     pseudoClassStateChanged(pendigPseudoClass, false);
                     pseudoClassStateChanged(deliveredPseudoClass, false);
                     pseudoClassStateChanged(closedPseudoClass, false);
-                }
-            }
-        });
-
-        clmDate.setCellFactory(tc -> new TableCell<Order, LocalDateTime>() {
-            @Override
-            protected void updateItem(LocalDateTime item, boolean empty) {
-                super.updateItem(item, empty);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
-                if (empty) {
-                    setText(null);
-                } else {
-                    setText(item.format(formatter));
                 }
             }
         });

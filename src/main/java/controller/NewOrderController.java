@@ -109,9 +109,9 @@ public class NewOrderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        productService = new ProductServiceImpl(new ProductDaoImpl());
+        productService = new ProductServiceImpl();
         orderProductService = new OrderProductServiceImpl(new OrderProductImpl());
-        orderServiceImpl = new OrderServiceImpl(new OrderDaoImpl());
+        orderServiceImpl = new OrderServiceImpl();
         populateTable();
         paneOrderDetails.setDisable(true);
         fieldInputValidation();

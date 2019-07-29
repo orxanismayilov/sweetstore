@@ -1,12 +1,14 @@
 package service.serviceImpl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import enums.UserRole;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Order;
 import model.ResponseObject;
 import model.UserSession;
 import org.apache.log4j.Logger;
-import repository.OrderDao;
 import service.OrderService;
 import utils.LoadPropertyUtil;
 import utils.RestClientUtil;
@@ -16,21 +18,22 @@ import java.util.List;
 import java.util.Properties;
 
 public class OrderServiceImpl implements OrderService {
-    private OrderDao orderDao;
     private UserSession userSession;
     private Properties uriProperties;
     private static Logger logger=Logger.getLogger(OrderServiceImpl.class);
     private String URI_PROPERTIES="/resources/properties/resource-uri.properties";
 
-    public OrderServiceImpl(OrderDao orderDao) {
-        this.orderDao =orderDao;
+    public OrderServiceImpl() {
         this.userSession=UserSession.getInstance();
         this.uriProperties= LoadPropertyUtil.loadPropertiesFile(URI_PROPERTIES);
     }
 
     public ObservableList getOrderList(int pageIndex, int rowsPerPage) {
-        String uri="";
-        return orderDao.getOrderList(pageIndex,rowsPerPage);
+        String uri=uriProperties.getProperty("orderuri")+"?pageIndex="+pageIndex+"&maxRows="+rowsPerPage;
+        ResponseObject responseObject=RestClientUtil.getResourceList(uri);
+        ObjectMapper mapper=new ObjectMapper();
+        List<Order> list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Order>>(){});
+        return FXCollections.observableArrayList(list);
 
     }
 
@@ -41,8 +44,12 @@ public class OrderServiceImpl implements OrderService {
         return order1.getTransactionID();
     }
 
-    public List<Order> searchOrderById (String id,boolean searchAll) {
-        return orderDao.searchOrderById(id,searchAll);
+    public ObservableList<Order> searchOrderById (String id,boolean searchAll) {
+        String uri=uriProperties.getProperty("orderuri")+"/q?"+"id="+id+"&getAll="+searchAll;
+        ResponseObject<List<Order>> responseObject=RestClientUtil.getResourceList(uri);
+        ObjectMapper mapper=new ObjectMapper();
+        List<Order> list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Order>>(){});
+        return FXCollections.observableArrayList(list);
     }
 
     public boolean deleteOrderByTransactionId(int transactionId) {
@@ -64,6 +71,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public int getTotalCountOfOrder() {
-        return orderDao.getTotalCountOfOrder();
+        String uri=uriProperties.getProperty("orderuri");
+        ResponseObject<Integer> responseObject=RestClientUtil.getSingleResource(uri,"/count");
+        return (int) responseObject.getData();
     }
 }
