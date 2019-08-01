@@ -9,7 +9,7 @@ public interface OrderProductService {
 
     void saveOrderProduct(OrderProduct orderProduct);
 
-    void removeOrderProductById(int id);
+    void removeOrderProductById(int id,int orderId);
 
     ObservableList getOrderProductByOrderId(int orderId);
 

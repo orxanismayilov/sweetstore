@@ -64,7 +64,7 @@ public class InfoOrderController {
     }
 
     private void populateTable(int orderId){
-        OrderProductService orderProductService =new OrderProductServiceImpl(new OrderProductImpl());
+        OrderProductService orderProductService =new OrderProductServiceImpl();
         ObservableList list= orderProductService.getOrderProductByOrderId(orderId);
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnProduct.setCellValueFactory(new PropertyValueFactory<>("productName"));

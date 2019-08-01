@@ -1,13 +1,13 @@
 package service;
 
-import javafx.collections.ObservableList;
+import dtos.OrdersDTO;
 import model.Order;
 
 import java.util.List;
 
 public interface OrderService {
 
-    ObservableList getOrderList(int pageIndex, int rowsPerPage);
+    OrdersDTO getOrderList(int pageIndex, int rowsPerPage);
 
     int addNewOrderToList(Order order);
 

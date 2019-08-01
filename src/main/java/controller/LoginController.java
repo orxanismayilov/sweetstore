@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        userService=new UserServiceImpl(new UserDaoImpl());
+        userService=new UserServiceImpl();
         final Tooltip tooltip = new Tooltip();
         tooltip.setText("Please fill out this field.");
         txtUsername.setTooltip(tooltip);

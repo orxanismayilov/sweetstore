@@ -18,6 +18,16 @@ public class OrderProduct {
     private boolean isActive;
 
     public OrderProduct() {
+        this.id=0;
+        this.orderId=0;
+        this.productId=0;
+        this.productName="";
+        this.productQuantity=0;
+        this.productPrice=0;
+        this.totalPrice=new BigDecimal("0");
+        this.discount=0;
+        this.description="";
+        this.isActive=true;
     }
 
     public int getId() {

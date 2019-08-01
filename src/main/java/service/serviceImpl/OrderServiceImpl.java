@@ -2,6 +2,7 @@ package service.serviceImpl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dtos.OrdersDTO;
 import enums.UserRole;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +14,9 @@ import service.OrderService;
 import utils.LoadPropertyUtil;
 import utils.RestClientUtil;
 
+import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -28,27 +31,40 @@ public class OrderServiceImpl implements OrderService {
         this.uriProperties= LoadPropertyUtil.loadPropertiesFile(URI_PROPERTIES);
     }
 
-    public ObservableList getOrderList(int pageIndex, int rowsPerPage) {
+    public OrdersDTO getOrderList(int pageIndex, int rowsPerPage) {
         String uri=uriProperties.getProperty("orderuri")+"?pageIndex="+pageIndex+"&maxRows="+rowsPerPage;
-        ResponseObject responseObject=RestClientUtil.getResourceList(uri);
-        ObjectMapper mapper=new ObjectMapper();
-        List<Order> list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Order>>(){});
-        return FXCollections.observableArrayList(list);
-
+        OrdersDTO ordersDTO=new OrdersDTO();
+        Response response=RestClientUtil.getResourceList(uri);
+        if (response.getStatus()==Response.Status.OK.getStatusCode()) {
+            ResponseObject<OrdersDTO> responseObject=response.readEntity(ResponseObject.class);
+            ObjectMapper mapper = new ObjectMapper();
+            ordersDTO = mapper.convertValue(responseObject.getData(), new TypeReference<OrdersDTO>() {
+            });
+        }
+        return ordersDTO;
     }
 
     public int addNewOrderToList(Order order) {
         String uri=uriProperties.getProperty("orderuri");
-        ResponseObject responseObject= RestClientUtil.addNewResource(order,uri);
-        Order order1= (Order) responseObject.getData();
-        return order1.getTransactionID();
+        Response response= RestClientUtil.addNewResource(order,uri);
+        if (response.getStatus()==Response.Status.CREATED.getStatusCode()) {
+            ResponseObject<Order> responseObject=response.readEntity(ResponseObject.class);
+            Order order1 = (Order) responseObject.getData();
+            return order1.getTransactionID();
+        }
+        return 0;
     }
 
     public ObservableList<Order> searchOrderById (String id,boolean searchAll) {
         String uri=uriProperties.getProperty("orderuri")+"/q?"+"id="+id+"&getAll="+searchAll;
-        ResponseObject<List<Order>> responseObject=RestClientUtil.getResourceList(uri);
-        ObjectMapper mapper=new ObjectMapper();
-        List<Order> list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Order>>(){});
+        Response response=RestClientUtil.getResourceList(uri);
+        List<Order> list=new ArrayList<>();
+        if (response.getStatus()==Response.Status.OK.getStatusCode()) {
+            ResponseObject<List<Order>> responseObject = response.readEntity(ResponseObject.class);
+            ObjectMapper mapper = new ObjectMapper();
+            list = mapper.convertValue(responseObject.getData(), new TypeReference<List<Order>>() {
+            });
+        }
         return FXCollections.observableArrayList(list);
     }
 
@@ -72,7 +88,11 @@ public class OrderServiceImpl implements OrderService {
 
     public int getTotalCountOfOrder() {
         String uri=uriProperties.getProperty("orderuri");
-        ResponseObject<Integer> responseObject=RestClientUtil.getSingleResource(uri,"/count");
-        return (int) responseObject.getData();
+       Response response=RestClientUtil.getSingleResource(uri,"/count");
+       if (response.getStatus()==Response.Status.OK.getStatusCode()) {
+           ResponseObject<Integer> responseObject =response.readEntity(ResponseObject.class);
+           return (int) responseObject.getData();
+       }
+       return 0;
     }
 }

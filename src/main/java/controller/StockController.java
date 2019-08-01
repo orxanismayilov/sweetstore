@@ -1,5 +1,7 @@
 package controller;
 
+import dtos.ProductsDTO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.Product;
 import repository.impl.ProductDaoImpl;
 import service.ProductService;
@@ -64,15 +67,20 @@ public class StockController implements Initializable {
     }
 
     public void paginationSetup() {
-        int numOfPages = 1;
-        int listSize=productService.getTotalCountOfProduct();
-        if (listSize % rowsPerPage == 0) {
-            numOfPages = listSize / rowsPerPage;
-        } else if (listSize > rowsPerPage) {
-            numOfPages = listSize / rowsPerPage + 1;
-        }
-        pages=new Pagination(numOfPages,0);
-        pages.setPageFactory(this::createPage);
+        pages=new Pagination(1,0);
+        pages.setPageFactory(pageIndex -> {
+            ProductsDTO productsDTO=productService.getProductList(pageIndex,rowsPerPage);
+            int numOfPages = 1;
+            int listSize=productsDTO.getCount();
+            if (listSize % rowsPerPage == 0) {
+                numOfPages = listSize / rowsPerPage;
+            } else if (listSize > rowsPerPage) {
+                numOfPages = listSize / rowsPerPage + 1;
+            }
+            pages.setPageCount(numOfPages);
+            tableProduct.setItems(FXCollections.observableArrayList(productsDTO.getProducts()));
+            return tableProduct;
+        });
         pane.centerProperty().setValue(pages);
     }
 
@@ -180,11 +188,11 @@ public class StockController implements Initializable {
         //loadData();
     }
 
-    private Node createPage(int pageIndex) {
+    /*private Node createPage(int pageIndex) {
         ObservableList list= productService.getProductList(pageIndex,rowsPerPage);
         tableProduct.setItems(list);
         return new BorderPane(tableProduct);
-    }
+    }*/
 
     private void btnNewProductCreation() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("addproduct")));

@@ -110,7 +110,7 @@ public class NewOrderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         productService = new ProductServiceImpl();
-        orderProductService = new OrderProductServiceImpl(new OrderProductImpl());
+        orderProductService = new OrderProductServiceImpl();
         orderServiceImpl = new OrderServiceImpl();
         populateTable();
         paneOrderDetails.setDisable(true);
@@ -200,7 +200,7 @@ public class NewOrderController implements Initializable {
                         }
                         if (alert.getResult() == ButtonType.YES) {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
-                            orderProductService.removeOrderProductById(orderProduct.getId());
+                            orderProductService.removeOrderProductById(orderProduct.getId(),order.getTransactionID());
                             fillSummaryFields();
                             order.setTotalPrice(summary.getSum());
                             order.setTotalDiscount(summary.getTotalDiscount());

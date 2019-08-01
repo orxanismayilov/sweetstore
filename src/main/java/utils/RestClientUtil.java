@@ -2,6 +2,7 @@ package utils;
 
 import model.Product;
 import model.ResponseObject;
+import model.User;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -14,23 +15,23 @@ public class RestClientUtil {
 
 
 
-    public static ResponseObject getSingleResource(String uri, String path) {
+    public static Response getSingleResource(String uri, String path) {
         Client client = ClientBuilder.newClient();
-        ResponseObject responseObject=client
+        Response response=client
                 .target(uri)
                 .path(path)
                 .request(MediaType.APPLICATION_JSON)
-                .get(ResponseObject.class);
-        return responseObject;
+                .get();
+        return response;
     }
 
-    public static ResponseObject getResourceList(String uri){
+    public static Response getResourceList(String uri){
         Client client = ClientBuilder.newClient();
-        ResponseObject responseObject=client
+        Response response=client
                 .target(uri)
                 .request(MediaType.APPLICATION_JSON)
-                .get(ResponseObject.class);
-        return responseObject;
+                .get();
+        return response;
     }
 
     public static void updateResource(String uri, int id, Object resource){
@@ -42,14 +43,13 @@ public class RestClientUtil {
                 .put(Entity.entity(resource,MediaType.APPLICATION_JSON));
     }
 
-    public static ResponseObject addNewResource(Object resource,String uri){
+    public static Response addNewResource(Object resource,String uri){
         Client client = ClientBuilder.newClient();
         Response response=client
                 .target(uri)
                 .request(MediaType.APPLICATION_JSON)
                 .post((Entity.entity(resource,MediaType.APPLICATION_JSON)));
-        ResponseObject responseObject= response.readEntity(ResponseObject.class);
-        return responseObject;
+        return response;
     }
 
     public static void deleteResource(String uri, int id) {

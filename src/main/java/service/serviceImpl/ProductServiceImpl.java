@@ -2,6 +2,7 @@ package service.serviceImpl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dtos.ProductsDTO;
 import enums.UserRole;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,12 +11,12 @@ import model.ResponseObject;
 import model.User;
 import model.UserSession;
 import org.apache.log4j.Logger;
-import repository.ProductDao;
 import service.ProductService;
 import utils.LoadPropertyUtil;
 import utils.NumberUtils;
 import utils.RestClientUtil;
 
+import javax.ws.rs.core.Response;
 import java.util.*;
 
 public class ProductServiceImpl implements ProductService {
@@ -35,12 +36,16 @@ public class ProductServiceImpl implements ProductService {
         mapper=new ObjectMapper();
     }
 
-    public ObservableList<Product> getProductList(int pageIndex, int rowsPerPage) {
-        // TO DO response objecte tezden baxaciyiq.
+    public ProductsDTO getProductList(int pageIndex, int rowsPerPage) {
         String uri=uriProperties.getProperty("producturi")+"?startPage="+pageIndex+"&rowsPerPage="+rowsPerPage;
-        ResponseObject responseObject= RestClientUtil.getResourceList(uri);
-        List<Product> list = mapper.convertValue(responseObject.getData(), new TypeReference<List<Product>>(){});
-        return FXCollections.observableArrayList(list);
+        ProductsDTO productsDTO=new ProductsDTO();
+        Response response=RestClientUtil.getResourceList(uri);
+        if (response.getStatus()==Response.Status.OK.getStatusCode()){
+            ResponseObject<ProductsDTO> responseObject= response.readEntity(ResponseObject.class);
+            productsDTO = mapper.convertValue(responseObject.getData(), new TypeReference<ProductsDTO>(){});
+        }
+
+        return productsDTO;
     }
 
     public Map addProduct(Product product) {
@@ -48,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
         String uri=uriProperties.getProperty("producturi");
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
                 RestClientUtil.addNewResource(product,uri);
-                logger.info("New product :"+product.toString()+" "+userSession.getUser().toString());
+                logger.info("New product :"+product.toString()/*+" "+userSession.getUser().toString()*/);
             }
         return validation;
     }
@@ -61,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
             validation=isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
                 RestClientUtil.updateResource(uri,oldProductId,product);
-                logger.info("Product update:"+product.toString()+userSession.getUser().toString());
+                logger.info("Product update:"+product.toString()/*+userSession.getUser().toString()*/);
             }
         }else {
             logger.error("Couldnt update product , product is null. OldProductId:"+oldProductId);
@@ -113,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
             }
             if (!NumberUtils.isNumberInteger(String.valueOf(product.getQuantity()))) {
                 quantityErrorList.add(errorProperties.getProperty("invalidNumber"));
-                logger.error(errorProperties.getProperty("invalidNumber"+userSession.getUser().toString()));
+                logger.error(errorProperties.getProperty("invalidNumber"/*+userSession.getUser().toString()*/));
             }
             if (!quantityErrorList.isEmpty()) {
                 quantityMap.remove(false);
@@ -162,22 +167,35 @@ public class ProductServiceImpl implements ProductService {
 
     public Product getProductById(int id) {
         String uri=uriProperties.getProperty("producturi");
-        ResponseObject<Product> responseObject= RestClientUtil.getSingleResource(uri,String.valueOf(id));
-        Product product=mapper.convertValue(responseObject.getData(),new TypeReference<Product>(){});
-        return product;
+        Response response=RestClientUtil.getSingleResource(uri,String.valueOf(id));
+        if (response.getStatus()==Response.Status.OK.getStatusCode()){
+            ResponseObject<Product> responseObject=response.readEntity(ResponseObject.class);
+            Product product=mapper.convertValue(responseObject.getData(),new TypeReference<Product>(){});
+            return product;
+        }
+        return null;
     }
 
     public ObservableList getProductListForComboBox() {
-        String uri=uriProperties.getProperty("producturi")+"/combo-box";
-        ResponseObject<List<Product>> responseObject=RestClientUtil.getResourceList(uri);
-        List<Product> list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Product>>(){});
+        String uri=uriProperties.getProperty("producturi")+"/int-stock";
+        Response response= RestClientUtil.getResourceList(uri);
+        List<Product> list=new ArrayList<>();
+        if (response.getStatus()==Response.Status.OK.getStatusCode()){
+            ResponseObject<List<Product>> responseObject=response.readEntity(ResponseObject.class);
+            list=mapper.convertValue(responseObject.getData(),new TypeReference<List<Product>>(){});
+        }
+
         return FXCollections.observableArrayList(list);
     }
 
     public int getTotalCountOfProduct()  {
         String uri=uriProperties.getProperty("producturi");
-        ResponseObject<Integer> responseObject=RestClientUtil.getSingleResource(uri,"/count");
-        return (int) responseObject.getData();
+        Response response=RestClientUtil.getSingleResource(uri,"/count");
+        if (response.getStatus()==Response.Status.OK.getStatusCode()){
+            ResponseObject<Integer> responseObject=response.readEntity(ResponseObject.class);
+            return (int) responseObject.getData();
+        }
+        return 0;
     }
 
 }

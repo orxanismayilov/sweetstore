@@ -2,13 +2,12 @@ package service.serviceImpl;
 
 import model.ResponseObject;
 import model.User;
-import model.UserSession;
 import org.apache.log4j.Logger;
-import repository.UserDao;
 import service.UserService;
 import utils.LoadPropertyUtil;
 import utils.RestClientUtil;
 
+import javax.ws.rs.core.Response;
 import java.util.Properties;
 
 public class UserServiceImpl implements UserService {
@@ -21,13 +20,16 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean validateLogin(User user) {
-        String uri=uriProperties.getProperty("useruri");
-        ResponseObject<Boolean> responseObject=RestClientUtil.addNewResource(user,uri);
-        Boolean check= (Boolean) responseObject.getData();
-        if(check) {
-           logger.info("validation user:"+user.toString());
-           return true;
-       }
+        String uri=uriProperties.getProperty("useruri")+"/login";
+        Response response=RestClientUtil.addNewResource(user,uri);
+        if (response.getStatus()==Response.Status.OK.getStatusCode()){
+            ResponseObject<Boolean> responseObject=response.readEntity(ResponseObject.class);
+            Boolean check= (Boolean) responseObject.getData();
+            if(check) {
+                logger.info("validation user:"+user.toString());
+                return true;
+            }
+        }
        logger.info("Login failed.");
        return false;
     }

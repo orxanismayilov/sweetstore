@@ -14,7 +14,7 @@ public class OrderProductSummary {
     private OrderProductServiceImpl orderProductServiceImpl;
 
     public OrderProductSummary() {
-        orderProductServiceImpl =new OrderProductServiceImpl(new OrderProductImpl());
+        orderProductServiceImpl =new OrderProductServiceImpl();
     }
     public void  fillDescriptionCalculateTotalPriceAndDiscount(int orderId){
         ObservableList<OrderProduct> list;

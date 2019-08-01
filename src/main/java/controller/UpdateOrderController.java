@@ -54,7 +54,7 @@ public class UpdateOrderController implements Initializable {
     private static final Image imageDelete = new Image("/resources/images/trash_26px.png");
     private static String ALERT_TEXT = "Please enter valid input!";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
-
+    private TableRow<OrderProduct> row = new TableRow<>();
 
     @FXML
     private ComboBox<Product> comboBoxProducts;
@@ -111,7 +111,6 @@ public class UpdateOrderController implements Initializable {
         populateTable();
         fieldInputValidation();
         comboOrderType.setItems(OrderType.getOrderTypeList());
-        loadTable();
         loadComboBoxProducts();
         disableSaveButtonFieldsEmpty();
         getSelectedRow();
@@ -190,7 +189,7 @@ public class UpdateOrderController implements Initializable {
                         }
                         if (alert.getResult() == ButtonType.YES) {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
-                            orderProductService.removeOrderProductById(orderProduct.getId());
+                            orderProductService.removeOrderProductById(orderProduct.getId(),orderProduct.getOrderId());
                             fillSummaryFields();
                             order.setTotalPrice(summary.getSum());
                             order.setTotalDiscount(summary.getTotalDiscount());
@@ -295,11 +294,9 @@ public class UpdateOrderController implements Initializable {
 
     private void getSelectedRow() {
         tableView.setRowFactory(tv -> {
-            TableRow<OrderProduct> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (! row.isEmpty() && event.getButton()== MouseButton.PRIMARY
                         && event.getClickCount() == 1) {
-                    updateProduct(orderProduct);
                     OrderProduct orderProduct = row.getItem();
                     setOrderProduct(orderProduct);
                     updateTableRow(orderProduct);
@@ -395,7 +392,7 @@ public class UpdateOrderController implements Initializable {
     private void createInstance() {
         productService = new ProductServiceImpl();
         order = new Order();
-        orderProductService = new OrderProductServiceImpl(new OrderProductImpl());
+        orderProductService = new OrderProductServiceImpl();
         orderService = new OrderServiceImpl();
         summary = new OrderProductSummary();
     }

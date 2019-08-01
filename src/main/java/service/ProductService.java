@@ -1,5 +1,6 @@
 package service;
 
+import dtos.ProductsDTO;
 import javafx.collections.ObservableList;
 import model.Product;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 
 public interface ProductService {
 
-    ObservableList getProductList(int pageIndex, int rowsPerPage);
+    ProductsDTO getProductList(int pageIndex, int rowsPerPage);
 
     Map addProduct(Product product);
 

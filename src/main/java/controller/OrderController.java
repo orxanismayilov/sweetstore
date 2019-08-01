@@ -1,5 +1,6 @@
 package controller;
 
+import dtos.OrdersDTO;
 import enums.OrderStatus;
 import enums.OrderType;
 import enums.UserRole;
@@ -14,13 +15,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.Order;
 import model.UserSession;
 import repository.impl.OrderDaoImpl;
@@ -31,6 +36,7 @@ import utils.LoadPropertyUtil;
 import utils.ScreenUtils;
 import utils.TableCellStyleUtil;
 
+import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -52,10 +58,10 @@ public class OrderController implements Initializable {
 
     private final static String FXML_PROPERTIES_URL = "/resources/properties/fxmlurls.properties";
     private final static String APP_PROPERTIES_URL = "/resources/properties/application.properties";
-    private final static String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private String ALERT_TEXT = "Are you sure ?";
     private static final   int rowsPerPage=10;
     private TableView<Order> tableView;
+    private Pagination pages ;
 
     @FXML
     private BorderPane pane;
@@ -76,23 +82,28 @@ public class OrderController implements Initializable {
     }
 
     public void createPagination() {
-        int numOfPages = 1;
-        int listSize= orderService.getTotalCountOfOrder();
-        if (listSize % rowsPerPage == 0) {
-            numOfPages = listSize / rowsPerPage;
-        } else if (listSize > rowsPerPage) {
-            numOfPages = listSize / rowsPerPage + 1;
-        }
-        Pagination pages = new Pagination(numOfPages, 0);
-        pages.setPageFactory(this::createPage);
+        pages=new Pagination(1,0);
+        pages.setPageFactory(pageIndex -> {
+            OrdersDTO data = orderService.getOrderList(pageIndex, rowsPerPage);
+            int numOfPages = 1;
+            int listSize = data.getCount();
+            if (listSize % rowsPerPage == 0) {
+                numOfPages = listSize / rowsPerPage;
+            } else if (listSize > rowsPerPage) {
+                numOfPages = listSize / rowsPerPage + 1;
+            }
+            pages.setPageCount(numOfPages);
+            tableView.setItems(FXCollections.observableArrayList(data.getOrders()));
+            return tableView;
+        });
         pane.centerProperty().setValue(pages);
     }
 
-    private Node createPage(Integer pageIndex) {
+   /* private Node createPage(Integer pageIndex) {
         ObservableList list= orderService.getOrderList(pageIndex,rowsPerPage);
         tableView.setItems(list);
         return tableView;
-    }
+    }*/
 
     public void addOrder(ActionEvent event) {
         addOrderCreation();
