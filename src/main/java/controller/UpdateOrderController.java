@@ -21,10 +21,6 @@ import model.Order;
 import model.OrderProduct;
 import model.OrderProductSummary;
 import model.Product;
-
-import repository.impl.OrderDaoImpl;
-import repository.impl.OrderProductImpl;
-import repository.impl.ProductDaoImpl;
 import service.OrderProductService;
 import service.OrderService;
 import service.ProductService;
@@ -54,7 +50,6 @@ public class UpdateOrderController implements Initializable {
     private static final Image imageDelete = new Image("/resources/images/trash_26px.png");
     private static String ALERT_TEXT = "Please enter valid input!";
     private final static PseudoClass errorClass = PseudoClass.getPseudoClass("filled");
-    private TableRow<OrderProduct> row = new TableRow<>();
 
     @FXML
     private ComboBox<Product> comboBoxProducts;
@@ -108,7 +103,6 @@ public class UpdateOrderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         createInstance();
-        populateTable();
         fieldInputValidation();
         comboOrderType.setItems(OrderType.getOrderTypeList());
         loadComboBoxProducts();
@@ -294,34 +288,35 @@ public class UpdateOrderController implements Initializable {
 
     private void getSelectedRow() {
         tableView.setRowFactory(tv -> {
+            TableRow<OrderProduct> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (! row.isEmpty() && event.getButton()== MouseButton.PRIMARY
                         && event.getClickCount() == 1) {
+                    updateProduct(orderProduct);
                     OrderProduct orderProduct = row.getItem();
                     setOrderProduct(orderProduct);
-                    updateTableRow(orderProduct);
+                    updateTableRow();
                 }
             });
             return row ;
         });
-
     }
 
     private void setOrderProduct(OrderProduct orderProduct) {
         this.orderProduct = orderProduct;
     }
 
-    private void updateTableRow(OrderProduct selectedRow) {
-        product=productService.getProductById(selectedRow.getProductId());
+    private void updateTableRow() {
+        product=productService.getProductById(orderProduct.getProductId());
         comboBoxProducts.setItems(FXCollections.observableArrayList(product));
         comboBoxProducts.getSelectionModel().selectFirst();
-        fieldQuantity.setText(String.valueOf(selectedRow.getProductQuantity()));
-        fieldPrice.setText(String.valueOf(selectedRow.getProductPrice()));
-        fieldDiscount.setText(String.valueOf(selectedRow.getDiscount()));
-        fieldTotalPrice.setText(selectedRow.getTotalPrice().toString());
+        fieldQuantity.setText(String.valueOf(orderProduct.getProductQuantity()));
+        fieldPrice.setText(String.valueOf(orderProduct.getProductPrice()));
+        fieldDiscount.setText(String.valueOf(orderProduct.getDiscount()));
+        fieldTotalPrice.setText(orderProduct.getTotalPrice().toString());
         comboBoxProducts.disableProperty().setValue(true);
-        product.setQuantity(selectedRow.getProductQuantity()+product.getQuantity());
-        labelPossibleQuantity.setText("/"+String.valueOf(product.getQuantity()));
+        product.setQuantity(orderProduct.getProductQuantity()+product.getQuantity());
+        labelPossibleQuantity.setText(String.valueOf(product.getQuantity()));
         productService.updateProduct(product,product.getId());
         buttonAdd.setText("Update");
     }
@@ -449,6 +444,7 @@ public class UpdateOrderController implements Initializable {
             labelSum.setText(String.valueOf(order.getTotalPrice()));
             labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
         }
+        populateTable();
         loadTable();
     }
 

@@ -2,7 +2,6 @@ package controller;
 
 import dtos.ProductsDTO;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,9 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.Product;
-import repository.impl.ProductDaoImpl;
 import service.ProductService;
 import service.serviceImpl.ProductServiceImpl;
 import utils.AlertUtil;
@@ -156,7 +153,7 @@ public class StockController implements Initializable {
 
                     buttonUpdate.setOnAction((ActionEvent eventUpdate) -> {
                         Product product = (Product) getTableRow().getItem();
-                        updateButtonAction(product);
+                        updateButtonAction(product.getId());
                         popUpWindowSetup(eventUpdate, appProperties.getProperty("updateproducttitle"));
                         paginationSetup();
                     });
@@ -187,12 +184,6 @@ public class StockController implements Initializable {
         paginationSetup();
         //loadData();
     }
-
-    /*private Node createPage(int pageIndex) {
-        ObservableList list= productService.getProductList(pageIndex,rowsPerPage);
-        tableProduct.setItems(list);
-        return new BorderPane(tableProduct);
-    }*/
 
     private void btnNewProductCreation() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("addproduct")));
@@ -249,7 +240,7 @@ public class StockController implements Initializable {
         fxmlControllerStage.showAndWait();
     }
 
-    private void updateButtonAction(Product product) {
+    private void updateButtonAction(int productId) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxlmProperties.getProperty("updateproduct")));
             Parent root = loader.load();
@@ -257,6 +248,7 @@ public class StockController implements Initializable {
             fxmlControllerStage.setScene(new Scene(root, Double.valueOf(appProperties.getProperty("popupwidth")), Double.valueOf(appProperties.getProperty("popupheight"))));
             if (loader.getController() instanceof UpdateProductController) {
                 UpdateProductController updateProductController = loader.getController();
+                Product product=productService.getProductById(productId);
                 updateProductController.setFields(product);
                 updateProductController.setProductService(productService);
             }

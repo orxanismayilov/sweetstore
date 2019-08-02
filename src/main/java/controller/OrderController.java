@@ -5,7 +5,6 @@ import enums.OrderStatus;
 import enums.OrderType;
 import enums.UserRole;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,20 +14,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.Order;
 import model.UserSession;
-import repository.impl.OrderDaoImpl;
 import service.OrderService;
 import service.serviceImpl.OrderServiceImpl;
 import utils.AlertUtil;
@@ -36,12 +30,9 @@ import utils.LoadPropertyUtil;
 import utils.ScreenUtils;
 import utils.TableCellStyleUtil;
 
-import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -98,12 +89,6 @@ public class OrderController implements Initializable {
         });
         pane.centerProperty().setValue(pages);
     }
-
-   /* private Node createPage(Integer pageIndex) {
-        ObservableList list= orderService.getOrderList(pageIndex,rowsPerPage);
-        tableView.setItems(list);
-        return tableView;
-    }*/
 
     public void addOrder(ActionEvent event) {
         addOrderCreation();
@@ -205,18 +190,18 @@ public class OrderController implements Initializable {
 
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
                         Order order = (Order) getTableRow().getItem();
-                        buttonDeleteAction(order);
+                        buttonDeleteAction(order.getTransactionID());
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo) -> {
                         Order order = (Order) getTableRow().getItem();
-                        buttonInfoAction(order);
+                        buttonInfoAction(order.getTransactionID());
                         popUpWindowSetup(eventInfo, appProperties.getProperty("infoordertitle"));
                     });
 
                     buttonUpdate.setOnAction((ActionEvent event) -> {
                         Order order = (Order) getTableRow().getItem();
-                        buttonUpdateAction(order);
+                        buttonUpdateAction(order.getTransactionID());
                         popUpWindowSetup(event, appProperties.getProperty("updateordertitle"));
                         createPagination();
                     });
@@ -255,12 +240,11 @@ public class OrderController implements Initializable {
 
     }
 
-    private void buttonDeleteAction(Order order) {
+    private void buttonDeleteAction(int orderId) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, ALERT_TEXT, ButtonType.YES, ButtonType.CANCEL);
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
-            int id = order.getTransactionID();
-            if (orderService.deleteOrderByTransactionId(id)) {
+            if (orderService.deleteOrderByTransactionId(orderId)) {
                 createPagination();
             } else {
                 AlertUtil.permissionAlert().showAndWait();
@@ -269,7 +253,7 @@ public class OrderController implements Initializable {
         }
     }
 
-    private void buttonUpdateAction(Order order) {
+    private void buttonUpdateAction(int orderId) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlProperties.getProperty("updateorder")));
             Parent root = loader.load();
@@ -277,6 +261,7 @@ public class OrderController implements Initializable {
             fxmlControllerStage.setScene(new Scene(root));
             if (loader.getController() instanceof UpdateOrderController) {
                 UpdateOrderController updateOrderController = loader.getController();
+                Order order=orderService.getOrder(orderId);
                 updateOrderController.setFields(order);
             }
 
@@ -285,13 +270,14 @@ public class OrderController implements Initializable {
         }
     }
 
-    private void buttonInfoAction(Order order) {
+    private void buttonInfoAction(int orderId) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlProperties.getProperty("infoorder")));
             Parent root = loader.load();
             fxmlControllerStage = new Stage();
             fxmlControllerStage.setScene(new Scene(root));
             InfoOrderController infoOrderController = loader.getController();
+            Order order=orderService.getOrder(orderId);
             infoOrderController.setFields(order);
         } catch (Exception e) {
             e.printStackTrace();

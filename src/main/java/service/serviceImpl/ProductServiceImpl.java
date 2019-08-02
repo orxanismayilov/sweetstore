@@ -177,7 +177,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public ObservableList getProductListForComboBox() {
-        String uri=uriProperties.getProperty("producturi")+"/int-stock";
+        String uri=uriProperties.getProperty("producturi")+"/in-stock";
         Response response= RestClientUtil.getResourceList(uri);
         List<Product> list=new ArrayList<>();
         if (response.getStatus()==Response.Status.OK.getStatusCode()){

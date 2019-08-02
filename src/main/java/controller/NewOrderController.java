@@ -21,9 +21,6 @@ import model.Order;
 import model.OrderProduct;
 import model.OrderProductSummary;
 import model.Product;
-import repository.impl.OrderDaoImpl;
-import repository.impl.OrderProductImpl;
-import repository.impl.ProductDaoImpl;
 import service.OrderProductService;
 import service.ProductService;
 import service.serviceImpl.OrderProductServiceImpl;
@@ -31,7 +28,6 @@ import service.serviceImpl.OrderServiceImpl;
 import service.serviceImpl.ProductServiceImpl;
 import utils.NumberUtils;
 import utils.TableCellStyleUtil;
-
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -113,6 +109,7 @@ public class NewOrderController implements Initializable {
         orderProductService = new OrderProductServiceImpl();
         orderServiceImpl = new OrderServiceImpl();
         populateTable();
+        loadTable();
         paneOrderDetails.setDisable(true);
         fieldInputValidation();
         loadComboBoxProducts();
@@ -427,7 +424,7 @@ public class NewOrderController implements Initializable {
         fieldTotalPrice.setText(orderProduct.getTotalPrice().toString());
         comboBoxProducts.disableProperty().setValue(true);
         product.setQuantity(orderProduct.getProductQuantity()+product.getQuantity());
-        labelPossibleQuantity.setText("/"+String.valueOf(product.getQuantity()));
+        labelPossibleQuantity.setText(String.valueOf(product.getQuantity()));
         productService.updateProduct(product,product.getId());
         buttonAdd.setText("Update");
     }

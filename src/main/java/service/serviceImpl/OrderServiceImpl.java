@@ -38,8 +38,7 @@ public class OrderServiceImpl implements OrderService {
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
             ResponseObject<OrdersDTO> responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper = new ObjectMapper();
-            ordersDTO = mapper.convertValue(responseObject.getData(), new TypeReference<OrdersDTO>() {
-            });
+            ordersDTO = mapper.convertValue(responseObject.getData(), new TypeReference<OrdersDTO>() {});
         }
         return ordersDTO;
     }
@@ -49,7 +48,8 @@ public class OrderServiceImpl implements OrderService {
         Response response= RestClientUtil.addNewResource(order,uri);
         if (response.getStatus()==Response.Status.CREATED.getStatusCode()) {
             ResponseObject<Order> responseObject=response.readEntity(ResponseObject.class);
-            Order order1 = (Order) responseObject.getData();
+            ObjectMapper mapper=new ObjectMapper();
+            Order order1 = mapper.convertValue(responseObject.getData(),new TypeReference<Order>(){});
             return order1.getTransactionID();
         }
         return 0;
@@ -94,5 +94,18 @@ public class OrderServiceImpl implements OrderService {
            return (int) responseObject.getData();
        }
        return 0;
+    }
+
+    @Override
+    public Order getOrder(int id) {
+        String uri=uriProperties.getProperty("orderuri");
+        Response response=RestClientUtil.getSingleResource(uri, String.valueOf(id));
+        if (response.getStatus()==Response.Status.OK.getStatusCode()) {
+            ResponseObject<Order> responseObject=response.readEntity(ResponseObject.class);
+            ObjectMapper mapper=new ObjectMapper();
+            Order order=mapper.convertValue(responseObject.getData(),new TypeReference<Order>(){});
+            return order;
+        }
+        return null;
     }
 }

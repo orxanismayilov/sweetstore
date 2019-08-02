@@ -1,7 +1,6 @@
 package model;
 
 import javafx.collections.ObservableList;
-import repository.impl.OrderProductImpl;
 import service.serviceImpl.OrderProductServiceImpl;
 
 import java.math.BigDecimal;

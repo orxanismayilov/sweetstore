@@ -1,15 +1,14 @@
 package controller;
 
+import enums.OrderType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import enums.OrderType;
 import model.Order;
 import model.OrderProduct;
-import repository.impl.OrderProductImpl;
 import service.OrderProductService;
 import service.serviceImpl.OrderProductServiceImpl;
 import utils.TableCellStyleUtil;

@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import model.User;
-import repository.impl.UserDaoImpl;
+import model.UserSession;
 import service.UserService;
 import service.serviceImpl.UserServiceImpl;
 import utils.LoadPropertyUtil;
@@ -37,9 +37,11 @@ public class LoginController implements Initializable {
         User user=new User();
         user.setName("Orxan");
         user.setPassword("orxan123");
-        user.setRole(UserRole.USER);
+        user.setRole(UserRole.ADMIN);
         if (userService.validateLogin(user)) {
             ScreenUtils.changeScreen(event, properties.getProperty("homepage"));
+            UserSession userSession=UserSession.getInstance();
+            userSession.setUser(user);
         } else {
             labelAlert.setText("Username or password is wrong.");
         }

@@ -18,4 +18,6 @@ public interface OrderService {
     void updateOrderById(Order newOrder, int orderId);
 
     int getTotalCountOfOrder();
+
+    Order getOrder(int id);
 }
