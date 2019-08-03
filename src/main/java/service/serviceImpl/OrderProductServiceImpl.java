@@ -2,8 +2,8 @@ package service.serviceImpl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dtos.OrderProductsDTO;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import model.OrderProduct;
 import model.Product;
 import model.ResponseObject;
@@ -37,16 +37,16 @@ public class OrderProductServiceImpl implements OrderProductService {
         RestClientUtil.deleteResource(uri,id);
     }
 
-    public ObservableList getOrderProductByOrderId(int orderId){
+    public OrderProductsDTO getOrderProductByOrderId(int orderId){
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+orderId;
-        List<OrderProduct> list=new ArrayList<>();
+        OrderProductsDTO dto=new OrderProductsDTO();
         Response response=RestClientUtil.getResourceList(uri);
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper=new ObjectMapper();
-            list=mapper.convertValue(responseObject.getData(),new TypeReference<List<OrderProduct>>(){});
+            dto=mapper.convertValue(responseObject.getData(),new TypeReference<OrderProductsDTO>(){});
         }
-        return FXCollections.observableArrayList(list);
+        return dto;
     }
 
     public  void updateOrderProduct(OrderProduct newOrderProduct, int id) {

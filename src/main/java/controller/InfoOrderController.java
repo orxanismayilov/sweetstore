@@ -1,5 +1,6 @@
 package controller;
 
+import dtos.OrderProductsDTO;
 import enums.OrderType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,7 +65,7 @@ public class InfoOrderController {
 
     private void populateTable(int orderId){
         OrderProductService orderProductService =new OrderProductServiceImpl();
-        ObservableList list= orderProductService.getOrderProductByOrderId(orderId);
+        OrderProductsDTO dto= orderProductService.getOrderProductByOrderId(orderId);
         columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnProduct.setCellValueFactory(new PropertyValueFactory<>("productName"));
         columnQuantity.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
@@ -75,6 +76,6 @@ public class InfoOrderController {
         columnDiscount.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
         columnPrice.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
         columnTotalPrice.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
-        tableView.setItems(list);
+        tableView.setItems(FXCollections.observableArrayList(dto.getOrderProducts()));
     }
 }

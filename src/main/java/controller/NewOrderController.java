@@ -1,5 +1,6 @@
 package controller;
 
+import dtos.OrderProductsDTO;
 import enums.OrderType;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
@@ -43,7 +44,7 @@ public class NewOrderController implements Initializable {
     private Product product;
     private OrderServiceImpl orderServiceImpl;
     private int orderId;
-    private OrderProductSummary summary;
+    private OrderProductsDTO dto;
 
 
     private static final Image imageDelete = new Image("/resources/images/trash_26px.png");
@@ -114,7 +115,6 @@ public class NewOrderController implements Initializable {
         fieldInputValidation();
         loadComboBoxProducts();
         disableSaveButtonIfFieldsEmpty();
-        summary = new OrderProductSummary();
         comboOrderType.setItems(OrderType.getOrderTypeList());
         order = new Order();
         System.out.println(order.getDescription());
@@ -199,9 +199,6 @@ public class NewOrderController implements Initializable {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
                             orderProductService.removeOrderProductById(orderProduct.getId(),order.getTransactionID());
                             fillSummaryFields();
-                            order.setTotalPrice(summary.getSum());
-                            order.setTotalDiscount(summary.getTotalDiscount());
-                            order.setDescription(summary.getDescription());
                             orderServiceImpl.updateOrderById(order, order.getTransactionID());
                             loadTable();
                             clearFields();
@@ -226,9 +223,6 @@ public class NewOrderController implements Initializable {
             if (validateOrderProduct(orderProduct)) {
                 orderProductService.saveOrderProduct(orderProduct);
                 fillSummaryFields();
-                order.setTotalDiscount(summary.getTotalDiscount());
-                order.setTotalPrice(summary.getSum());
-                order.setDescription(summary.getDescription());
                 loadTable();
                 loadComboBoxProducts();
                 clearFields();
@@ -275,10 +269,23 @@ public class NewOrderController implements Initializable {
     }
 
     private void fillSummaryFields(){
-        summary.fillDescriptionCalculateTotalPriceAndDiscount(orderId);
-        fieldDescription.setText(String.valueOf(summary.getDescription()));
-        labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
-        labelSum.setText(String.valueOf(summary.getSum()));
+        dto=orderProductService.getOrderProductByOrderId(orderId);
+        OrderProductSummary summary=dto.getSummary();
+        if (summary!=null) {
+            fieldDescription.setText(summary.getDescription());
+            labelDiscount.setText(summary.getTotalDiscount().toString());
+            labelSum.setText(summary.getTotalPrice().toString());
+            order.setTotalPrice(summary.getTotalPrice());
+            order.setTotalDiscount(summary.getTotalDiscount());
+            order.setDescription(summary.getDescription());
+        } else {
+            fieldDescription.setText("");
+            labelDiscount.setText("0");
+            labelSum.setText("0");
+            order.setTotalPrice(new BigDecimal("0"));
+            order.setTotalDiscount(new BigDecimal("0"));
+            order.setDescription("");
+        }
     }
 
     private boolean validateOrderProduct(OrderProduct orderProduct) {
@@ -331,8 +338,12 @@ public class NewOrderController implements Initializable {
     }
 
     private void loadTable() {
-        ObservableList list = orderProductService.getOrderProductByOrderId(orderId);
-        tableView.setItems(list);
+            dto=orderProductService.getOrderProductByOrderId(orderId);
+            if (dto.getOrderProducts() != null) {
+                tableView.setItems(FXCollections.observableArrayList(dto.getOrderProducts()));
+            } else {
+                tableView.setItems(FXCollections.observableArrayList());
+            }
     }
 
     private void clearFields() {

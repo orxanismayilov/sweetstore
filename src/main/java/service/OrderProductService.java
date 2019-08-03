@@ -1,5 +1,6 @@
 package service;
 
+import dtos.OrderProductsDTO;
 import javafx.collections.ObservableList;
 import model.OrderProduct;
 
@@ -11,7 +12,7 @@ public interface OrderProductService {
 
     void removeOrderProductById(int id,int orderId);
 
-    ObservableList getOrderProductByOrderId(int orderId);
+    OrderProductsDTO getOrderProductByOrderId(int orderId);
 
     void updateOrderProduct(OrderProduct newOrderProduct, int id);
 

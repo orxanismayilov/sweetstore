@@ -1,5 +1,6 @@
 package controller;
 
+import dtos.OrderProductsDTO;
 import enums.OrderType;
 import javafx.application.Platform;
 import javafx.beans.binding.BooleanBinding;
@@ -44,7 +45,7 @@ public class UpdateOrderController implements Initializable {
     private Order order;
     private Product product;
     private OrderService orderService;
-    private OrderProductSummary summary;
+    private OrderProductsDTO dto;
     private BigDecimal totalPrice;
 
     private static final Image imageDelete = new Image("/resources/images/trash_26px.png");
@@ -185,9 +186,6 @@ public class UpdateOrderController implements Initializable {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
                             orderProductService.removeOrderProductById(orderProduct.getId(),orderProduct.getOrderId());
                             fillSummaryFields();
-                            order.setTotalPrice(summary.getSum());
-                            order.setTotalDiscount(summary.getTotalDiscount());
-                            order.setDescription(summary.getDescription());
                             orderService.updateOrderById(order, order.getTransactionID());
                             loadTable();
                             clearFields();
@@ -204,9 +202,6 @@ public class UpdateOrderController implements Initializable {
             if (validateOrderProduct(orderProduct)) {
                 orderProductService.saveOrderProduct(orderProduct);
                 fillSummaryFields();
-                order.setTotalPrice(summary.getSum());
-                order.setTotalDiscount(summary.getTotalDiscount());
-                order.setDescription(summary.getDescription());
                 orderService.updateOrderById(order,order.getTransactionID());
                 loadTable();
                 clearFields();
@@ -225,9 +220,6 @@ public class UpdateOrderController implements Initializable {
             if (validateOrderProduct(orderProduct)) {
                 orderProductService.updateOrderProduct(orderProduct,orderProduct.getId());
                 fillSummaryFields();
-                order.setTotalPrice(summary.getSum());
-                order.setTotalDiscount(summary.getTotalDiscount());
-                order.setDescription(summary.getDescription());
                 orderService.updateOrderById(order,order.getTransactionID());
                 clearFields();
                 loadTable();
@@ -240,15 +232,32 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void fillSummaryFields() {
-        summary.fillDescriptionCalculateTotalPriceAndDiscount(order.getTransactionID());
-        fieldDescription.setText(String.valueOf(summary.getDescription()));
-        labelDiscount.setText(String.valueOf(summary.getTotalDiscount()));
-        labelSum.setText(String.valueOf(summary.getSum()));
+        dto=orderProductService.getOrderProductByOrderId(order.getTransactionID());
+        OrderProductSummary summary=dto.getSummary();
+        if (summary!=null) {
+            fieldDescription.setText(summary.getDescription());
+            labelDiscount.setText(summary.getTotalDiscount().toString());
+            labelSum.setText(summary.getTotalPrice().toString());
+            order.setTotalPrice(summary.getTotalPrice());
+            order.setTotalDiscount(summary.getTotalDiscount());
+            order.setDescription(summary.getDescription());
+        } else {
+            fieldDescription.setText("");
+            labelDiscount.setText("0");
+            labelSum.setText("0");
+            order.setTotalPrice(new BigDecimal("0"));
+            order.setTotalDiscount(new BigDecimal("0"));
+            order.setDescription("");
+        }
     }
 
     private void loadTable() {
-        ObservableList list = orderProductService.getOrderProductByOrderId(order.getTransactionID());
-        tableView.setItems(list);
+        dto = orderProductService.getOrderProductByOrderId(order.getTransactionID());
+        if (dto.getOrderProducts()!=null) {
+            tableView.setItems(FXCollections.observableArrayList(dto.getOrderProducts()));
+        } else {
+            tableView.setItems(FXCollections.observableArrayList());
+        }
     }
 
     private void clearFields() {
@@ -389,7 +398,6 @@ public class UpdateOrderController implements Initializable {
         order = new Order();
         orderProductService = new OrderProductServiceImpl();
         orderService = new OrderServiceImpl();
-        summary = new OrderProductSummary();
     }
 
     private boolean validateOrderProduct(OrderProduct orderProduct) {
