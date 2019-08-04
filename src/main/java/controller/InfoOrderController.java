@@ -76,6 +76,8 @@ public class InfoOrderController {
         columnDiscount.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
         columnPrice.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
         columnTotalPrice.setCellFactory(tc -> TableCellStyleUtil.setMonetaryColumnStyle());
-        tableView.setItems(FXCollections.observableArrayList(dto.getOrderProducts()));
+        if (dto.getOrderProducts()!= null) {
+            tableView.setItems(FXCollections.observableArrayList(dto.getOrderProducts()));
+        }
     }
 }

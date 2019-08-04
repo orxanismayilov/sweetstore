@@ -1,8 +1,8 @@
 package enums;
 
 public enum UserRole {
-    ADMIN(1),
-    USER(2);
+    USER(1),
+    ADMIN(2);
 
     private int code;
 

@@ -84,7 +84,10 @@ public class OrderController implements Initializable {
                 numOfPages = listSize / rowsPerPage + 1;
             }
             pages.setPageCount(numOfPages);
-            tableView.setItems(FXCollections.observableArrayList(data.getOrders()));
+
+            if (data.getOrders()!=null) {
+                tableView.setItems(FXCollections.observableArrayList(data.getOrders()));
+            }
             return tableView;
         });
         pane.centerProperty().setValue(pages);

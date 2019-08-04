@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import model.OrderProduct;
 import model.Product;
 import model.ResponseObject;
+import model.UserSession;
 import service.OrderProductService;
 import utils.LoadPropertyUtil;
 import utils.RestClientUtil;
@@ -18,6 +19,7 @@ public class OrderProductServiceImpl implements OrderProductService {
     private ProductServiceImpl productService;
     private Properties properties;
     private Properties uriProperties;
+    private UserSession session;
     private static String ERROR_PROPERTIES="/resources/properties/errors.properties";
     private static String URI_PROPERTIES="/resources/properties/resource-uri.properties";
 
@@ -25,22 +27,23 @@ public class OrderProductServiceImpl implements OrderProductService {
         this.productService=new ProductServiceImpl();
         this.properties= LoadPropertyUtil.loadPropertiesFile(ERROR_PROPERTIES);
         this.uriProperties=LoadPropertyUtil.loadPropertiesFile(URI_PROPERTIES);
+        session=UserSession.getInstance();
     }
 
     public void saveOrderProduct(OrderProduct orderProduct) {
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+orderProduct.getOrderId();
-        RestClientUtil.addNewResource(orderProduct,uri);
+        RestClientUtil.addNewResource(orderProduct,uri,session.getUser().getName());
     }
 
     public void removeOrderProductById(int id,int orderId){
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+orderId;
-        RestClientUtil.deleteResource(uri,id);
+        RestClientUtil.deleteResource(uri,id,session.getUser().getName());
     }
 
     public OrderProductsDTO getOrderProductByOrderId(int orderId){
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+orderId;
         OrderProductsDTO dto=new OrderProductsDTO();
-        Response response=RestClientUtil.getResourceList(uri);
+        Response response=RestClientUtil.getResourceList(uri,session.getUser().getName());
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper=new ObjectMapper();
@@ -51,7 +54,7 @@ public class OrderProductServiceImpl implements OrderProductService {
 
     public  void updateOrderProduct(OrderProduct newOrderProduct, int id) {
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+newOrderProduct.getOrderId();
-        RestClientUtil.updateResource(uri,id,newOrderProduct);
+        RestClientUtil.updateResource(uri,id,newOrderProduct,session.getUser().getName());
     }
 
     public Map validateOrderProduct(OrderProduct orderProduct) {

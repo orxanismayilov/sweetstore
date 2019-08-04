@@ -75,7 +75,10 @@ public class StockController implements Initializable {
                 numOfPages = listSize / rowsPerPage + 1;
             }
             pages.setPageCount(numOfPages);
-            tableProduct.setItems(FXCollections.observableArrayList(productsDTO.getProducts()));
+
+           if(productsDTO.getProducts()!=null) {
+               tableProduct.setItems(FXCollections.observableArrayList(productsDTO.getProducts()));
+           }
             return tableProduct;
         });
         pane.centerProperty().setValue(pages);
