@@ -197,9 +197,9 @@ public class NewOrderController implements Initializable {
                         }
                         if (alert.getResult() == ButtonType.YES) {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
-                            orderProductService.removeOrderProductById(orderProduct.getId(),order.getTransactionID());
+                            orderProductService.removeOrderProductById(orderProduct.getId(),order.getId());
                             fillSummaryFields();
-                            orderServiceImpl.updateOrderById(order, order.getTransactionID());
+                            orderServiceImpl.updateOrderById(order, order.getId());
                             loadTable();
                             clearFields();
                         }

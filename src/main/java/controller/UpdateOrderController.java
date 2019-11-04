@@ -133,7 +133,7 @@ public class UpdateOrderController implements Initializable {
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setOrderType(comboOrderType.getValue());
-        orderService.updateOrderById(order,order.getTransactionID());
+        orderService.updateOrderById(order,order.getId());
     }
 
     public void closeButtonAction() {
@@ -186,7 +186,7 @@ public class UpdateOrderController implements Initializable {
                             OrderProduct orderProduct = (OrderProduct) getTableRow().getItem();
                             orderProductService.removeOrderProductById(orderProduct.getId(),orderProduct.getOrderId());
                             fillSummaryFields();
-                            orderService.updateOrderById(order, order.getTransactionID());
+                            orderService.updateOrderById(order, order.getId());
                             loadTable();
                             clearFields();
                         }
@@ -202,7 +202,7 @@ public class UpdateOrderController implements Initializable {
             if (validateOrderProduct(orderProduct)) {
                 orderProductService.saveOrderProduct(orderProduct);
                 fillSummaryFields();
-                orderService.updateOrderById(order,order.getTransactionID());
+                orderService.updateOrderById(order,order.getId());
                 loadTable();
                 clearFields();
             } else {
@@ -220,7 +220,7 @@ public class UpdateOrderController implements Initializable {
             if (validateOrderProduct(orderProduct)) {
                 orderProductService.updateOrderProduct(orderProduct,orderProduct.getId());
                 fillSummaryFields();
-                orderService.updateOrderById(order,order.getTransactionID());
+                orderService.updateOrderById(order,order.getId());
                 clearFields();
                 loadTable();
                 buttonAdd.setText("ADD");
@@ -232,7 +232,7 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void fillSummaryFields() {
-        dto=orderProductService.getOrderProductByOrderId(order.getTransactionID());
+        dto=orderProductService.getOrderProductByOrderId(order.getId());
         OrderProductSummary summary=dto.getSummary();
         if (summary!=null) {
             fieldDescription.setText(summary.getDescription());
@@ -252,7 +252,7 @@ public class UpdateOrderController implements Initializable {
     }
 
     private void loadTable() {
-        dto = orderProductService.getOrderProductByOrderId(order.getTransactionID());
+        dto = orderProductService.getOrderProductByOrderId(order.getId());
         if (dto.getOrderProducts()!=null) {
             tableView.setItems(FXCollections.observableArrayList(dto.getOrderProducts()));
         } else {
@@ -277,7 +277,7 @@ public class UpdateOrderController implements Initializable {
     private void createOrderProduct() {
         product = comboBoxProducts.getValue();
         orderProduct = new OrderProduct();
-        orderProduct.setOrderId(order.getTransactionID());
+        orderProduct.setOrderId(order.getId());
         orderProduct.setProductId(product.getId());
         orderProduct.setProductName(product.getName());
         orderProduct.setProductQuantity(Integer.parseInt(fieldQuantity.getText()));

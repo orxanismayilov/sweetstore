@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper=new ObjectMapper();
             Order order1 = mapper.convertValue(responseObject.getData(),new TypeReference<Order>(){});
-            return order1.getTransactionID();
+            return order1.getId();
         }
         return 0;
     }

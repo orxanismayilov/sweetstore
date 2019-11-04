@@ -3,7 +3,6 @@ package controller;
 import dtos.OrderProductsDTO;
 import enums.OrderType;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -60,7 +59,7 @@ public class InfoOrderController {
         comboOrderType.getSelectionModel().selectFirst();
         labelSum.setText(String.valueOf(order.getTotalPrice()));
         labelDiscount.setText(String.valueOf(order.getTotalDiscount()));
-        populateTable(order.getTransactionID());
+        populateTable(order.getId());
     }
 
     private void populateTable(int orderId){

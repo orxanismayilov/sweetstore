@@ -15,7 +15,7 @@ public class Order {
     private String customerAddress;
     private String description;
     private OrderType orderType;
-    private int transactionID;
+    private int id;
     private BigDecimal totalPrice;
     private BigDecimal totalDiscount;
     private String date;
@@ -27,21 +27,21 @@ public class Order {
         customerAddress="";
         description="";
         orderType=OrderType.ONLINE;
-        transactionID=0;
+        id =0;
         totalPrice=new BigDecimal("0");
         date="";
         orderStatus=OrderStatus.CLOSED;
         isActive=true;
     }
 
-    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, int transactionID, String date) {
+    public Order(String customerName, String customerAdderss, String description, BigDecimal priceBigDecimal, BigDecimal totalDiscount, OrderStatus orderStatus, OrderType orderType, int id, String date) {
         this.customerName = customerName;
         this.customerAddress=customerAdderss;
         this.description =description;
         this.totalPrice = priceBigDecimal;
         this.orderType = orderType;
         this.totalDiscount=totalDiscount;
-        this.transactionID = transactionID;
+        this.id = id;
         this.date=date;
         this.orderStatus=orderStatus;
         this.isActive=true;
@@ -95,16 +95,16 @@ public class Order {
         this.orderType=orderType;
     }
 
-    public int getTransactionID() {
-        return transactionID;
+    public int getId() {
+        return id;
     }
 
-    public SimpleIntegerProperty transactionIDProperty() {
-        return new SimpleIntegerProperty(transactionID);
+    public SimpleIntegerProperty idProperty() {
+        return new SimpleIntegerProperty(id);
     }
 
-    public void setTransactionID(int transactionID) {
-        this.transactionID=transactionID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDate() {
@@ -169,7 +169,7 @@ public class Order {
                 "customerName=" + customerName +
                 ", description='" + description +
                 ", orderType=" + orderType +
-                ", transactionID=" + transactionID +
+                ", id=" + id +
                 ", totalPrice=" + totalPrice +
                 ", totalDiscount=" + totalDiscount +
                 ", date=" + date +

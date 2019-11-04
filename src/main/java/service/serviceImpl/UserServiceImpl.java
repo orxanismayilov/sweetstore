@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean validateLogin(User user) {
-        String uri=uriProperties.getProperty("useruri")+"/login";
+        String uri=uriProperties.getProperty("useruri");
         Response response=RestClientUtil.login(user,uri);
         if (response.getStatus()==Response.Status.OK.getStatusCode()){
             ResponseObject responseObject=response.readEntity(ResponseObject.class);

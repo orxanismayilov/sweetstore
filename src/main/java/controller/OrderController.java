@@ -152,7 +152,7 @@ public class OrderController implements Initializable {
         clmDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         clmTotalprice.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         clmOrdertype.setCellValueFactory(new PropertyValueFactory<>("orderType"));
-        clmTransactionID.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
+        clmTransactionID.setCellValueFactory(new PropertyValueFactory<>("id"));
         clmOrderStatus.setCellValueFactory(new PropertyValueFactory<>("orderStatus"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         clmAction.setResizable(false);
@@ -193,18 +193,18 @@ public class OrderController implements Initializable {
 
                     buttonDelete.setOnAction((ActionEvent eventDelete) -> {
                         Order order = (Order) getTableRow().getItem();
-                        buttonDeleteAction(order.getTransactionID());
+                        buttonDeleteAction(order.getId());
                     });
 
                     buttonInfo.setOnAction((ActionEvent eventInfo) -> {
                         Order order = (Order) getTableRow().getItem();
-                        buttonInfoAction(order.getTransactionID());
+                        buttonInfoAction(order.getId());
                         popUpWindowSetup(eventInfo, appProperties.getProperty("infoordertitle"));
                     });
 
                     buttonUpdate.setOnAction((ActionEvent event) -> {
                         Order order = (Order) getTableRow().getItem();
-                        buttonUpdateAction(order.getTransactionID());
+                        buttonUpdateAction(order.getId());
                         popUpWindowSetup(event, appProperties.getProperty("updateordertitle"));
                         createPagination();
                     });
