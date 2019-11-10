@@ -44,10 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private ClientConfig createClienteConfig(User user) {
-        HttpAuthenticationFeature feature = HttpAuthenticationFeature.basicBuilder()
-                .nonPreemptive()
-                .credentials(user.getName(), user.getPassword())
-                .build();
+        HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(user.getName(), user.getPassword());
         ClientConfig clientConfig = new ClientConfig();
         clientConfig.register(feature) ;
         return clientConfig;

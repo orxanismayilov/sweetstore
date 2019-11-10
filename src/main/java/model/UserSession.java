@@ -2,7 +2,6 @@ package model;
 
 import dtos.UserDTO;
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 public class UserSession {
     private static UserSession instance=null;
