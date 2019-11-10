@@ -1,5 +1,7 @@
 package utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.User;
 
 import javax.ws.rs.client.Client;
@@ -31,11 +33,10 @@ public class RestClientUtil {
                 .get();
     }
 
-    public static void updateResource(String uri, int id, Object resource,String username){
+    public static void updateResource(String uri, Object resource,String username){
         Client client=ClientBuilder.newClient();
         client
                 .target(uri)
-                .path(String.valueOf(id))
                 .queryParam("username",username)
                 .request()
                 .put(Entity.entity(resource,MediaType.APPLICATION_JSON));

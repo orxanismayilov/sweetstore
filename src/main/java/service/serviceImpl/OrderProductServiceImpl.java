@@ -53,8 +53,8 @@ public class OrderProductServiceImpl implements OrderProductService {
     }
 
     public  void updateOrderProduct(OrderProduct newOrderProduct, int id) {
-        String uri=uriProperties.getProperty("order-prducturi")+"/list/"+newOrderProduct.getOrderId();
-        RestClientUtil.updateResource(uri,id,newOrderProduct,session.getUser().getName());
+        String uri=uriProperties.getProperty("order-prducturi")+"/list/"+newOrderProduct.getOrderId()+"/"+id;
+        RestClientUtil.updateResource(uri,newOrderProduct,session.getUser().getName());
     }
 
     public Map validateOrderProduct(OrderProduct orderProduct) {

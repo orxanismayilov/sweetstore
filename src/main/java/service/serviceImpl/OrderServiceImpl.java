@@ -45,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
 
     public int addNewOrderToList(Order order) {
         String uri=uriProperties.getProperty("orderuri");
+        order.setDate("");
         Response response= RestClientUtil.addNewResource(order,uri,session.getUser().getName());
         if (response.getStatus()==Response.Status.CREATED.getStatusCode()) {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
@@ -56,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public ObservableList<Order> searchOrderById (String id,boolean searchAll) {
-        String uri=uriProperties.getProperty("orderuri")+"/q?"+"id="+id+"&getAll="+searchAll;
+        String uri=uriProperties.getProperty("orderuri")+"/search?"+"id="+id+"&getAll="+searchAll;
         Response response=RestClientUtil.getResourceList(uri,session.getUser().getName());
         List<Order> list=new ArrayList<>();
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
@@ -80,9 +81,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public void updateOrderById(Order newOrder, int orderId){
-        String uri=uriProperties.getProperty("orderuri");
-        newOrder.setTotalDiscount(new BigDecimal(0));
-        RestClientUtil.updateResource(uri,orderId,newOrder,session.getUser().getName());
+        String uri=uriProperties.getProperty("orderuri")+"/"+orderId;
+        RestClientUtil.updateResource(uri,newOrder,session.getUser().getName());
         logger.info("Order update started. Order :"+orderId+"User :"/*+session.getUser().toString()*/);
     }
 

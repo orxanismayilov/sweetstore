@@ -144,6 +144,9 @@ public class NewOrderController implements Initializable {
         order.setCustomerName(fieldCustomerName.getText());
         order.setCustomerAddress(fieldCustomerAddress.getText());
         order.setOrderType(comboOrderType.getValue());
+        order.setTotalDiscount(new BigDecimal(0));
+        order.setDescription("");
+        order.setTotalPrice(new BigDecimal(0));
         orderId= orderServiceImpl.addNewOrderToList(order);
         paneCustomerDetails.setDisable(true);
         paneOrderDetails.setDisable(false);

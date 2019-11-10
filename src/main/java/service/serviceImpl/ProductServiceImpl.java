@@ -60,12 +60,12 @@ public class ProductServiceImpl implements ProductService {
 
     public Map updateProduct(Product product, int oldProductId) {
         logger.info("Product updating start");
-        String uri=uriProperties.getProperty("producturi");
+        String uri=uriProperties.getProperty("producturi")+"/"+oldProductId;
         Map<String, Map<Boolean, List<String>>> validation=new HashMap<>();
         if(product!=null) {
             validation=isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
-                RestClientUtil.updateResource(uri,oldProductId,product,userSession.getUser().getName());
+                RestClientUtil.updateResource(uri,product,userSession.getUser().getName());
                 logger.info("Product update:"+product.toString()/*+userSession.getUser().toString()*/);
             }
         }else {

@@ -38,6 +38,7 @@ public class UpdateProductController implements Initializable {
         Product product = new Product();
         product.setName(fieldName.getText());
         product.setQuantity(existedProduct.getQuantity());
+        product.setActive(true);
         try {
             product.setPrice(Float.parseFloat(fieldPrice.getText()));
         } catch (NumberFormatException e) {
