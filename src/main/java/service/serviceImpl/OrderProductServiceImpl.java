@@ -3,7 +3,6 @@ package service.serviceImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dtos.OrderProductsDTO;
-import javafx.collections.FXCollections;
 import model.OrderProduct;
 import model.Product;
 import model.ResponseObject;
@@ -32,18 +31,18 @@ public class OrderProductServiceImpl implements OrderProductService {
 
     public void saveOrderProduct(OrderProduct orderProduct) {
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+orderProduct.getOrderId();
-        RestClientUtil.addNewResource(orderProduct,uri,session.getUser().getName());
+        RestClientUtil.addNewResource(orderProduct,uri,session.getClientConfig());
     }
 
     public void removeOrderProductById(int id,int orderId){
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+orderId;
-        RestClientUtil.deleteResource(uri,id,session.getUser().getName());
+        RestClientUtil.deleteResource(uri,id,session.getClientConfig());
     }
 
     public OrderProductsDTO getOrderProductByOrderId(int orderId){
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+orderId;
         OrderProductsDTO dto=new OrderProductsDTO();
-        Response response=RestClientUtil.getResourceList(uri,session.getUser().getName());
+        Response response=RestClientUtil.getResourceList(uri,session.getClientConfig());
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper=new ObjectMapper();
@@ -54,7 +53,7 @@ public class OrderProductServiceImpl implements OrderProductService {
 
     public  void updateOrderProduct(OrderProduct newOrderProduct, int id) {
         String uri=uriProperties.getProperty("order-prducturi")+"/list/"+newOrderProduct.getOrderId()+"/"+id;
-        RestClientUtil.updateResource(uri,newOrderProduct,session.getUser().getName());
+        RestClientUtil.updateResource(uri,newOrderProduct,session.getClientConfig());
     }
 
     public Map validateOrderProduct(OrderProduct orderProduct) {

@@ -1,8 +1,11 @@
 package model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import enums.UserRole;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private int id;
     private String name;

@@ -113,7 +113,7 @@ public class OrderController implements Initializable {
     public void searchButtonAction() {
         boolean isSelected=checkBox.isSelected();
         if (isSelected){
-           if (userSession.getUser().getRole()== UserRole.USER) {
+           if (userSession.getUserDTO().getRole()== UserRole.USER) {
                AlertUtil.permissionAlert().showAndWait();
            } else {
                tableView.setItems(FXCollections.observableArrayList(orderService.searchOrderById(searchBox.getText(), isSelected)));

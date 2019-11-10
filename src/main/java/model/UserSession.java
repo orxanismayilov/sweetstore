@@ -1,8 +1,13 @@
 package model;
 
+import dtos.UserDTO;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+
 public class UserSession {
     private static UserSession instance=null;
-    private User user;
+    private ClientConfig clientConfig;
+    private UserDTO userDTO;
 
     private UserSession() {
     }
@@ -14,11 +19,19 @@ public class UserSession {
         return instance;
     }
 
-    public User getUser() {
-        return user;
+    public ClientConfig getClientConfig() {
+        return clientConfig;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClientConfig(ClientConfig clientConfig) {
+        this.clientConfig = clientConfig;
+    }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
     }
 }

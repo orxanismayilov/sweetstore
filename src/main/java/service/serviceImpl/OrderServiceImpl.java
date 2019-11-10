@@ -15,7 +15,6 @@ import utils.LoadPropertyUtil;
 import utils.RestClientUtil;
 
 import javax.ws.rs.core.Response;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -34,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     public OrdersDTO getOrderList(int pageIndex, int rowsPerPage) {
         String uri=uriProperties.getProperty("orderuri")+"?pageIndex="+pageIndex+"&maxRows="+rowsPerPage;
         OrdersDTO ordersDTO=new OrdersDTO();
-        Response response=RestClientUtil.getResourceList(uri,session.getUser().getName());
+        Response response=RestClientUtil.getResourceList(uri,session.getClientConfig());
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper = new ObjectMapper();
@@ -46,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
     public int addNewOrderToList(Order order) {
         String uri=uriProperties.getProperty("orderuri");
         order.setDate("");
-        Response response= RestClientUtil.addNewResource(order,uri,session.getUser().getName());
+        Response response= RestClientUtil.addNewResource(order,uri,session.getClientConfig());
         if (response.getStatus()==Response.Status.CREATED.getStatusCode()) {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper=new ObjectMapper();
@@ -58,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
 
     public ObservableList<Order> searchOrderById (String id,boolean searchAll) {
         String uri=uriProperties.getProperty("orderuri")+"/search?"+"id="+id+"&getAll="+searchAll;
-        Response response=RestClientUtil.getResourceList(uri,session.getUser().getName());
+        Response response=RestClientUtil.getResourceList(uri,session.getClientConfig());
         List<Order> list=new ArrayList<>();
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
             ResponseObject responseObject = response.readEntity(ResponseObject.class);
@@ -71,24 +70,24 @@ public class OrderServiceImpl implements OrderService {
 
     public boolean deleteOrderByTransactionId(int transactionId) {
         String uri=uriProperties.getProperty("orderuri");
-        if (session.getUser().getRole()== UserRole.ADMIN){
-            RestClientUtil.deleteResource(uri,transactionId,session.getUser().getName());
-            logger.info("Order delete started. Order Id:"+transactionId+"user :"+ session.getUser().toString());
-            return true;
-        }
-        logger.info("Order delete denied user don't have permission for this action. :"+ session.getUser().toString());
-     return false;
+            Response response=RestClientUtil.deleteResource(uri,transactionId,session.getClientConfig());
+            if (response.getStatus()==Response.Status.NO_CONTENT.getStatusCode()) {
+                logger.info("Order delete started. Order Id:" + transactionId + "user :" + session.getClientConfig().toString());
+                return true;
+            }
+            logger.warn("Permission denied.");
+            return false;
     }
 
     public void updateOrderById(Order newOrder, int orderId){
         String uri=uriProperties.getProperty("orderuri")+"/"+orderId;
-        RestClientUtil.updateResource(uri,newOrder,session.getUser().getName());
-        logger.info("Order update started. Order :"+orderId+"User :"/*+session.getUser().toString()*/);
+        RestClientUtil.updateResource(uri,newOrder,session.getClientConfig());
+        logger.info("Order update started. Order :"+orderId+"User :");
     }
 
     public int getTotalCountOfOrder() {
         String uri=uriProperties.getProperty("orderuri");
-       Response response=RestClientUtil.getSingleResource(uri,"/count",session.getUser().getName());
+       Response response=RestClientUtil.getSingleResource(uri,"/count",session.getClientConfig());
        if (response.getStatus()==Response.Status.OK.getStatusCode()) {
            ResponseObject responseObject =response.readEntity(ResponseObject.class);
            return (int) responseObject.getData();
@@ -99,12 +98,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrder(int id) {
         String uri=uriProperties.getProperty("orderuri");
-        Response response=RestClientUtil.getSingleResource(uri, String.valueOf(id),session.getUser().getName());
+        Response response=RestClientUtil.getSingleResource(uri, String.valueOf(id),session.getClientConfig());
         if (response.getStatus()==Response.Status.OK.getStatusCode()) {
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             ObjectMapper mapper=new ObjectMapper();
-            Order order=mapper.convertValue(responseObject.getData(),new TypeReference<Order>(){});
-            return order;
+            return mapper.convertValue(responseObject.getData(),new TypeReference<Order>(){});
         }
         return null;
     }

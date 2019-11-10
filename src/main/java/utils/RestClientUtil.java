@@ -3,6 +3,9 @@ package utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.User;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -14,58 +17,53 @@ public class RestClientUtil {
 
 
 
-    public static Response getSingleResource(String uri,String path,String username) {
-        Client client = ClientBuilder.newClient();
+    public static Response getSingleResource(String uri,String path,ClientConfig clientConfig) {
+        Client client = ClientBuilder.newClient(clientConfig);
         return client
                 .target(uri)
-                .queryParam("username",username)
                 .path(path)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
     }
 
-    public static Response getResourceList(String uri,String username){
-        Client client = ClientBuilder.newClient();
+    public static Response getResourceList(String uri,ClientConfig clientConfig){
+        Client client = ClientBuilder.newClient(clientConfig);
         return client
                 .target(uri)
-                .queryParam("username",username)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
     }
 
-    public static void updateResource(String uri, Object resource,String username){
-        Client client=ClientBuilder.newClient();
+    public static void updateResource(String uri, Object resource,ClientConfig clientConfig){
+        Client client=ClientBuilder.newClient(clientConfig);
         client
                 .target(uri)
-                .queryParam("username",username)
                 .request()
                 .put(Entity.entity(resource,MediaType.APPLICATION_JSON));
     }
 
-    public static Response addNewResource(Object resource,String uri,String username){
-        Client client = ClientBuilder.newClient();
+    public static Response addNewResource(Object resource,String uri,ClientConfig clientConfig){
+        Client client = ClientBuilder.newClient(clientConfig);
         return client
                 .target(uri)
-                .queryParam("username",username)
                 .request(MediaType.APPLICATION_JSON)
                 .post((Entity.entity(resource,MediaType.APPLICATION_JSON)));
     }
 
-    public static Response deleteResource(String uri, int id,String username) {
-        Client client = ClientBuilder.newClient();
+    public static Response deleteResource(String uri, int id,ClientConfig clientConfig) {
+        Client client = ClientBuilder.newClient(clientConfig);
         return client
                 .target(uri)
                 .path(String.valueOf(id))
-                .queryParam("username",username)
                 .request()
                 .delete();
     }
 
-    public static Response login(User user,String uri) {
-        Client client = ClientBuilder.newClient();
+    public static Response login(ClientConfig clientConfig,String uri) {
+        Client client = ClientBuilder.newClient(clientConfig);
         return client
                 .target(uri)
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.entity(user,MediaType.APPLICATION_JSON));
+                .get();
     }
 }

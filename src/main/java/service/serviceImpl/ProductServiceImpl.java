@@ -8,9 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Product;
 import model.ResponseObject;
-import model.User;
 import model.UserSession;
 import org.apache.log4j.Logger;
+import org.glassfish.jersey.client.ClientConfig;
 import service.ProductService;
 import utils.LoadPropertyUtil;
 import utils.NumberUtils;
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductsDTO getProductList(int pageIndex, int rowsPerPage) {
         String uri=uriProperties.getProperty("producturi")+"?startPage="+pageIndex+"&rowsPerPage="+rowsPerPage;
         ProductsDTO productsDTO=new ProductsDTO();
-        Response response=RestClientUtil.getResourceList(uri,userSession.getUser().getName());
+        Response response=RestClientUtil.getResourceList(uri,userSession.getClientConfig());
         if (response.getStatus()==Response.Status.OK.getStatusCode()){
             ResponseObject responseObject= response.readEntity(ResponseObject.class);
             productsDTO = mapper.convertValue(responseObject.getData(), new TypeReference<ProductsDTO>(){});
@@ -52,8 +52,8 @@ public class ProductServiceImpl implements ProductService {
         Map<String, Map<Boolean, List<String>>> validation=isProductValid(product);
         String uri=uriProperties.getProperty("producturi");
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
-                RestClientUtil.addNewResource(product,uri,userSession.getUser().getName());
-                logger.info("New product :"+product.toString()/*+" "+userSession.getUser().toString()*/);
+                RestClientUtil.addNewResource(product,uri,userSession.getClientConfig());
+                logger.info("New product :"+product.toString()/*+" "+userSession.getClientConfig().toString()*/);
             }
         return validation;
     }
@@ -65,8 +65,8 @@ public class ProductServiceImpl implements ProductService {
         if(product!=null) {
             validation=isProductValid(product);
             if (!validation.get("nameError").containsKey(true) && !validation.get("quantityError").containsKey(true) && !validation.get("priceError").containsKey(true)) {
-                RestClientUtil.updateResource(uri,product,userSession.getUser().getName());
-                logger.info("Product update:"+product.toString()/*+userSession.getUser().toString()*/);
+                RestClientUtil.updateResource(uri,product,userSession.getClientConfig());
+                logger.info("Product update:"+product.toString()+" User :"+userSession.getUserDTO().getName());
             }
         }else {
             logger.error("Couldnt update product , product is null. OldProductId:"+oldProductId);
@@ -118,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
             }
             if (!NumberUtils.isNumberInteger(String.valueOf(product.getQuantity()))) {
                 quantityErrorList.add(errorProperties.getProperty("invalidNumber"));
-                logger.error(errorProperties.getProperty("invalidNumber"/*+userSession.getUser().toString()*/));
+                logger.error(errorProperties.getProperty("invalidNumber"/*+userSession.getClientConfig().toString()*/));
             }
             if (!quantityErrorList.isEmpty()) {
                 quantityMap.remove(false);
@@ -155,21 +155,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public boolean deleteProductByID(int id) {
-        User user=userSession.getUser();
+        ClientConfig user=userSession.getClientConfig();
         String uri=uriProperties.getProperty("producturi");
-        if (user.getRole().equals(UserRole.ADMIN)) {
-            Response response=RestClientUtil.deleteResource(uri,id,userSession.getUser().getName());
+            Response response=RestClientUtil.deleteResource(uri,id,userSession.getClientConfig());
             if (response.getStatus()==Response.Status.NO_CONTENT.getStatusCode()) {
-                logger.info("Product Id :" + id + " user :" + userSession.getUser().toString());
+                logger.info("Product Id :" + id + " user :" + userSession.getUserDTO().getName());
                 return true;
             }
-        }
         return false;
     }
 
-    public Product getProductById(int id) {
+    public Product getProductById(int id)   {
         String uri=uriProperties.getProperty("producturi");
-        Response response=RestClientUtil.getSingleResource(uri,String.valueOf(id),userSession.getUser().getName());
+        Response response=RestClientUtil.getSingleResource(uri,String.valueOf(id),userSession.getClientConfig());
         if (response.getStatus()==Response.Status.OK.getStatusCode()){
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             return mapper.convertValue(responseObject.getData(),new TypeReference<Product>(){});
@@ -179,7 +177,7 @@ public class ProductServiceImpl implements ProductService {
 
     public ObservableList getProductListForComboBox() {
         String uri=uriProperties.getProperty("producturi")+"/in-stock";
-        Response response= RestClientUtil.getResourceList(uri,userSession.getUser().getName());
+        Response response= RestClientUtil.getResourceList(uri,userSession.getClientConfig());
         List<Product> list=new ArrayList<>();
         if (response.getStatus()==Response.Status.OK.getStatusCode()){
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
@@ -191,7 +189,7 @@ public class ProductServiceImpl implements ProductService {
 
     public int getTotalCountOfProduct()  {
         String uri=uriProperties.getProperty("producturi");
-        Response response=RestClientUtil.getSingleResource(uri,"/count",userSession.getUser().getName());
+        Response response=RestClientUtil.getSingleResource(uri,"/count",userSession.getClientConfig());
         if (response.getStatus()==Response.Status.OK.getStatusCode()){
             ResponseObject responseObject=response.readEntity(ResponseObject.class);
             return (int) responseObject.getData();

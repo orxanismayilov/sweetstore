@@ -35,13 +35,11 @@ public class LoginController implements Initializable {
 
     public void loginButtonAction(ActionEvent event) throws IOException {
         User user=new User();
-        user.setName("Orxan");
-        user.setPassword("orxan123");
+        user.setName(txtUsername.getText());
+        user.setPassword(txtPassword.getText());
         user.setRole(UserRole.ADMIN);
         if (userService.validateLogin(user)) {
             ScreenUtils.changeScreen(event, properties.getProperty("homepage"));
-            UserSession userSession=UserSession.getInstance();
-            userSession.setUser(user);
         } else {
             labelAlert.setText("Username or password is wrong.");
         }
